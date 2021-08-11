@@ -1,7 +1,7 @@
 """
 Author: David Bianchi
 
-A file to define all of the reactions in the Lipid Module
+A file to define all of the reactions
 """
 
 import numpy as np
@@ -139,7 +139,7 @@ def defineRxns(model,pmap):
     ppp_patch.main(model,pmap)
     print("Reactions defined")
 
-    ### ADD ATPase
+    ### ADD ATPasetable of the associated paper (Thornburg et al., 2021))
     #RateForm
 #     ATPaseRateLaw = Enzymatic(2,1)
 

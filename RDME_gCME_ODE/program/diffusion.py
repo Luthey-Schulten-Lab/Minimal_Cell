@@ -198,10 +198,10 @@ ptnDegRate = 7.70e-06 # 1/s
 
 ### Load all necessary files
 # The reconstruction matches reactions with gene-protein-reactions (GPR) that use MMSYN1* IDs.
-reconstPD = pd.read_excel("../../model_data/reconstruction.xlsx", sheet_name='Reactions')
+reconstPD = pd.read_excel("../model_data/reconstruction.xlsx", sheet_name='Reactions')
 
 # The annotation matches MMSYN1* IDs with JCVISYN3* IDs (or "locus tags").
-annotatPD = pd.read_excel("../../model_data/FBA/Syn3A_annotation_compilation.xlsx",
+annotatPD = pd.read_excel("../model_data/FBA/Syn3A_annotation_compilation.xlsx",
                          sheet_name="Syn3A_annotation_compilation_condensed")
 
 # The genome data matches "locus tags" with AOE* protein IDs.
@@ -209,15 +209,15 @@ annotatPD = pd.read_excel("../../model_data/FBA/Syn3A_annotation_compilation.xls
 # and the protein sequence, needed for translation reactions in the model.
 # This is the NCBI Gene Bank-formated file (https://www.ncbi.nlm.nih.gov/nuccore/CP014992.1).
 
-genomeFile2 = '../../model_data/syn2.gb'
+genomeFile2 = '../model_data/syn2.gb'
 genome2 = next(SeqIO.parse(genomeFile2, "gb"))
 
 # This is the NCBI Gene Bank-formated file (https://www.ncbi.nlm.nih.gov/nuccore/CP016816.2).
-genomeFile3A = '../../model_data/syn3A.gb'
+genomeFile3A = '../model_data/syn3A.gb'
 genome3A = next(SeqIO.parse(genomeFile3A, "gb"))
 
 # The proteomics matches AOE IDs with quantitative proteomics data.
-proteomPD = pd.read_excel("../../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
+proteomPD = pd.read_excel("../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
 
 genome_syn3A = list(SeqIO.parse(genomeFile3A, "genbank"))
 dna3A = genome_syn3A[0]

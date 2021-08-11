@@ -55,10 +55,10 @@ countToMiliMol = 1000/(NA*V)
 
 
 # The reconstruction matches reactions with gene-protein-reactions (GPR) that use MMSYN1* IDs.
-reconstPD = pd.read_excel("../../model_data/reconstruction.xlsx", sheet_name='Reactions') # _DB or no
+reconstPD = pd.read_excel("../model_data/reconstruction.xlsx", sheet_name='Reactions') # _DB or no
 
 # The annotation matches MMSYN1* IDs with JCVISYN3* IDs (or "locus tags"). # _DB or no
-annotatPD = pd.read_excel("../../model_data/FBA/Syn3A_annotation_compilation.xlsx",
+annotatPD = pd.read_excel("../model_data/FBA/Syn3A_annotation_compilation.xlsx",
                          sheet_name="Syn3A_annotation_compilation_condensed")
 
 # The genome data matches "locus tags" with AOE* protein IDs.
@@ -69,14 +69,14 @@ annotatPD = pd.read_excel("../../model_data/FBA/Syn3A_annotation_compilation.xls
 # genome3A = next(SeqIO.parse(genomeFile3A, "gb"))
 
 # The proteomics matches AOE IDs with quantitative proteomics data.
-proteomPD = pd.read_excel("../../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
+proteomPD = pd.read_excel("../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
 
 # The manual GPR conversion matches proteins with known abundances (AOE IDs), with reactions that did not 
 #   have associated genes in the Syn3A reconstruction.
-manGPRPD = pd.read_csv("../../model_data/manual_GPR_conversion.csv", header=None, names=["MM","AOE"])
+manGPRPD = pd.read_csv("../model_data/manual_GPR_conversion.csv", header=None, names=["MM","AOE"])
 
 
-sbmlFile = "../../model_data/iMB155_NoH2O.xml"
+sbmlFile = "../model_data/iMB155_NoH2O.xml"
 
 docSBML = libsbml.readSBMLFromFile(sbmlFile)
 modelSBML = docSBML.getModel()
@@ -106,11 +106,7 @@ defaultPtnConcentration = defaultMetConcentration/100
 
 #######################################
 
-
-# file_name = "../model_data/Central_Zane_Balanced.tsv"
-# file_name = "../model_data/Central_Zane_Balanced_06mMpsGLC.tsv"
-# file_name = "../../../model_data/Central_Zane_Balanced_direction_06mMpsGLCpts.tsv"
-file_name = "../../model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
+file_name = "../model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
 
 # open a file and read it
 with open(file_name,"r") as infile:
@@ -505,10 +501,7 @@ print(aaMetDict)
 
 ##########################################
 
-# file_name = "../model_data/NucleoMet_iMB155_balanced_model.tsv"
-# file_name = "../model_data/TB_nuc/NucleoMet_iMB155_NoH2O_balanced_model_03232020.tsv"
-# file_name = "../../../model_data/Nucleotide_Kinetic_Parameters.tsv"
-file_name = "../../model_data/Nucleotide_Kinetic_Parameters.tsv"
+file_name = "../model_data/Nucleotide_Kinetic_Parameters.tsv"
 
 # open a file and read it
 with open(file_name,"r") as infile:
@@ -552,7 +545,7 @@ RxnDF_Nuclt = SBtabRxn.to_data_frame()
 ComDF.loc[ ComDF["Compound"] == 'ptsg' ]
 
 
-nuclMetRxn = list(pd.read_csv("../../model_data/nucleo_rxns_list.txt", header=None).loc[:,0].values)
+nuclMetRxn = list(pd.read_csv("../model_data/nucleo_rxns_list.txt", header=None).loc[:,0].values)
 # print(nuclMetRxn)
 nuclMetRxnID = [ "R_" + x for x in nuclMetRxn]
 
@@ -763,7 +756,7 @@ KmDF = pd.concat( [CentKmDF,NucKmDF], sort = False )
 ####### Import Lipid Metabolism #####
 
 ##########################################
-file_name = "../../model_data/lipid_NoH2O_balanced_model.tsv"
+file_name = "../model_data/lipid_NoH2O_balanced_model.tsv"
 
 # open a file and read it
 with open(file_name,"r") as infile:
@@ -1146,9 +1139,7 @@ KmDF = pd.concat( [CentKmDF,NucKmDF,AaKmDF,LipKmDF,cofactKmDF], sort = False )
 
 #####################################################
 
-# file_name = "../model_data/glucose_transport_format.tsv"
-# file_name = "../model_data/transport_NoH2O.tsv"
-file_name = "../../model_data/transport_NoH2O_Zane-TB-DB.tsv"
+file_name = "../model_data/transport_NoH2O_Zane-TB-DB.tsv"
 
 
 # open a file and read it
@@ -1213,7 +1204,7 @@ AvailQnts
 
 
 # sbmlFile = "../model_data/iMB155.xml"
-sbmlFile = "../../model_data/iMB155_NoH2O.xml"
+sbmlFile = "../model_data/iMB155_NoH2O.xml"
 
 docSBML = libsbml.readSBMLFromFile(sbmlFile)
 modelSBML = docSBML.getModel()
@@ -1611,7 +1602,7 @@ def createGeneExpression(rxnID, pmap):
 
 def addGlobalParams(model):
 # Parse global parameters to model
-    model.parseParameters("../../model_data/GlobalParameters_Zane-TB-DB.csv")
+    model.parseParameters("../model_data/GlobalParameters_Zane-TB-DB.csv")
 
     explPar, globPar, rxnPar = model.getParameters()
 
@@ -2942,30 +2933,5 @@ def addReactionsToModel(model, pmap):
 #         return model
     
 #             break
-
-    
-
-# def getMetabConcs(model,pmap):
-#     """
-#     A function to get the metabolite concentrations in the CME model, or from the previous step and then run again
-
-#     Store in a map?
-
-#     Does it make sense to keep writing back and forth from CME->ODE->CME in this case?
-#     """ 
-
-#     ### TODO: These should have jcviSyn3A naming if protein
-#     metList = ['M_fa_c','M_ap_c','M_glyc_c','M_glyc3p_c','M_coa_c','M_atp_c','M_adp_c','M_pi_c','M_atpUsed_c','M_pa_c', 
-#     'M_amp_c','M_cmp_c','M_ctp_c','M_1ag3p_c','M_ACP_c','M_ACP_R_c','M_pap_c','M_cdpdag_c','M_pg3p_c','M_pg_c','M_clpn_c','M_apoACP_c']
-#     #'M_12dgr','M_udpgalfur_c','M_galfur12dgr_c','M_udpgltn_c','M_lgltn_c','M_udpg_c','M_udpgal_c','M_ppi_c'] #apoACP is prop. name
-
-#     #print("Here!!")
-#     sys.__stdout__.flush()
-
-#     # Add the metabolites to the model given their concentrations from the last timestep
-#     for met in metList:
-#         # Remove output for now - can make this verbosity controlled
-#         #print("Adding metabolite", met)
-#         model.addMetabolite(met,met,lipRxns.partTomM(pmap[str(met)]))
 
 
