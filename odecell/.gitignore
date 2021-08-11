@@ -1,0 +1,19 @@
+# Compiled python modules.
+*.pyc
+
+# Tutorial files
+/tutorials/*
+!/tutorials/Tutorial_Optimization.ipynb
+!/tutorials/Tutorial.ipynb
+!/tutorials/toyModel_MAP.json
+
+#Cython and distribution build dir
+/build/
+/tmp/
+
+# Setuptools distribution folder.
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+/*.egg

@@ -1,0 +1,4 @@
+include README.rst
+include odecell/*.*
+include docs/*.txt
+recursive-include cython *
