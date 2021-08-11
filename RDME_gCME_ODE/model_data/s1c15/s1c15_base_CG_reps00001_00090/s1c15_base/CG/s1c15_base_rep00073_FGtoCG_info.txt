@@ -1,0 +1,6 @@
+dim = 3
+lattice_red_scale = 2
+N_FG_nodes = 46188
+N_CG = 18390
+CG_coords file = /home/ben/Data/ring_polymer/s1c15_base/CG/s1c15_base_rep00073_CG_coords.dat
+FG_nodes file = /home/ben/Data/ring_polymer/s1c15_base/CG/s1c15_base_rep00073_FG_nodes.dat

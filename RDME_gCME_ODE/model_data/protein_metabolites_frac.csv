@@ -1,0 +1,16 @@
+species,gene,transcribe,proteomics_fraction
+M_apoACP_c,MMSYN1_0621,1,0.15
+M_ACP_c,MMSYN1_0621,0,0.8
+M_ACP_R_c,MMSYN1_0621,0,0.05
+M_trdox_c,MMSYN1_0065,1,0.95
+M_trdrd_c,MMSYN1_0065,0,0.05
+M_DnaA_c,MMSYN1_0001,1,1.0
+M_lpl_PdhC_c,MMSYN1_0227,1,0.5
+M_dhlpl_PdhC_c,MMSYN1_0227,0,0.5
+M_acdhlpl_PdhC_c,MMSYN1_0227,0,0.0
+ptsi,MMSYN1_0233,1,0.5
+ptsi_P,MMSYN1_0233,0,0.5
+ptsh,MMSYN1_0694,1,0.5
+ptsh_P,MMSYN1_0694,0,0.5
+crr,MMSYN1_0234,1,0.5
+crr_P,MMSYN1_0234,0,0.5
