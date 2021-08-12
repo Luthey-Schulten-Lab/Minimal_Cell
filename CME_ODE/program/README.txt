@@ -1,5 +1,6 @@
-6/14/21
+Date: 6/14/21
 Author: David Bianchi
+Luthey-Schulten Lab (University of Illinois Urbana-Champaign)
 
 README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replication initiation events - restart simulations (dynamic gene expression rates)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,3 +63,8 @@ Replication Initiation:
 --------------------------
 
 multi_rep_(two).py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
+
+Integration:
+-------------------------
+
+integrate.py: Defines the ODE Integration Model with fixed timestepping.
