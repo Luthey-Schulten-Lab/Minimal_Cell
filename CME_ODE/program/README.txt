@@ -1,8 +1,8 @@
 6/14/21
 Author: David Bianchi
 
-README for running "Restart/Dynamic Gene Expression" Simulations - WITH MULTIPLE REPLICATION INITIATION EVENTS - of the CME-ODE Model for JCVI-Syn3A
-----------------------------------------------------------------------------------------------------------------------------------------------
+README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replication initiation events - restart simulations (dynamic gene expression rates)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Bash run file: mpi_runs.sh
 ============================
@@ -30,18 +30,24 @@ nohup: "nohup ./mpi_runs > nohup.log &"
 Program Structure:
 ==============================
 
+
 Main Simulation Input File(s):
+-------------------------------
 
 MinCell_CMEODE_mpi_.py: runs the initial simulation setup and first minute of simulation time. (Saves .lm file containing simulation data, inluding number of species and reactions etc.)
 
 MCrestartLoop.py: Iteratively restarts the simulation at an interval of 1 minute so that CME Gene Expression
 Reactions are updated by ODE MEtabolism output.
 
+
 Define Reactions:
+-----------------------------
 
 defLipCentNuc_two.py: defines the metabolic reactions to be integrated as ODEs, which are input via the odecell module.
 
+
 I/O handling:
+----------------------------
 
 in_out_two.py: Handles Input and Output to .csv files of simulation particle numbers and reaction fluxes as well as cell growth tracking and particle number to concetration conversion.
 
@@ -50,3 +56,9 @@ Modifications to Reaction Parameters:
 PPP_patch.py: Modifies .tsv original reaction parameters for the Pentose Phosphate Pathway reactions.
 
 lipid_patch.py: Modifies .tsv original reaction parameters for lipid metabolism/cell growth reactions.
+
+
+Replication Initiation:
+--------------------------
+
+multi_rep_(two).py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
