@@ -1,0 +1,8 @@
+Metabolite,Concentration,Units,Comments
+M_lgltn_c,1.18,mM,Lipogalactan capsule
+M_pg_c,1.22,mM,Phosphatidylglycerol
+M_clpn_c,5.21,mM,Cardiolipin
+M_chsterol_c,23.29,mM,Cholesterol
+M_galfur12dgr_c,5.15,mM,Gal-DAG
+M_tag_c,1.95,mM,Triacylglycerol
+M_fa_c,6.2,mM,Fatty acid

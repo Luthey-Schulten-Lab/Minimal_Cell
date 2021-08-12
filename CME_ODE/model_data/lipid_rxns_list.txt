@@ -1,0 +1,3 @@
+['GLYK','ACPS','BPNT','FAKr','ACPPAT','APG3PAT','AGPAT','DASYN','PGSA','PGPP','CLPNS','PAPA','PGMT','GALU','UDPG4E','UDPGALM','DAGGALT','PSSYN','DAGPST']
+
+NOTE: This does not include any transport reactions etc. associated with the lipids module
