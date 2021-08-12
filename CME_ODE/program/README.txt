@@ -1,8 +1,8 @@
 6/14/21
 Author: David Bianchi
 
-README for running "Restart" Simulations - WITH MULTIPLE REPLICATION INITIATION EVENTS - of the CME-ODE Model for JCVI-Syn3A
-----------------------------------------------------------------------------------
+README for running "Restart/Dynamic Gene Expression" Simulations - WITH MULTIPLE REPLICATION INITIATION EVENTS - of the CME-ODE Model for JCVI-Syn3A
+----------------------------------------------------------------------------------------------------------------------------------------------
 
 Bash run file: mpi_runs.sh
 ============================
@@ -16,7 +16,7 @@ where:
 
 -t: simulation time (minutes) = 125 (default)
 
--rs: restart time (minutes) = 1 (default)
+-rs: restart time (minutes) = 1 (default) - the time period at which gene expression reaction rates are reset with updated metabolite pools (i.e. NTP pools)
 
 
 Command to run simulations:
@@ -34,7 +34,7 @@ Main Simulation Input File(s):
 
 MinCell_CMEODE_mpi_.py: runs the initial simulation setup and first minute of simulation time. (Saves .lm file containing simulation data, inluding number of species and reactions etc.)
 
-MCrestartLoop_.py: Iteratively restarts the simulation at an interval of 1 minute so that CME Gene Expression
+MCrestartLoop.py: Iteratively restarts the simulation at an interval of 1 minute so that CME Gene Expression
 Reactions are updated by ODE MEtabolism output.
 
 Define Reactions:
