@@ -1,6 +1,6 @@
 Guide to hybrid RDME program files
 
-MinCell_RDME_CME_ODE.ipynb: Jupyter notebook that executes the hybrid simulation
+MinCell_RDME_CME_ODE.ipynb: Jupyter notebook that executes the hybrid simulation. The notebook will run when opened and simply "Restart and Run All".  
 
 defLipCentNucTransMetRxns_polysomes.py: Defines metabolic reactions for ODE part of the simulation
 
