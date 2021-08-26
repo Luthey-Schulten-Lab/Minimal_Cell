@@ -5,10 +5,6 @@ Author: David Bianchi
 """
 
 import Rxns as Rxns
-#import lipRxns.partTomM as partTomM
-#import hook as hook
-# Imports ODE model manager
-#import in_out as in_out
 import importlib
 import odecell
 import odecell.modelbuilder as modelbuilder
@@ -23,8 +19,6 @@ import re
 from collections import defaultdict, OrderedDict
 
 import sys
-
-#import seaborn as sns
 
 # SBtab classes source code
 from sbtab import SBtab
@@ -47,11 +41,6 @@ r_cell = 200e-9 # 200 nm radius, 400 nm diameter
 V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
 countToMiliMol = 1000/(NA*V)
-
-# M_pi_c = 23.82 # mM, Phosphate concentration
-# M_ppi_c = 0.1 # mM, Diphosphate concentration
-# M_atp_c = 4.6715 # balanced #9.63 # mM (Rabinowitz)
-# M_adp_c = 0.2178 # balanced #0.55 # mM (Rabinowitz
 
 
 # The reconstruction matches reactions with gene-protein-reactions (GPR) that use MMSYN1* IDs.
@@ -147,14 +136,12 @@ QntDFDict = dict()
 # Reaction IDs for central metabolism reactions
 cntrMetRxn = ["PGI","PFK","FBA","TPI","GAPD","PGK","PGM","ENO","PYK",
               "LDH_L","PDH_acald","PDH_E3","PTAr","ACKr","NOX","TALA","TKT1",
-              "TKT2","RPE","RPI","PRPPS","PPM","PPM2","DRPA","GAPDP"] #"PDH_E1","PDH_E2" #"PDH_E1","PDH_E2"
-
-# "MAN6PI",,"AMANK","AMANPEr","AGDC","G6PDA","GAPDP",
+              "TKT2","RPE","RPI","PRPPS","PPM","PPM2","DRPA","GAPDP"] #"PDH_E1","PDH_E2" #"PDH_E1","PDH_E2", "GAPDP", 
+              # Not in the metabolic model: "MAN6PI",,"AMANK","AMANPEr","AGDC","G6PDA",
 
 cntrMetRxnID = [ "R_" + rxn for rxn in cntrMetRxn ]
 
 RxnDF_CentralMet = RxnDF.loc[ RxnDF.Reaction.isin(cntrMetRxnID) ]
-# RxnDF_CentralMet.head()
 
 
 selectArray = np.ndarray(QntDF.shape[0],dtype=np.bool)
