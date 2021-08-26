@@ -25,11 +25,11 @@ Installation instructions (Linux/Unix)
 
 1. Create a Python virtual environment.
 
-To create an environment, one can use:
+If you are not already working in a python or conda environment, to create an environment, one can use:
 
     python3 -m venv --clear /path/to/minCellEnv
 
-Make sure you activate the environment.
+Make sure you activate the environment if you created a new one.
 
     source /path/to/minCellEnv/bin/activate
 
