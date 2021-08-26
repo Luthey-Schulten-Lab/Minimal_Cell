@@ -40,7 +40,7 @@ from Bio.Seq import Seq
 import importlib
 from collections import defaultdict, OrderedDict
 
-import in_out_two as in_out
+import in_out as in_out
 
 import time as timer
 
@@ -83,7 +83,7 @@ np.random.seed(proc_id*429496)
 ### Load all necessary files
 
 # The annotation matches MMSYN1* IDs with JCVISYN3* IDs (or "locus tags").
-annotatPD = pd.read_excel("./model_data/FBA/Syn3A_annotation_compilation.xlsx",
+annotatPD = pd.read_excel("../model_data/FBA/Syn3A_annotation_compilation.xlsx",
                          sheet_name="Syn3A_annotation_compilation_condensed")
 
 # The genome data matches "locus tags" with AOE* protein IDs.
@@ -91,16 +91,16 @@ annotatPD = pd.read_excel("./model_data/FBA/Syn3A_annotation_compilation.xlsx",
 # and the protein sequence, needed for translation reactions in the model.
 # This is the NCBI Gene Bank-formated file (https://www.ncbi.nlm.nih.gov/nuccore/CP014992.1).
 
-genomeFile2 = './model_data/syn2.gb'
+genomeFile2 = '../model_data/syn2.gb'
 genome2 = next(SeqIO.parse(genomeFile2, "gb"))
 
 # This is the NCBI Gene Bank-formated file (https://www.ncbi.nlm.nih.gov/nuccore/CP016816.2).
-genomeFile3A = './model_data/syn3A.gb'
+genomeFile3A = '../model_data/syn3A.gb'
 genome3A = next(SeqIO.parse(genomeFile3A, "gb"))
 genome3A_DNA = list(SeqIO.parse(genomeFile3A, "genbank"))
 
 # The proteomics matches AOE IDs with quantitative proteomics data.
-proteomPD = pd.read_excel("./model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
+proteomPD = pd.read_excel("../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
 # _fba_250
 
 # ## Create Definitions to Get Protein Counts and Gene Sequences
@@ -237,43 +237,43 @@ sim=CME.CMESimulation(name="Min Cell Genetic Processes")
 
 
 
-PtnMetDF = pd.read_csv("./model_data/protein_metabolites_frac.csv")
+PtnMetDF = pd.read_csv("../model_data/protein_metabolites_frac.csv")
 PtnMetDF
 
 
 # In[ ]:
-memPtnMetDF = pd.read_csv("./model_data/membrane_protein_metabolites.csv")
+memPtnMetDF = pd.read_csv("../model_data/membrane_protein_metabolites.csv")
 memPtnMetDF
 
-riboPtnMetDF = pd.read_csv("./model_data/ribo_protein_metabolites.csv")
+riboPtnMetDF = pd.read_csv("../model_data/ribo_protein_metabolites.csv")
 riboPtnMetDF
 
 
 # In[ ]:
 
 
-RNApolPtnMetDF = pd.read_csv("./model_data/RNApol_proteins.csv")
+RNApolPtnMetDF = pd.read_csv("../model_data/RNApol_proteins.csv")
 RNApolPtnMetDF
 
 
 # In[ ]:
 
 
-rrnaMetDF_1 = pd.read_csv("./model_data/rrna_metabolites_1.csv")
+rrnaMetDF_1 = pd.read_csv("../model_data/rrna_metabolites_1.csv")
 rrnaMetDF_1
 
 
 # In[ ]:
 
 
-rrnaMetDF_2 = pd.read_csv("./model_data/rrna_metabolites_2.csv")
+rrnaMetDF_2 = pd.read_csv("../model_data/rrna_metabolites_2.csv")
 rrnaMetDF_2
 
 
 # In[ ]:
 
 
-trnaMetDF = pd.read_csv("./model_data/trna_metabolites_synthase.csv")
+trnaMetDF = pd.read_csv("../model_data/trna_metabolites_synthase.csv")
 trnaMetDF
 
 
@@ -647,7 +647,7 @@ def rrnaTranscriptRate(rnasequence):
 
 # In[ ]:
 
-from updated_translated_rate_503 import TranslatRate as TranslatRate
+from translation_rate_start import TranslatRate as TranslatRate
 
 # Define how to calculate translation rate constants as in equation 3 for translation reactions.
 
@@ -1900,10 +1900,10 @@ def addrRNA():
 # REPLICATION INITIATION WRITTEN BY COLE CROTTY AND MODIFIED BY ZANE THORNBURG
 NA = 6.022*(10**(23))
 
-from multi_rep_zt import addRepInit as addRepInit
-from multi_rep_zt import addReplication as addReplication
+from rep_start import addRepInit as addRepInit
+from rep_start import addReplication as addReplication
 
-import setICs_two as setICs
+import setICs as setICs
 setICs.__main__(sim)
 
 
@@ -1914,7 +1914,7 @@ setICs.__main__(sim)
 
 genes_in_model = []
 
-mRNA_counts_DF = pd.read_csv('./model_data/mRNA_counts.csv')
+mRNA_counts_DF = pd.read_csv('../model_data/mRNA_counts.csv')
 
 Nuc_counters = ['ATP_trsc','ATP_translat','ATP_mRNAdeg','ATP_ptndeg','ATP_DNArep','ATP_transloc',
                'ATP_mRNA','UTP_mRNA','CTP_mRNA','GTP_mRNA',
@@ -2182,7 +2182,7 @@ File to run the hybrid simulation
 Author: David Bianchi
 """
 import numpy as np
-import hook_two as hook
+import hook_start as hook
 import sys
 import lm as lm
 import species_counts as species_counts

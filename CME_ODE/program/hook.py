@@ -11,7 +11,7 @@ import integrate as integrate
 #import integrate_ode as integrate
 #import integrate_pycvodes as integrate
 import copy as copy
-import in_out_two as in_out
+import in_out as in_out
 import sys
 import pandas as pd
 import time as timer

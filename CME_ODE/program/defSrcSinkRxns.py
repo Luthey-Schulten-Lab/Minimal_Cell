@@ -546,7 +546,7 @@ def addSrcSinkRxns(model,pmap):
 
     # sourceSink = pd.read_csv('../../model_data/nucleo_sourceSink_params.csv',header=0)
 #     sourceSink = pd.read_csv('../../../model_data/TB_nuc/nucleo_sourceSink_params_noCentral.csv',header=0)
-    sourceSink = pd.read_csv('./model_data/nucleo_sourceSink_params_noLip_noCentral_noAA.csv',header=0)
+    sourceSink = pd.read_csv('../model_data/nucleo_sourceSink_params_noLip_noCentral_noAA.csv',header=0)
 #     sourceSink.head()
 
     for ind,row in sourceSink.iterrows(): 

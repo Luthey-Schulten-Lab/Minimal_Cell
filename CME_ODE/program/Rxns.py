@@ -10,13 +10,13 @@ from collections import defaultdict, OrderedDict
 
 import odecell
 
-from in_out_two import calcCellVolume
+from in_out import calcCellVolume
 #import defSrcSinkRxns
 #import defLipCentNucTransMetRxns as defLipCentNucTransMetRxns
-import defLipCentNucTransMetRxns_two as defLipCentNucTransMetRxns
+import defMetRxns as defLipCentNucTransMetRxns
 # Import the lipid patch
-import lipid_patch_Zane_two as lipid_patch
-import PPP_patch_Zane as ppp_patch
+import lipid_patch as lipid_patch
+import PPP_patch as ppp_patch
 
 ### Constants
 NA = 6.022e23 # Avogadro's

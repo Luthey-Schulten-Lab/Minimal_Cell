@@ -80,7 +80,7 @@ def initNucConcs(sim):
         None
     """
 
-    file_name = "./model_data/Nucleotide_Kinetic_Parameters.tsv"
+    file_name = "../model_data/Nucleotide_Kinetic_Parameters.tsv"
 
     ComDF_nuc = ValidateandSeparate(file_name)
 
@@ -116,7 +116,7 @@ def initCentConcs(sim):
         None
     """
 
-    file_name = "./model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
+    file_name = "../model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
 
     ComDF_cent = ValidateandSeparate(file_name)
 
@@ -158,7 +158,7 @@ def initLipConcs(sim):
         None
     """
 
-    file_name = "./model_data/lipid_NoH2O_balanced_model.tsv"
+    file_name = "../model_data/lipid_NoH2O_balanced_model.tsv"
 
     ComDF_lip = ValidateandSeparate(file_name)
 
@@ -208,7 +208,7 @@ def initAAConcs(sim):
         None
     """
 
-    file_name = "./model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
+    file_name = "../model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
 
     ComDF_aa = ValidateandSeparate(file_name)
 
