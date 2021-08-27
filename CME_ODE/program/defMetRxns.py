@@ -5,10 +5,6 @@ Author: David Bianchi
 """
 
 import Rxns as Rxns
-#import lipRxns.partTomM as partTomM
-#import hook as hook
-# Imports ODE model manager
-#import in_out as in_out
 import importlib
 import odecell
 import odecell.modelbuilder as modelbuilder
@@ -23,8 +19,6 @@ import re
 from collections import defaultdict, OrderedDict
 
 import sys
-
-#import seaborn as sns
 
 # SBtab classes source code
 from sbtab import SBtab
@@ -47,11 +41,6 @@ r_cell = 200e-9 # 200 nm radius, 400 nm diameter
 V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
 countToMiliMol = 1000/(NA*V)
-
-# M_pi_c = 23.82 # mM, Phosphate concentration
-# M_ppi_c = 0.1 # mM, Diphosphate concentration
-# M_atp_c = 4.6715 # balanced #9.63 # mM (Rabinowitz)
-# M_adp_c = 0.2178 # balanced #0.55 # mM (Rabinowitz
 
 
 # The reconstruction matches reactions with gene-protein-reactions (GPR) that use MMSYN1* IDs.
@@ -147,14 +136,12 @@ QntDFDict = dict()
 # Reaction IDs for central metabolism reactions
 cntrMetRxn = ["PGI","PFK","FBA","TPI","GAPD","PGK","PGM","ENO","PYK",
               "LDH_L","PDH_acald","PDH_E3","PTAr","ACKr","NOX","TALA","TKT1",
-              "TKT2","RPE","RPI","PRPPS","PPM","PPM2","DRPA","GAPDP"] #"PDH_E1","PDH_E2" #"PDH_E1","PDH_E2"
-
-# "MAN6PI",,"AMANK","AMANPEr","AGDC","G6PDA","GAPDP",
+              "TKT2","RPE","RPI","PRPPS","PPM","PPM2","DRPA","GAPDP"] #"PDH_E1","PDH_E2" #"PDH_E1","PDH_E2", "GAPDP", 
+              # Not in the metabolic model: "MAN6PI",,"AMANK","AMANPEr","AGDC","G6PDA",
 
 cntrMetRxnID = [ "R_" + rxn for rxn in cntrMetRxn ]
 
 RxnDF_CentralMet = RxnDF.loc[ RxnDF.Reaction.isin(cntrMetRxnID) ]
-# RxnDF_CentralMet.head()
 
 
 selectArray = np.ndarray(QntDF.shape[0],dtype=np.bool)
@@ -661,7 +648,6 @@ tmp = list(NucKcatDF['Value'].values)
 tmpRxns = ['R_PYK2','R_PYK3','R_PYK4','R_PYK5','R_PYK6','R_PYK7','R_PYK8','R_PYK9',
           'R_PGK2','R_PGK3','R_PGK4']
 for rxn in tmpRxns:
-#     print(rxn,tmp[list(NucKcatDF['Parameter'].values).index('kcatF_'+rxn)],editRxnsDict[rxn])
     tmp[list(NucKcatDF['Parameter'].values).index('kcatF_'+rxn)] = editRxnsDict[rxn]
 NucKcatDF['Value'] = tmp
 
@@ -673,12 +659,11 @@ Nuc_Kms = []
 for rxnID in nuclMetRxnID:
     
     reaction = RxnDF.loc[ RxnDF["Reaction"] == rxnID, "ReactionFormula" ].values[0]
-#     print(reaction)
+
 
     reaction = reaction.replace(' ','')
 
     substrates = reaction.split("<=>")[0]
-#     print(substrates)
 
     if '2.0' in substrates:
         substrates = substrates.replace('2.0','')
@@ -694,29 +679,28 @@ for rxnID in nuclMetRxnID:
         for i in range(plusNum+1):
             
             substrate = substrates.split('+')[i]
-        
-#             print(substrate)
+
 
             kmID = 'kmc_' + rxnID + '_' + substrate + '_' + rxnID
-#             print(kmID)
+
     
             km_value = QntDF_nuc.loc[ QntDF_nuc["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
         
             Nuc_Kms.append([kmID,km_value,"mM"])
         
     elif '+' not in substrates:
         
         kmID = 'kmc_' + rxnID + '_' + substrates + '_' + rxnID
-#             print(kmID)
+
     
         km_value = QntDF_nuc.loc[ QntDF_nuc["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
         Nuc_Kms.append([kmID,km_value,"mM"])
     
     products = reaction.split("<=>")[1]
-#     print(products)
+
 
     if '2.0' in products:
         products = products.replace('2.0','')
@@ -742,19 +726,18 @@ for rxnID in nuclMetRxnID:
     elif '+' not in products:
         
         kmID = 'kmc_' + rxnID + '_' + products + '_' + rxnID
-#             print(kmID)
+
     
         km_value = QntDF_nuc.loc[ QntDF_nuc["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
         Nuc_Kms.append([kmID,km_value,"mM"])
             
 NucKmDF = pd.DataFrame(Nuc_Kms, columns = ["Parameter","Value","Units"])
-# NucKmDF
+
 
 
 KmDF = pd.concat( [CentKmDF,NucKmDF], sort = False )
-# KmD
 
 
 ##########################################
@@ -772,7 +755,6 @@ with open(file_name,"r") as infile:
 Sd = SBtab.SBtabDocument('BalancedModel', file_content, file_name)
 
 validator = validatorSBtab.ValidateDocument(Sd)
-# print("warnings:",validator.validate_document())
 warnings = validator.validate_document()
 for warn in warnings:
     if warn[1]:
@@ -814,14 +796,14 @@ for rxnID in lipMetRxnID:
     ### For now use Central Metabolism for PGMT
     if (rxnID == 'R_PGK'):
         del lipMetRxnID[indx]
-#         print('pyk')
+         
     else:
         indx = indx + 1
 indx = 0
 for rxnID in lipMetRxnID:
     if (rxnID == 'R_PYK'):
         del lipMetRxnID[indx]
-#         print('pgk')
+
     else:
         indx = indx + 1
 #print(lipMetRxnID)
@@ -886,12 +868,11 @@ Lip_Kms = []
 for rxnID in lipMetRxnID:
     
     reaction = RxnDF.loc[ RxnDF["Reaction"] == rxnID, "ReactionFormula" ].values[0]
-#     print(reaction)
+
 
     reaction = reaction.replace(' ','')
 
     substrates = reaction.split("<=>")[0]
-#     print(substrates)
 
     if '2.0' in substrates:
         substrates = substrates.replace('2.0','')
@@ -910,13 +891,13 @@ for rxnID in lipMetRxnID:
             
             substrate = substrates.split('+')[i]
 
-#             print(substrate)
+
 
             kmID = 'kmc_' + rxnID + '_' + substrate + '_' + rxnID
-#             print(kmID)
+
     
             km_value = QntDF_lip.loc[ QntDF_lip["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
         
             Lip_Kms.append([kmID,km_value,"mM"])
         
@@ -924,17 +905,13 @@ for rxnID in lipMetRxnID:
         
         kmID = 'kmc_' + rxnID + '_' + substrates + '_' + rxnID
         
-        #print(kmID)
-        #print(QntDF_lip.head())
-#         print(kmID)
     
         km_value = QntDF_lip.loc[ QntDF_lip["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
         Lip_Kms.append([kmID,km_value,"mM"])
     
     products = reaction.split("<=>")[1]
-#     print(products)
 
     if '2.0' in products:
         products = products.replace('2.0','')
@@ -964,10 +941,9 @@ for rxnID in lipMetRxnID:
     elif '+' not in products:
         
         kmID = 'kmc_' + rxnID + '_' + products + '_' + rxnID
-#         print(kmID)
+
     
         km_value = QntDF_lip.loc[ QntDF_lip["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
         Lip_Kms.append([kmID,km_value,"mM"])
             
@@ -1044,12 +1020,12 @@ cofact_Kms = []
 for rxnID in cofactMetRxnID:
 
     reaction = RxnDF.loc[ RxnDF["Reaction"] == rxnID, "ReactionFormula" ].values[0]
-#     print(reaction)
+
 
     reaction = reaction.replace(' ','')
 
     substrates = reaction.split("<=>")[0]
-#     print(substrates)
+
 
     if '2.0' in substrates:
         substrates = substrates.replace('2.0','')
@@ -1066,28 +1042,27 @@ for rxnID in cofactMetRxnID:
 
             substrate = substrates.split('+')[i]
 
-#             print(substrate)
 
             kmID = 'kmc_' + rxnID + '_' + substrate + '_' + rxnID
-#             print(kmID)
+
 
             km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
             cofact_Kms.append([kmID,km_value,"mM"])
 
     elif '+' not in substrates:
 
         kmID = 'kmc_' + rxnID + '_' + substrates + '_' + rxnID
-#         print(kmID)
+
 
         km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
         cofact_Kms.append([kmID,km_value,"mM"])
 
     products = reaction.split("<=>")[1]
-#     print(products)
+
 
     if '2.0' in products:
         products = products.replace('2.0','')
@@ -1113,16 +1088,15 @@ for rxnID in cofactMetRxnID:
     elif '+' not in products:
 
         kmID = 'kmc_' + rxnID + '_' + products + '_' + rxnID
-#         print(kmID)
+
 
         km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
+
 
         cofact_Kms.append([kmID,km_value,"mM"])
 
 cofactKmDF = pd.DataFrame(cofact_Kms, columns = ["Parameter","Value","Units"])
 
-# metIDcheck = []
 
 cofactMetIDs = ["M_nac_c","M_nicrnt_c","M_dnad_c","M_nh3_c","M_ribflv_c","M_fmn_c","M_fad_c","M_sprm_c","M_thmpp_c",
                "M_5fthf_c","M_5fthfglu3_c","M_methfglu3_c","M_10fthfglu3_c","M_thfglu3_c","M_mlthfglu3_c"]
@@ -1158,15 +1132,11 @@ with open(file_name,"r") as infile:
 Sd = SBtab.SBtabDocument('BalancedModel', file_content, file_name)
 
 validator = validatorSBtab.ValidateDocument(Sd)
-# print("warnings:",validator.validate_document())
 warnings = validator.validate_document()
 for warn in warnings:
     if warn[1]:
         continue
-        #print(warn[1][0])
         
-        
-#print("There are {} table(s) in the document.".format(len(Sd.sbtabs)))
 
 for tab in Sd.sbtabs:
     continue
@@ -1193,8 +1163,6 @@ RxnDF_Transport = RxnDF_Transport.loc[ RxnDF_Transport.Reaction != "R_Ht" ]
 # Concatonate the Central and transport reaction dataframes.
 
 RxnDF = pd.concat( [RxnDF_CentralMet, RxnDF_Nuclt, RxnDF_Lipid, RxnDF_aaMet, RxnDF_Transport, RxnDF_cofactMet] )
-# RxnDF_Lipid,
-# RxnDF
 print(RxnDF)
 
 
@@ -1367,7 +1335,6 @@ def addSpcToODE(spcID, concDF, model, pmap, constantVals, explicitParsDict):
         return 0
     
     spcName = concDF.loc[ concDF.Metabolite == spcID, "Metabolite" ].values[0]
-#     spcConc = concDF.loc[ concDF.Metabolite == spcID, "InitialConcentration" ].values[0]
     
     
     if spcID not in constantVals:
@@ -1381,8 +1348,6 @@ def addSpcToODE(spcID, concDF, model, pmap, constantVals, explicitParsDict):
             
         else:
             spcConc = Rxns.partTomM(pmap[spcID],pmap)
-#             sim.addSpecies(spcID, partCnt)
-#             print(spcID)
             model.addMetabolite(spcID, spcName, spcConc)
             #print(spcID,spcConc)
             
@@ -1412,7 +1377,6 @@ def addExtSpcToODE(spcID, ComDF, concDF, model, pmap, constantVals, explicitPars
         return 0
     
     spcName = ComDF.loc[ ComDF.Compound == spcID, "Name" ].values[0]
-#     spcConc = ComDF.loc[ ComDF.Compound == spcID, "InitialConcentration" ].values[0]
     
     if spcID not in constantVals:
         
@@ -1424,22 +1388,16 @@ def addExtSpcToODE(spcID, ComDF, concDF, model, pmap, constantVals, explicitPars
                    parName="External concentration ({})".format(spcID) )
             
         else:
-#             partCnt = in_out.mMtoPart(spcConc)
-#             sim.addSpecies(spcID, partCnt)
+
             spcConc = Rxns.partTomM(pmap[spcID],pmap)
-#             print(spcID)
             model.addMetabolite(spcID, spcName, spcConc)
-#             print(spcID,spcConc)
-            #if (spcID == 'M_glu__L_c') or (spcID == 'M_gln__L_c'):
-                #print("Adding in ",spcID,spcConc)
+
             
     else:
         # For escher maps
         constMetList.append(spcID)
-#         spcConc = concDF.loc[ concDF.Metabolite == spcID, "InitialConcentration" ].values[0]
         spcConc = Rxns.partTomM(pmap[spcID],pmap)
         explicitParsDict[spcID] = spcConc
-#         print(spcID,spcConc)
     
     return 0
 
@@ -1461,8 +1419,6 @@ def createGeneExpression(rxnID, pmap):
     
     gprStr = str(reconstPD.loc[ reconstPD["Reaction ID"] == rxnID ]["GPR rule"].values[0])
     
-#     print("\n################\n\n")
-#     print(rxnID, " --> ", gprStr)
     
     # Checks if GPR tule is available.
     if (gprStr == "nan") :
@@ -1483,7 +1439,6 @@ def createGeneExpression(rxnID, pmap):
             # See if this is a gap fill
             if mmcode in manGPRPD.MM.values:
                 jcvi2ID = "JCVIman_" + mmcode
-#                 print(mmcode)
 
             else:
                 jcvi2ID = annotatPD.loc[ annotatPD.iloc[:,5] == mmcode ].iloc[0, 13].strip()
