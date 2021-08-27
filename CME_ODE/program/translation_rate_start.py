@@ -1,8 +1,6 @@
 from collections import defaultdict, OrderedDict
 import numpy as np
 
-from Rxns_two import partTomM
-
 # Cell radius (meters):
 # r_cell = 2.5*(10**-7)
 r_cell = 2.0*(10**-7) # m
@@ -20,7 +18,7 @@ countToMiliMol = 1000/(avgdr*cellVolume)
 # Global parameters for translation
 riboKcat = 12 #10 #10 # 1/s
 riboK0 = 4*25e-6 # 
-riboKd = 0.001 # 
+riboKd = 0.0001 # 
 
 ribosomeConc = 503*countToMiliMol # mM
 
@@ -38,14 +36,9 @@ aaMap = OrderedDict({"A":"M_ala__L_c", "R":"M_arg__L_c",
     "P":"M_pro__L_c", "S":"M_ser__L_c", "T":"M_thr__L_c", "W":"M_trp__L_c", "Y":"M_tyr__L_c", "V":"M_val__L_c",
     "*":"Stop_Codon"})
 
-aaTRNAMap = OrderedDict({"A":"M_alatrna_c", "R":"M_argtrna_c", 
-    "N":"M_asntrna_c", "D":"M_asptrna_c", "C":"M_cystrna_c", "E":"M_glutrna_c", "Q":"M_glntrna_c", "G":"M_glytrna_c", 
-    "H":"M_histrna_c", "I":"M_iletrna_c", "L":"M_leutrna_c", "K":"M_lystrna_c", "M":"M_mettrna_c", "F":"M_phetrna_c", 
-    "P":"M_protrna_c", "S":"M_sertrna_c", "T":"M_thrtrna_c", "W":"M_trptrna_c", "Y":"M_tyrtrna_c", "V":"M_valtrna_c"})
-
 # Define how to calculate translation rate constants as in equation 3 for translation reactions.
 
-def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
+def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence):
     # Add translation reaction
     
     # Considers amino acids up to the first stop codon.
@@ -86,20 +79,14 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
     if NStop > 1:
         print("EXTRA STOP CODON: MISTAKE IN TRANSLATION")
     
-    #NMonoDict = [NMono_A,NMono_R,NMono_N,NMono_D,NMono_C,NMono_E,NMono_Q,NMono_H,
-     #            NMono_I,NMono_L,NMono_K,NMono_M,NMono_P,NMono_S,NMono_T,NMono_W,
-     #            NMono_Y,NMono_G,NMono_F,NMono_V]
+    NMonoDict = [NMono_A,NMono_R,NMono_N,NMono_D,NMono_C,NMono_E,NMono_Q,NMono_H,
+                 NMono_I,NMono_L,NMono_K,NMono_M,NMono_P,NMono_S,NMono_T,NMono_W,
+                 NMono_Y,NMono_G,NMono_F,NMono_V]
     
     NMonoSum = 0
     
-    #for nmono in range(0,len(NMonoDict)):
-    #    NMonoSum = NMonoSum + NMonoDict[nmono]*riboKd/ctRNAconc
-
-    for key, trnaID in aaTRNAMap.items():
-        aaCntPtn = aaCount[key]
-        
-        NMonoSum = NMonoSum + aaCntPtn*riboKd/partTomM(max(1,pmap[trnaID]),pmap)
-
+    for nmono in range(0,len(NMonoDict)):
+        NMonoSum = NMonoSum + NMonoDict[nmono]*riboKd/ctRNAconc
         
     n_tot = sum(list(aaCount.values()))
 
@@ -136,7 +123,7 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
         
 #         kcat_mod = poly_frac*riboKcat + 0.05*riboKcat #*
 
-        kcat_mod = ribo_num*0.25*riboKcat + 0.2*riboKcat # 503 ribosomes
+        kcat_mod = ribo_num*0.25*riboKcat + 0.25*riboKcat # 503 ribosomes
     
 #         kcat_mod = ribo_num*0.40*riboKcat + 0.05*riboKcat # 684 ribosomes
         
@@ -144,7 +131,8 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
         
         kcat_mod = 0.45*riboKcat
     
-    k_translation = kcat_mod / ((1+riboK0/ribosomeConc)*(riboKd**2)/(partTomM(max(1,pmap['M_fmettrna_c']),pmap)**2) + NMonoSum + n_tot - 1)
+    k_translation = kcat_mod / ((1+riboK0/ribosomeConc)*(riboKd**2)/(ctRNAconc**2) + NMonoSum + n_tot - 1)
+
     #print("RNA: ",rnaMetID, " has k: ", k_translation)
     
     return k_translation
