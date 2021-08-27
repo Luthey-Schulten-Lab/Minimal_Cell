@@ -8,7 +8,6 @@ r_cell = 2.0*(10**-7) # m
 CytoVolume = (4*np.pi/3)*1000*r_cell**3 # L
 cellVolume = CytoVolume
 
-# print(cellVolume)
 # Avogadro:
 avgdr   = 6.022e23 # molec/mol
 Avognum = avgdr
@@ -26,7 +25,7 @@ ribosomeConc = 503*countToMiliMol # mM
 ctRNAconc = 150*countToMiliMol # mM
 
 # Global parameter for degradation of proteins
-# Derived from eLife's model, using average protein half life of 25 hours. 
+# Derived from Breuer et al. eLife 2019 model, using average protein half life of 25 hours. 
 ptnDegRate = 7.70e-06 # 1/s
 
 # Create Dictionaries to map tRNAs to associated aa abbreviations in protein sequences.
@@ -96,7 +95,6 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence):
         
     transcript_length = sum(list(baseCount.values()))
     
-#     print(transcript_length)
     
     ribo_num = max(1,round(transcript_length/125-1)) #max(1,int(transcript_length/300))
     
@@ -132,8 +130,6 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence):
         kcat_mod = 0.45*riboKcat
     
     k_translation = kcat_mod / ((1+riboK0/ribosomeConc)*(riboKd**2)/(ctRNAconc**2) + NMonoSum + n_tot - 1)
-
-    #print("RNA: ",rnaMetID, " has k: ", k_translation)
     
     return k_translation
 
