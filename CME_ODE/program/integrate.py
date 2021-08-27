@@ -77,19 +77,7 @@ def f_wrap(solv, t, y, dydt):
 
 def getInitVals(model):
     y0=model.getInitVals()
-#     print(y0)
     return y0
-
-# def noCythonRunODE():
-#     """
-#     Run the ODE Model without compiling via Cython
-
-#     Parameters:
-
-#     Returns:
-#     None
-#     """
-#     return 0
 
 def runODE(y0,time,oldTime,ts,solv,model):
     """
@@ -109,20 +97,6 @@ def runODE(y0,time,oldTime,ts,solv,model):
     results (np.array): the array containing ODE Simulation Results (Maybe only the last time should be passed?)
     """
 
-    #y0 = model.getInitVals()
-    #print("shape: ",len(y0))
-    #y0 = np.asarray(y0,dtype=np.double)
-
-    #modelOptSpace,initParamVals=model.getOptSpace()
-    #dydt = np.zeros(len(y0))
-    #tout, results, info = integrate_adaptive(f_wrap(solv,time+delt,y0,dydt),None,y0,time,time+delt,atol,rtol,dx0=ts,nsteps=10000)
-    #tout, results, info = integrate_adaptive(f_wrap(solv,time,y0,dydt),None,y0,time,time+delt,atol,rtol,dx0=ts,nsteps=10000)
-
-    #tout = 0.0
-    #info = "place holder"
-
-    #solv = solv.ModelSolver(model)
-    #solv.buildCall(odeint=False, useJac=False, verbose=2)
     integrator = integrate.ode(solv)#, solv.calcJac)
 
     # TODO: Set which integrator to use (Appears vode is default), lsoda adaptive
