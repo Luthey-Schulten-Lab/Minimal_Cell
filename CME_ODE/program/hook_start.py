@@ -5,11 +5,7 @@ Author: David Bianchi
 """
 
 import Simp as Simp
-#import Rxns_two as Rxns
 import integrate as integrate
-#import integrate_rk as integrate
-#import integrate_ode as integrate
-#import integrate_pycvodes as integrate
 import copy as copy
 import in_out as in_out
 import sys
@@ -97,14 +93,6 @@ class MyOwnSolver(lm.GillespieDSolver):
             self.cythonBool = copy.deepcopy(self.ic[4])
             self.totalTime = copy.deepcopy(self.ic[5])
 
-            # Update need enzyme Counts in the particle map
-            #self.species.update(self)
-            #model = Simp.initModel(self.species) # Initialize the model?
-            #Simp.upIC(self.species)
-            #Simp.upIC(self.species)
-            #model = Simp.initModel(self.species)
-            #in_out.outMetCsvs(self.species,0,self.procID)            
-
             print("Done with restart")
 
         
@@ -144,11 +132,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     print("New Replicate", flush=True)
                     self.restart()
                     minute = 0
-                    #in_out.outMetCsvs(self.species,minute,self.procID)
-                    # Update need enzyme Counts in the particle map
-                    #self.species.update(self)
-                    #Simp.upIC(self.species)
-                    #Simp.upIC(self.species)
                     return 0
 
                 # We are at a CME-ODE communication timestep
@@ -161,7 +144,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                         Simp.upIC(self.species)
 
                     # Update to current solver species counts
-                    #import time as timer
                     start = timer.time()
                     print("Updating species: ", start)
                     self.species.update(self)
@@ -170,7 +152,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     print("Time is: ",time)
 
                     # Initialize and define the reaction model
-                    #model = lipSimp.initModel(passpMap)
                     model = Simp.initModel(self.species)
 
 
@@ -207,14 +188,12 @@ class MyOwnSolver(lm.GillespieDSolver):
                             fluxList.append( (rxn.getID(), currentFluxes[indx]) )
 
                         fluxDF = pd.DataFrame(fluxList)
-                        #'fluxes/scan125-zan/'+ str(iteration) + '-' + 'rep-' + str(procid)
                         fluxFileName = './fluxes/scan125-zan/' + 'rep-' + self.procID  + '-fluxDF-start.csv'#'/fluxDF_'+str(minute)+'min_start.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                         
                         minute = int(int(time)/60)
                         currentFluxes = solver.calcFlux(0, resFinal )
-    #                         print("Is INF:", np.where( np.isinf(finalFluxes) ) )
 
                         # Create list of reactions and fluxes
                         fluxList = []
@@ -232,13 +211,10 @@ class MyOwnSolver(lm.GillespieDSolver):
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
 
                         print('Saved fluxes at ' + str(minute) + ' minutes.')
-                        # Create a list of metabolite
-                        #in_out.outMetCsvs(self.species,minute,self.procID) 
  
                     if time > self.totalTime-self.delt:
                         print(time)
                         finalFluxes = solver.calcFlux(0, resFinal )
-#                         print("Is INF:", np.where( np.isinf(finalFluxes) ) )
 
                         # Create list of reactions and fluxes
                         fluxList = []
@@ -247,38 +223,15 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         fluxDF = pd.DataFrame(fluxList)
                         fnStr='./fluxes/scan125-zan/' + 'rep-'+ self.procID + '-fluxDF_final.csv'
-                        #fluxDF.to_csv('./fluxDF_final.csv',header=False)
                         fluxDF.to_csv(fnStr,header=False,mode='a')
                         minute = -1
                         in_out.outMetCsvs(self.species,minute,self.procID)
                         
                         print('Saved final fluxes.')
                    
-                        # Create a list of metabolites
-                        #metsList = []
-                        #for indx,metab in enumerate(model.getMetList()):
-                                #metsList.append( (metab.getID(), resFinal[indx]) )
-                        #metDF = pd.DataFrame(metsList)
-                        #fnMetStr = './sims/scan125-zan/'+ 'rep-' + self.procID + '/simDF_parts_end.csv'
-                        #metDF.to_csv(fnMetStr,header=False,mode='a')
-
- 
-
-                    # Sort list by fluxes
-#                     fluxList.sort(key=lambda x: abs(x[1]), reverse=True)
-
-#                     # Converts list into ordered dictionary
-#                     fluxDict = OrderedDict()
-#                     for rxn, flux in fluxList:
-#                         fluxDict[rxn] = flux
-
-                    # Give the previous time in minutes
-                    #minute = 1#int(int(time)/60)
 
                     # Set the previous time to the current time
                     self.oldtime = time
-
-                    #in_out.outMetCsvs(self.species,minute,self.procID)            
 
                     # Write the results
                     in_out.writeResults(self.species,model,resFinal,time,self.procID)
