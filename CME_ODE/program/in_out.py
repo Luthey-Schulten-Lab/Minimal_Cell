@@ -45,18 +45,13 @@ def getProtSA(pmap,memProtList):
         saInt (integer) - The projected surface area contribution of membrane proteins (in nm^2)
     """
 
-    #avgProtSA = 35.2 # nm^2, average protein surface area to produce expected 47% coverage for 7.3K membrane proteins
-    #avgProtSA = 24.75 # nm^2, average protein surface area to produce expected 47% coverage for 9.6K membrane proteins
     avgProtSA = 28.0 # nm^2, average protein surface area to produce expected 54% coverage for 9.6K membrane proteins
 
-   # otherNamesDict = {'JCVISYN3A_0234':['crr','crr_P'],'JCVISYN3A_0779':['ptsg','ptsg_P'],'JCVISYN3A_0694':['ptsh','ptsh_P']} # ptsh, ptsi, crrr
-
+    # Proteins with special naming conventions in the model
     otherNamesDict = {'JCVISYN3A_0779':['ptsg','ptsg_P']}
 
     count = 0 # Count of number of membrane proteins
     for elementID in memProtList:
-        # JCVISYN3A_0008
-        # ptsi_P,MMSYN1_0233,0,0.95ptsh,MMSYN1_0694,1,0.05 ptsh_P,MMSYN1_0694,0,0.95crr,MMSYN1_0234,1,0.05crr_P,MMSYN1_0234,0,0.95ptsg,MMSYN1_0779,1,0.15ptsg_P,MMSYN1_0779,0,0.85
         if elementID in otherNamesDict.keys():
             elementIDList = otherNamesDict[elementID]
             for obj in elementIDList:
@@ -66,7 +61,6 @@ def getProtSA(pmap,memProtList):
             count += pmap[elementID]
     #print("Count is: ", count)
     upProtSA = int(count*avgProtSA) # nm^2
-    #pmap['cellSA_Prot']=int(upProtSA)
 
     return upProtSA
 
@@ -95,13 +89,6 @@ def calcLipidToSA(pmap):
     saFltOut = saFlt*fracOutMem
         
     saInt = int(round(saFltOut)) # Obtain the surface area as an integer nm^2 value for easy storage
-   
-    # Protein is assumed to take up 40% of membrane, 60% lipid or 2/3 of lipid value
-    #protScale=0.667 # For 40% prot. surface area membrane
-    #protScale=0.8868 # For 47% prot. surface area membrane
-    #protScale=1.13 # For 53% prot. surface area membrane
-    #protScale=0.8868 # For 47% prot. surface area membrane
-    #protSA=protScale*saInt
     
     protSA = getProtSA(pmap,memProtList)
 
@@ -110,27 +97,15 @@ def calcLipidToSA(pmap):
     pmap['CellSA']=saInt+protSA
     pmap['CellSA_Prot']=protSA
 
-    # Output the values and recalculate readius and volume
-    #print("Lipid SA: ",saInt)
-    #print("Prot SA: ",protSA)
-    #print("Mem SA: ",saInt+protSA)
-    #print(" ")
 
     totalSAint = saInt+protSA
     cellRadius = ((totalSAint/4/np.pi)**(1/2))*1e-9
     cellVolume = ((4/3)*np.pi*(cellRadius)**3)*(1000)
 
-    #print("Cell Radius: ",cellRadius, " m")
-    #print("Cell Volume: ",cellVolume, " L")
-
     return
-    #return totalSAint
 
 def calcCellVolume(pmap):
     
-    # Update and Calculate the Lipid Surface area at the current time point
-    #saInt = CalcLipidToSA(pmap)
-
     SurfaceArea = pmap['CellSA']
     
     cellRadius = ((SurfaceArea/4/np.pi)**(1/2))*1e-9
@@ -166,7 +141,6 @@ def mMtoPart(conc,pmap):
     """
     
     cellVolume = calcCellVolume(pmap)
-#     print('mmtopart',cellVolume)
     
     particle = int(round((conc/1000)*NA*cellVolume))
         
@@ -187,9 +161,6 @@ def writeResults(pmap,model,res,time,procid):
     Returns:
     None
     """
-
-    # Update pdhC
-    #pmap['M_PTN_JCVISYN3A_0227_c'] = pmap['M_lpl_PdhC_c']+pmap['M_dhlpl_PdhC_c']+pmap['M_acdhlpl_PdhC_c']
 
     # Get the list of metabolites
     mL = model.getMetList()
@@ -219,17 +190,6 @@ def writeResults(pmap,model,res,time,procid):
                      ['dCTP_DNArep','M_dctp_c'],['dGTP_DNArep','M_dgtp_c']]
     
     aatrna_counters = [["FMET_cost","M_fmettrna_c","M_trnamet_c"]]#,
-#                        ["ALA_cost","M_alatrna_c","M_trnaala_c"], ["ARG_cost","M_argtrna_c","M_trnaarg_c"],
-#                        ["ASN_cost","M_asntrna_c","M_trnaasn_c"], ["ASP_cost","M_asptrna_c","M_trnaasp_c"],
-#                        ["CYS_cost","M_cystrna_c","M_trnacys_c"], ["GLU_cost","M_glutrna_c","M_trnaglu_c"],
-#                        ["GLN_cost","M_glntrna_c","M_trnagln_c"], ["GLY_cost","M_glytrna_c","M_trnagly_c"],
-#                        ["HIS_cost","M_histrna_c","M_trnahis_c"], ["ILE_cost","M_iletrna_c","M_trnaile_c"],
-#                        ["LEU_cost","M_leutrna_c","M_trnaleu_c"], ["LYS_cost","M_lystrna_c","M_trnalys_c"],
-#                        ["MET_cost","M_mettrna_c","M_trnamet_c"], ["PHE_cost","M_phetrna_c","M_trnaphe_c"],
-#                        ["PRO_cost","M_protrna_c","M_trnapro_c"], ["SER_cost","M_sertrna_c","M_trnaser_c"],
-#                        ["THR_cost","M_thrtrna_c","M_trnathr_c"], ["TRP_cost","M_trptrna_c","M_trnatrp_c"],
-#                        ["TYR_cost","M_tyrtrna_c","M_trnatyr_c"], ["VAL_cost","M_valtrna_c","M_trnaval_c"]]
-                       
 
     
     for costID in ATP_hydro_counters:
@@ -256,7 +216,6 @@ def writeResults(pmap,model,res,time,procid):
                 pmap[costID] = 0
 
         else:
-#         print(pmap['M_atp_c'])
             costCnt = pmap[costID]
             atpCnt = pmap['M_atp_c']
 
@@ -277,23 +236,9 @@ def writeResults(pmap,model,res,time,procid):
                 pmap[costID] = 0
 
     
-    #print('ATP: ',pmap['M_atp_c'])
-    #print('Pi: ',pmap['M_pi_c'])
-    
-    #print('ATP: ',pmap['M_atp_c'])
-    #print('Pi: ',pmap['M_pi_c'])
-    #print('SA: ',pmap['CellSA'])
-    #print('CHOL: ',pmap['M_chsterol_c'])
-    #print('CLPN: ',pmap['M_clpn_c'])
 
     for cost in NTP_counters:
         
-#         costID = cost[0]
-#         metID  = cost[1]
-        
-#         pmap[metID] = pmap[metID] - pmap[costID]
-#         pmap['M_ppi_c'] = pmap['M_ppi_c'] + pmap[costID]
-#         pmap[costID] = 0
         
         costID = cost[0]
         metID  = cost[1]
@@ -376,26 +321,28 @@ def writeResults(pmap,model,res,time,procid):
 
     print("Recalculated Lipid SA")
 
-    # TODO: Out Met Csvs
+    # Out Met Csvs
     if (int(time)/60).is_integer():
         minute = int(int(time)/60)
-        print("Calling updated write to csvs at minute: ",minute)
-        #outMetCsvs(pmap,minute,procid)
+        # print("Calling updated write to csvs at minute: ",minute)
 
     return
 
 def outMetCsvs(pmap,minute,procID):
     """
     Write metabolite csvs at each timestep
+
+    Parameters:
+        pmap (particle map): the CME particle map storing species counts data
+
+        minute (int): the minute of cell cycle simulation time
+
+        procID (int): the process ID (necessary if running parallel/batch simulations)
+
+    Returns:
+        None
     """
-                        # Create list of reactions and fluxes
-                        #fluxList = []
-                        #for indx,rxn in enumerate(model.getRxnList()):
-                            #fluxList.append( (rxn.getID(), currentFluxes[indx]) )
 
-                        #fluxDF = pd.DataFrame(fluxList)
-
-    #metDict={}#metsList = []
     specIDs = []
     newCounts = []
     
@@ -420,10 +367,7 @@ def outMetCsvs(pmap,minute,procID):
     if int(minute) == -1:
         minute = 1
 
-    #metsDict = {}
-    #metsDict[str(minute)] = metDict 
-    metsDF = pd.DataFrame()#metsList) # TODO: Could do a DictWriter here instead
-    #if (int(minute) == 0):
+    metsDF = pd.DataFrame()#metsList
     metsDF['Time'] = specIDs
     print("Species IDs len is: ",len(specIDs))
     metsDF[np.rint(int(minute))] = newCounts
@@ -431,41 +375,10 @@ def outMetCsvs(pmap,minute,procID):
     print(metsDF)
 
     metFileName = './sims/scan125-zan/rep-'+str(procID)+'.csv'#+'/'+str(minute)+'min-simDF_parts_end.csv'
-    #metsDF.to_csv(metFileName,index=False,mode='a+')
     if (int(minute) == 0):
         metsDF.to_csv(metFileName,index=False,mode='w+')
     else:
         print("writing df")
         metsDF.to_csv(metFileName,index=False,mode='a') #columns=specIDs
-        #with open(metFileName, 'w', newline='\n') as csvfile:
-            #fieldnames = [str(minute)]
-            #writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            #writer.writeheader()
-            #writer.writerow(metsDict)
-            #csvfile.close()
-        #metsDF.to_csv(metFileName,header=False,mode='a')
-    #else:
-        #metsDF.to_csv(metFileName,header=False,mode='a'
-        #with open(metFileName, 'w', newline='\n') as csvfile:
-            #fieldnames = [str(minute)]
-            #writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-	    #writer.writeheader(
-            #writer.writerow(metsDict)
-            #csvfile.close()
-           
-
-    #for item in pmap.items():
-        
-        # Get the list of metabolites
-    #mL = model.getMetList()
-
-    ## Do mapping with enumeration over mL for index and name from metList
-
-    # For loop iterating over the species and updating their counts with ODE results
-    #for ind in range(len(mL)):
-        #if (mL[ind].getID() == 'CellSA') or (mL[ind].getID() == 'CellSA_Prot') or (mL[ind].getID() == 'CellSA_Lip'):
-            #continue
-        #else:
-            #pmap[mL[ind].getID()] = mMtoPart(res[ind],pmap)
 
     return
