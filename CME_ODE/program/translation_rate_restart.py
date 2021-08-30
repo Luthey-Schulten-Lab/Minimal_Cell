@@ -4,13 +4,11 @@ import numpy as np
 from Rxns_two import partTomM
 
 # Cell radius (meters):
-# r_cell = 2.5*(10**-7)
 r_cell = 2.0*(10**-7) # m
 
 CytoVolume = (4*np.pi/3)*1000*r_cell**3 # L
 cellVolume = CytoVolume
 
-# print(cellVolume)
 # Avogadro:
 avgdr   = 6.022e23 # molec/mol
 Avognum = avgdr
@@ -48,9 +46,6 @@ aaTRNAMap = OrderedDict({"A":"M_alatrna_c", "R":"M_argtrna_c",
 def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
     # Add translation reaction
     
-    # Considers amino acids up to the first stop codon.
-#     aasequence = aasequence[0:aasequence.find("*")]
-    
     # Check that we know all residues used in the sequence
     if ( set(aasequence) - set(aaMap.keys()) ):
         raise Exception("Unknown residue(s) in Protein sequence {}".format(set(aasequence) - set(aaMap.keys())) )
@@ -86,15 +81,8 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
     if NStop > 1:
         print("EXTRA STOP CODON: MISTAKE IN TRANSLATION")
     
-    #NMonoDict = [NMono_A,NMono_R,NMono_N,NMono_D,NMono_C,NMono_E,NMono_Q,NMono_H,
-     #            NMono_I,NMono_L,NMono_K,NMono_M,NMono_P,NMono_S,NMono_T,NMono_W,
-     #            NMono_Y,NMono_G,NMono_F,NMono_V]
-    
     NMonoSum = 0
     
-    #for nmono in range(0,len(NMonoDict)):
-    #    NMonoSum = NMonoSum + NMonoDict[nmono]*riboKd/ctRNAconc
-
     for key, trnaID in aaTRNAMap.items():
         aaCntPtn = aaCount[key]
         
@@ -109,43 +97,20 @@ def TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, pmap):
         
     transcript_length = sum(list(baseCount.values()))
     
-#     print(transcript_length)
     
-    ribo_num = max(1,round(transcript_length/125-1)) #max(1,int(transcript_length/300))
+    ribo_num = max(1,round(transcript_length/125-1))
     
     ribo_num = min(15,ribo_num)
     
-#     poly_size_dict = {'3': 75, '2': 120, '4': 32, '6': 18, '9': 9, '5': 5, '7': 7, '12': 12}
-#     poly_size_dict = {'3': 105, '5': 35, '2': 118, '4': 56, '10': 10, '6': 48, '7': 14}
-#     poly_size_dict = {'3': 81, '2': 118, '4': 32, '6': 30, '9': 9}
-    
-#     print(ribo_num)
     if ribo_num > 1:
-
-#         poly_frac = 0
-
-#         for poly_size in range(2,11):
-
-#             try:
-
-#                 poly_frac = poly_frac + ribo_num*poly_size_dict[str(poly_size)]/684  #min(ribo_num,poly_size)
-
-#             except:
-        
-#                 poly_frac = poly_frac + ribo_num*poly_size/684
-        
-#         kcat_mod = poly_frac*riboKcat + 0.05*riboKcat #*
 
         kcat_mod = ribo_num*0.25*riboKcat + 0.2*riboKcat # 503 ribosomes
     
-#         kcat_mod = ribo_num*0.40*riboKcat + 0.05*riboKcat # 684 ribosomes
-        
     else:
         
         kcat_mod = 0.45*riboKcat
     
     k_translation = kcat_mod / ((1+riboK0/ribosomeConc)*(riboKd**2)/(partTomM(max(1,pmap['M_fmettrna_c']),pmap)**2) + NMonoSum + n_tot - 1)
-    #print("RNA: ",rnaMetID, " has k: ", k_translation)
     
     return k_translation
 
