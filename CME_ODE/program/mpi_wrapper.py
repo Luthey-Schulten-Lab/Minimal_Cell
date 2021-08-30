@@ -32,25 +32,11 @@ sys.path.append(os.getcwd())
 # Runs a CME-ODE simulation
 def runCMEODE(rank, simTime, restartTime):
 
-        # NOTE: AVOID USING A SUBPROCESS HERE, INSTEAD USE OS TO CALL THE BASH SCRIPT FOR DESIRED NUMBER OF REPLICATES
-
-        # Run a hybrid CME-ODE simulation
-        #run = subprocess.Popen(["python3","LipCentNucGIP_CMEODE_counters.py","-r",("{0}").format(int(rank)+1)], shell=False)
-        #run = subprocess.Popen(["python3","MinCell_CMEODE.py","-r",("{0}").format(int(rank)+1)], shell=False)
-
-        # Wait for the process to complete
-        #run.wait()
-        #os.("./mpi_test")
-
-        # Launch the process: It doesn't actually provide 2 replication forks at the moment so this is fine
+        # Launch the process: The initial simulation setup
         run = subprocess.run(['python3',"MinCell_CMEODE_mpi_two_TwoRep.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format("1")],shell=False)
 
-        #run.wait()
-        #run.close()
-
+        # Launch the process: The simulation with multiple replication initiation forks allowed
         runTwo = subprocess.run(['python3',"MCrestartLoop_twoRep.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format(simTime),"-iter","1","-rs",("{0}").format(restartTime)],shell=False)
-        # Wait for the process to complete - Not necessary
-        #runTwo.close()
 
         return
 
@@ -62,9 +48,9 @@ def main():
         # Parse simulation arguments/parameters
         ap = argparse.ArgumentParser()
 
-        ap.add_argument('-st', '--simType', required = True)
-        ap.add_argument('-t', '--simTime', required= True)
-        ap.add_argument('-rs', '--restartTime', required= True)
+        ap.add_argument('-st', '--simType', required = True) # Simulation Type: CME-ODE e.g.
+        ap.add_argument('-t', '--simTime', required= True) # Simulation Time: 120 minutes e.g.
+        ap.add_argument('-rs', '--restartTime', required= True) # Restart Time: How often to updated Genetic Information Process Reactions: 1 min e.g.
         args = ap.parse_args()
 
         # Get the MPI rank
