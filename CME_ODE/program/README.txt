@@ -62,7 +62,9 @@ lipid_patch.py: Modifies .tsv original reaction parameters for lipid metabolism/
 Replication Initiation:
 --------------------------
 
-multi_rep_(two).py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
+rep_start.py: Defines the initial setup and conditions for reactions for multiple replication initiation events.
+
+rep_restart.py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
 
 Integration:
 -------------------------
