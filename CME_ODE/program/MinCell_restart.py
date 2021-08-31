@@ -2,19 +2,12 @@
 # coding: utf-8
 
 
-# <h2> Set up gene expression reactions for lipid module </h2>
-
-
 # Import needed modules
 from pyLM import *
 from pyLM.units import *
 from pySTDLM import PostProcessing as pp
-#from pySTDLM.PostProcessing import *
 import math as math
 import numpy as np
-#import matplotlib.pyplot as plt
-#get_ipython().run_line_magic('matplotlib', 'inline')
-#from Rxns_Two import partTomM
 import csv
 
 import in_out as in_out
@@ -22,7 +15,6 @@ import in_out as in_out
 import os
 from contextlib import redirect_stdout
 
-#import seaborn as sns
 
 # SBtab classes source code
 from sbtab import SBtab
@@ -40,7 +32,6 @@ import csv
 import pandas as pd
 from Bio import SeqIO
 from Bio.Seq import Seq
-#from Bio.Alphabet import generic_dna
 import importlib
 from collections import defaultdict, OrderedDict
 
@@ -57,13 +48,6 @@ import time as timer
 import argparse
 ap = argparse.ArgumentParser()
 
-# The filename
-#ap.add_argument('-fn','--filename',required=True)
-#args = ap.parse_args()
-#fn=str(args.filename)
-
-# The log file name
-#ap.add_argument('-log','--logfilename',required=True)
 
 # The process ID
 ap.add_argument('-procid','--processid',required=True)
@@ -72,8 +56,6 @@ ap.add_argument('-iter','--iteration',required=False)
 ap.add_argument('-rs','--restartTime',required=False)
 
 args = ap.parse_args()
-#fn=str(args.filename)
-#my_log_file=str(args.logfilename)
 procid=str(args.processid)
 
 # Use the process ID to seed the random number generation
@@ -82,11 +64,6 @@ proc_id = int(procid)
 currTime = int(timer.time())
 np.random.seed(proc_id*429496)
 
-# The replicate ID that gives hdf5 file lattice microbes data will be saved to
-#ap.add_argument('-r','--repnum',required=True)
-#args = ap.parse_args()
-#repID = str(args.repnum)
-#iteration = str(args.iteration)
 
 runTime=int(args.time)
 
@@ -104,7 +81,6 @@ for sTime in np.arange(1,runTime,1):
             print(iteration)
             itVal = int(iteration)-1
             oldFile = './sims/scan125-zan/out-' + str(procid) + 'rs' + str(itVal) + '.lm' #'./sims/scan125-zan/rep-' + str(procid) + '.csv' #+ '/'+ str(int(iteration)-1) +'min-simDF_parts_end.csv'
-        #oldFile = 'sims/scan125-zan/res.csv'
         return oldFile
 
     oldFn=getFn(iteration)
@@ -757,7 +733,6 @@ for sTime in np.arange(1,runTime,1):
         NMono_G = baseCount["U"]
         
         NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_U]
-        #print(NMonoDict)
         
         CMono1 = baseMap[ rnasequence[0] ]
         
@@ -770,91 +745,14 @@ for sTime in np.arange(1,runTime,1):
         return k_transcription
 
 
-    # In[ ]:
 
     from translation_rate_restart import TranslatRate as TranslatRate
 
-    # If its the first time, define the double replication module and add particles
-    #if (iteration <= 0):
-        #from multi_rep import addRepInitTwo as addRepInitTwo
-        #from multi_rep import addReplicationTwo as addReplicationTwo
     
     # If we've already set up the double replication initation do not redefine the species/add particles
     #else:
     from rep_restart import addRepInitTwo as addRepInitTwo
     from rep_restart import addReplicationTwo as addReplicationTwo
-
-    # Define how to calculate translation rate constants as in equation 3 for translation reactions.
-
-    #def Tra#nslatRate(rnaMetID, ptnMetID, rnasequence, aasequence):
-        # A#dd translation reaction
-        
-        # C#onsiders amino acids up to the first stop codon.
-    #     a#asequence = aasequence[0:aasequence.find("*")]
-        
-        # C#heck that we know all residues used in the sequence
-    #   if #( set(aasequence) - set(aaMap.keys()) ):
-        # raise Exception("Unknown residue(s) in Protein sequence {}".format(set(aasequence) - set(aaMap.keys())) )
-        
-        # C#ount how many times each residue is used
-        #aaC#ount = defaultdict(int)
-        #for# aa in set(aasequence):
-        # aaCount[aa] = aasequence.count(aa)
-        
-        #NMo#no_A = aaCount["A"]
-        #NMo#no_R = aaCount["R"]
-        #NMo#no_N = aaCount["N"]
-        #NMo#no_D = aaCount["D"]
-        #NMo#no_C = aaCount["C"]
-        #NMo#no_E = aaCount["E"]
-        #NMo#no_Q = aaCount["Q"]
-        #NMo#no_H = aaCount["H"]
-        #NMo#no_I = aaCount["I"]
-        #NMo#no_L = aaCount["L"]
-        #NMo#no_K = aaCount["K"]
-        #NMo#no_M = aaCount["M"]
-        #NMo#no_P = aaCount["P"]
-        #NMo#no_S = aaCount["S"]
-        #NMo#no_T = aaCount["T"]
-        #NMo#no_W = aaCount["W"]
-        #NMo#no_Y = aaCount["Y"]
-        #NMo#no_G = aaCount["G"]
-        #NMo#no_F = aaCount["F"]
-        #NMo#no_V = aaCount["V"]
-        
-        #NSt#op = aaCount["*"]
-        
-        #if #NStop > 1:
-        # print("EXTRA STOP CODON: MISTAKE IN TRANSLATION")
-        
-        #NMo#noDict = [NMono_A,NMono_R,NMono_N,NMono_D,NMono_C,NMono_E,NMono_Q,NMono_H,
-        #          NMono_I,NMono_L,NMono_K,NMono_M,NMono_P,NMono_S,NMono_T,NMono_W,
-        #          NMono_Y,NMono_G,NMono_F,NMono_V]
-        
-        #NMo#noSum = 0
-        
-        #for# nmono in range(0,len(NMonoDict)):
-        # NMonoSum = NMonoSum + NMonoDict[nmono]*riboKd/ctRNAconc
-        # 
-        #n_t#ot = sum(list(aaCount.values()))
-
-        #bas#eCount = defaultdict(int)
-        #for# base in set(rnasequence):
-        # baseCount[base] = rnasequence.count(base)
-        # 
-        #tra#nscript_length = sum(list(baseCount.values()))
-        
-        #pri#nt(transcript_length)
-        
-        #rib#o_num = max(1,int(transcript_length/400)) #max(1,int(transcript_length/300))
-        
-        #pri#nt(ribo_num)
-        
-        #kca#t_mod = riboKcat*ribo_num #*0.4
-        
-        #k_t#ranslation = kcat_mod / ((1+riboK0/ribosomeConc)*(riboKd**2)/(ctRNAconc**2) + NMonoSum + n_tot - 1)
-        
-        #ret#urn k_translation
 
 
     def TranslocRate(aasequence):
@@ -874,10 +772,6 @@ for sTime in np.arange(1,runTime,1):
         
         return k_transloc
 
-
-    # ## Create Definitions to Add RNA, Proteins, and Reactions to the Simulation
-
-    # In[ ]:
 
 
 
@@ -938,9 +832,6 @@ for sTime in np.arange(1,runTime,1):
                     
                     continue
 
-            #sim.addParticles(species = geneMetID, count = specDict[geneMetID])
-            #sim.addParticles(species = ptnMetID,  count = specDict[ptnMetID])#int(ptnCount))
-            #sim.addParticles(species = rnaMetID, count = specDict[rnaMetID])#init_mRNA_count)
             
             TrscProd = [geneMetID,rnaMetID]
             mRNAdegProd = []
@@ -1037,10 +928,6 @@ for sTime in np.arange(1,runTime,1):
             sim.addReaction(rnaMetID, tuple(mRNAdegProd), DegradationRate(rnaMetID, rnasequence))
             sim.addReaction(rnaMetID, tuple(TranslatProd), TranslatRate(rnaMetID, ptnMetID, rnasequence, aasequence, specDict))
             
-    #         sim.addReaction(ptnMetID,tuple(ptnDegProd),ptnDegRate)
-
-
-    # In[ ]:
 
 
 
@@ -1063,7 +950,6 @@ for sTime in np.arange(1,runTime,1):
                 # If not, set an "unknown" code
                 jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
 
-        #print(mmcode, jcvi2ID, jcvi3AID)
 
         ptnCount, ptnName = getPtnCount(newMetID, jcvi2ID)
         ptnCount = specDict[newMetID]
@@ -1072,7 +958,6 @@ for sTime in np.arange(1,runTime,1):
         
         ModelSpecies.append(newMetID)
 
-        #print(newMetID, ptnCount)
         
         if transcribe:
 
@@ -1081,8 +966,6 @@ for sTime in np.arange(1,runTime,1):
             ModelSpecies.append(geneMetID)
 
             rnasequence, aasequence = getSequences(jcvi3AID)
-            #print(rnasequence)
-            #print(aasequence)
 
             if (rnasequence != 0) and (aasequence != 0):
 
@@ -1093,8 +976,6 @@ for sTime in np.arange(1,runTime,1):
 
             species = []
             species = [geneMetID, rnaMetID, newMetID]
-            #print(species)
-            #sim.defineSpecies(species)
             
             for index,row in mRNA_counts_DF.iterrows():
 
@@ -1111,9 +992,6 @@ for sTime in np.arange(1,runTime,1):
                     continue
 
 
-            #sim.addParticles(species = geneMetID, count = specDict[geneMetID])
-            #sim.addParticles(species = newMetID,  count = specDict[newMetID])#int(ptnCount))
-            #sim.addParticles(species = rnaMetID, count = specDict[rnaMetID])#init_mRNA_count)
 
             TrscProd = [geneMetID,rnaMetID]
             mRNAdegProd = []
@@ -1202,7 +1080,6 @@ for sTime in np.arange(1,runTime,1):
                 numberUsed = aaCost[1]
 
                 aaCostID = aaCostMap[aa_ID]
-    #             print(aa_ID,aaCostID)
 
                 for i in range(numberUsed):
                     TranslatProd.append(aaCostID)
@@ -1211,12 +1088,9 @@ for sTime in np.arange(1,runTime,1):
             sim.addReaction(rnaMetID, tuple(mRNAdegProd), DegradationRate(rnaMetID, rnasequence))
             sim.addReaction(rnaMetID, tuple(TranslatProd), TranslatRate(rnaMetID, newMetID, rnasequence, aasequence,specDict))
 
-    #         sim.addReaction(newMetID,tuple(ptnDegProd),ptnDegRate)
         
         if not transcribe:
             species = [newMetID]
-            #sim.defineSpecies(species)
-            #sim.addParticles(species = newMetID,  count = specDict[newMetID])#int(ptnCount))
 
 
 
@@ -1240,7 +1114,6 @@ for sTime in np.arange(1,runTime,1):
                 # If not, set an "unknown" code
                 jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
 
-        #print(mmcode, jcvi2ID, jcvi3AID)
 
         ptnCount, ptnName = getPtnCount(newMetID, jcvi2ID)
         ptnCount = specDict[newMetID]
@@ -1249,7 +1122,6 @@ for sTime in np.arange(1,runTime,1):
         
         ModelSpecies.append(newMetID)
 
-        #print(newMetID, ptnCount)
         
         if transcribe:
 
@@ -1258,8 +1130,6 @@ for sTime in np.arange(1,runTime,1):
             ModelSpecies.append(geneMetID)
 
             rnasequence, aasequence = getSequences(jcvi3AID)
-            #print(rnasequence)
-            #print(aasequence)
 
             if (rnasequence != 0) and (aasequence != 0):
 
@@ -1272,8 +1142,6 @@ for sTime in np.arange(1,runTime,1):
 
             species = []
             species = [geneMetID, rnaMetID, newMetID, newMetID_cyto]
-            #print(species)
-            #sim.defineSpecies(species)
             
             for index,row in mRNA_counts_DF.iterrows():
 
@@ -1290,9 +1158,6 @@ for sTime in np.arange(1,runTime,1):
                     continue
 
 
-            #sim.addParticles(species = geneMetID, count = specDict[geneMetID])#1)
-            #sim.addParticles(species = newMetID,  count = specDict[newMetID])#int(ptnCount))
-            #sim.addParticles(species = rnaMetID, count = specDict[rnaMetID])#init_mRNA_count)
 
             TrscProd = [geneMetID,rnaMetID]
             mRNAdegProd = []
@@ -1338,7 +1203,6 @@ for sTime in np.arange(1,runTime,1):
             for i in range(len(aasequence)):
                 TranslatProd.append('ATP_translat')
                 TranslatProd.append('ATP_translat')
-        #         ptnDegProd.append('ATP_ptndeg')
         
             for i in range(int(len(aasequence)/10)):
                 TranslocProd.append('ATP_transloc')
@@ -1385,7 +1249,6 @@ for sTime in np.arange(1,runTime,1):
                 numberUsed = aaCost[1]
 
                 aaCostID = aaCostMap[aa_ID]
-    #             print(aa_ID,aaCostID)
 
                 for i in range(numberUsed):
                     TranslatProd.append(aaCostID)
@@ -1394,14 +1257,10 @@ for sTime in np.arange(1,runTime,1):
             sim.addReaction(rnaMetID, tuple(mRNAdegProd), DegradationRate(rnaMetID, rnasequence))
             sim.addReaction(rnaMetID, tuple(TranslatProd), TranslatRate(rnaMetID, newMetID, rnasequence, aasequence,specDict))
             sim.addReaction(newMetID_cyto, tuple(TranslocProd), TranslocRate(aasequence))
-    #         sim.addReaction(newMetID,tuple(ptnDegProd),ptnDegRate)
         
         if not transcribe:
             species = [newMetID]
-            #sim.defineSpecies(species)
-            #sim.addParticles(species = newMetID,  count = specDict[newMetID])#int(ptnCount))
 
-    # In[ ]:
 
 
     RiboPtnNames = ['Ribosomal Protein']
@@ -1429,12 +1288,10 @@ for sTime in np.arange(1,runTime,1):
                 jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
                 unkIter += 1 
 
-        #print(mmcode, jcvi2ID, jcvi3AID)
 
         ptnCount, ptnName = getPtnCount(newMetID, jcvi2ID)
         ptnCount = specDict[newMetID]
 
-        #print(newMetID, ptnCount)
         
         ModelSpecies.append(newMetID)
 
@@ -1443,8 +1300,6 @@ for sTime in np.arange(1,runTime,1):
         ModelSpecies.append(geneMetID)
         
         rnasequence, aasequence = getSequences(jcvi3AID)
-        #print(rnasequence)
-        #print(aasequence)
 
         if (rnasequence != 0) and (aasequence != 0):
 
@@ -1455,8 +1310,6 @@ for sTime in np.arange(1,runTime,1):
 
         species = []
         species = [geneMetID, rnaMetID, newMetID]
-        #print(species)
-        #sim.defineSpecies(species)
         
         for index,row in mRNA_counts_DF.iterrows():
             
@@ -1472,9 +1325,6 @@ for sTime in np.arange(1,runTime,1):
                 
                 continue
 
-        #sim.addParticles(species = geneMetID, count = specDict[geneMetID])#1)
-        #sim.addParticles(species = newMetID,  count = specDict[newMetID])#int(ptnCount))
-        #sim.addParticles(species = rnaMetID, count = specDict[rnaMetID])#init_mRNA_count)
         
         RiboPtnNames.append(newMetID)
         
@@ -1581,97 +1431,6 @@ for sTime in np.arange(1,runTime,1):
         sim.addReaction(rnaMetID, tuple(TranslatProd), TranslatRate(rnaMetID, newMetID, rnasequence, aasequence, specDict))
 
 
-    # In[ ]:
-
-
-    # tRNAadded = []
-
-    # def addtRNA(unchargedMetID, chargedMetID, mmcode):
-        
-    #     locusNum = mmcode.split('_')[1]
-
-    #     jcvi3AID = 'JCVISYN3A_' + locusNum
-
-    #     # Checks if a translation to JCVISYN2* code is available
-    #     try:
-    #         jcvi2ID = annotatPD.loc[ annotatPD.iloc[:,5] == mmcode ].iloc[0, 13].strip()
-    #     except:
-    #         # If not, check for a manual AOE connection:
-    #         if mmcode in manGPRPD.MM.values:
-    #             jcvi2ID = "JCVIman_" + mmcode
-    #         else:
-    #             # If not, set an "unknown" code
-    #             jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
-    #             unkIter += 1 
-
-    #     print(jcvi3AID)
-
-    #     geneMetID = jcvi3AID + '_gene'
-        
-    #     ModelSpecies.append(geneMetID)
-
-    #     rnasequence = getRNAsequences(jcvi3AID)
-    #     print(rnasequence)
-
-    #     gene = [geneMetID]
-    #     print(gene)
-    #     sim.defineSpecies(gene)
-
-    #     sim.addParticles(species = geneMetID, count = 1)
-
-        
-    #     if unchargedMetID not in tRNAadded:
-    #         ModelSpecies.append(unchargedMetID)
-    #         tRNA = [unchargedMetID]
-    #         sim.defineSpecies(tRNA)
-    # #         sim.addParticles(species = newMetID,  count = int(round(7000/20*0.2)))
-    #         tRNAadded.append(unchargedMetID)
-    #         ModelSpecies.append(chargedMetID)
-    #         ctRNA = [chargedMetID]
-    #         sim.defineSpecies(ctRNA)
-    # #         sim.addParticles(species = newMetID,  count = int(round(7000/20*0.2)))
-    #         tRNAadded.append(chargedMetID)
-        
-    #     sim.addParticles(species = unchargedMetID,  count = int(round(7000/20*0.2)))
-    #     sim.addParticles(species = chargedMetID,  count = int(round(7000/20*0.8)))
-    #     TrscProd = [geneMetID,unchargedMetID]
-            
-    #     for i in range(len(rnasequence)):
-    #         TrscProd.append('ATP_trsc')
-            
-    #     baseCount = defaultdict(int)
-    #     for base in set(rnasequence):
-    #         baseCount[base] = rnasequence.count(base)
-
-    #     # Add total number of monomers to parameter dict
-
-    #     N_A = baseCount["A"]
-
-    #     N_U = baseCount["U"]
-
-    #     N_C = baseCount["C"]
-
-    #     N_G = baseCount["G"]
-
-    #     for i in range(N_A):
-    #         TrscProd.append('ATP_tRNA')
-
-    #     for i in range(N_U):
-    #         TrscProd.append('UTP_tRNA')
-
-    #     for i in range(N_G):
-    #         TrscProd.append('GTP_tRNA')
-
-    #     for i in range(N_C):
-    #         TrscProd.append('CTP_tRNA')
-            
-        
-    #     sim.addReaction(geneMetID, tuple(TrscProd), trnaTranscriptRate(unchargedMetID, rnasequence))
-
-
-    # In[ ]:
-
-
     tRNAadded = []
 
     def addtRNA(unchargedMetID, chargedMetID, mmcode, aminoAcid, synthase):
@@ -1692,50 +1451,34 @@ for sTime in np.arange(1,runTime,1):
                 jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
                 unkIter += 1 
 
-        #print(jcvi3AID)
 
         geneMetID = jcvi3AID + '_gene'
 
         ModelSpecies.append(geneMetID)
 
         rnasequence = getRNAsequences(jcvi3AID)
-        #print(rnasequence)
 
         gene = [geneMetID]
-        #print(gene)
-        #sim.defineSpecies(gene)
-
-        #sim.addParticles(species = geneMetID, count = specDict[geneMetID])
 
 
         if unchargedMetID not in tRNAadded:
             ModelSpecies.append(unchargedMetID)
             tRNA = [unchargedMetID]
-            #sim.defineSpecies(tRNA)
-    #         sim.addParticles(species = newMetID,  count = int(round(7000/20*0.2)))
             tRNAadded.append(unchargedMetID)
             ModelSpecies.append(chargedMetID)
             ctRNA = [chargedMetID]
-            #sim.defineSpecies(ctRNA)
-    #         sim.addParticles(species = newMetID,  count = int(round(7000/20*0.2)))
             tRNAadded.append(chargedMetID)
         
             if 'GLN' not in synthase:
         
                 synthase_atp = synthase + '_ATP'
                 synth_atp = [synthase_atp]
-                #sim.defineSpecies(synth_atp)
-                #sim.addParticles(species = synthase_atp, count = specDict[synthase_atp])#1)
                 
                 synthase_atp_aa = synthase_atp + '_AA'
                 synth_atp_aa = [synthase_atp_aa]
-                #sim.defineSpecies(synth_atp_aa)
-                #sim.addParticles(species = synthase_atp_aa, count = specDict[synthase_atp_aa])
                 
                 synthase_atp_aa_trna = synthase_atp_aa + '_tRNA'
                 synth_atp_aa_trna = [synthase_atp_aa_trna]
-                #sim.defineSpecies(synth_atp_aa_trna)
-                #sim.addParticles(species = synthase_atp_aa_trna, count = specDict[synthase_atp_aa_trna])
                 
                 synthase_ptn = 'M_PTN_' + synthase + '_c'
 
@@ -1745,14 +1488,11 @@ for sTime in np.arange(1,runTime,1):
                 sim.addReaction((synthase_atp_aa_trna),(chargedMetID,'M_amp_c','M_ppi_c',synthase_ptn),30)
                 
                 costID = ctRNAcostMap[chargedMetID]
-                #print(costID)
                 
                 cost_paid = cost + '_paid'
                 
                 sim.addReaction((chargedMetID,costID),(unchargedMetID,cost_paid),100)
 
-                #sim.addParticles(species = unchargedMetID,  count = specDict[unchargedMetID]) #int(round(5800/29*0.2)))
-                #sim.addParticles(species = chargedMetID,  count = specDict[chargedMetID]) #int(round(5800/29*0.8)))
                 
                 print('Added charging reactions for '+unchargedMetID)
                 
@@ -1765,8 +1505,6 @@ for sTime in np.arange(1,runTime,1):
                 
                 synthase_atp_aa_trna = synthase_atp_aa + '_tRNAgln'
                 synth_atp_aa_trna = [synthase_atp_aa_trna]
-                #sim.defineSpecies(synth_atp_aa_trna)
-                #sim.addParticles(species = synthase_atp_aa_trna, count = specDict[synthase_atp_aa_trna])
                 
                 sim.addReaction((synthase_atp_aa,'M_trnagln_c'),(synthase_atp_aa_trna),0.1)
                 sim.addReaction((synthase_atp_aa_trna),('M_glutrnagln_c','M_amp_c','M_ppi_c',synthase_ptn),30)
@@ -1776,17 +1514,9 @@ for sTime in np.arange(1,runTime,1):
                 glugln_enz_atp_gln = 'glutrnagln_enz_atp_gln'
                 glugln_enz_atp_asn = 'glutrnagln_enz_atp_asn'
                 gge = [glugln_enz]
-                #sim.defineSpecies(gge)
-                #sim.addParticles(species = glugln_enz, count = specDict[glugln_enz])
                 ggea = [glugln_enz_atp]
-                #sim.defineSpecies(ggea)
-                #sim.addParticles(species = glugln_enz_atp, count = specDict[glugln_enz_atp])
                 ggeagln = [glugln_enz_atp_gln]
-                #sim.defineSpecies(ggeagln)
-                #sim.addParticles(species = glugln_enz_atp_gln, count = specDict[glugln_enz_atp_gln])
                 ggeaasn = [glugln_enz_atp_asn]
-                #sim.defineSpecies(ggeaasn)
-                #sim.addParticles(species = glugln_enz_atp_asn, count = specDict[glugln_enz_atp_asn])
 
                 sim.addReaction((glugln,'M_PTN_JCVISYN3A_0689_c'),(glugln_enz),0.1)
                 sim.addReaction((glugln_enz,'M_atp_c'),(glugln_enz_atp),0.01)
@@ -1795,37 +1525,13 @@ for sTime in np.arange(1,runTime,1):
                 sim.addReaction((glugln_enz_atp,'M_asn__L_c'),(glugln_enz_atp_asn),0.001)
                 sim.addReaction((glugln_enz_atp_asn),('M_glntrna_c','M_asp__L_c','M_adp_c','M_pi_c','M_PTN_JCVISYN3A_0689_c'),30)
 
-                #glugln = 'M_glutrnagln_c'
-                #glugln_enz = 'glutrnagln_enz'
-                #glugln_enz_atp = 'glutrnagln_enz_atp'
-                #glugln_enz_atp_aa = 'glutrnagln_enz_atp_gln'
-                #gge = [glugln_enz]
-                #sim.defineSpecies(gge)
-                #sim.addParticles(species = glugln_enz, count = specDict[glugln_enz])
-                #ggea = [glugln_enz_atp]
-                #sim.defineSpecies(ggea)
-                #sim.addParticles(species = glugln_enz_atp, count = specDict[glugln_enz_atp])
-                #ggeaaa = [glugln_enz_atp_aa]
-                #sim.defineSpecies(ggeaaa)
-                #sim.addParticles(species = glugln_enz_atp_aa, count = specDict[glugln_enz_atp_aa])
-                
-                #sim.addReaction((glugln,'M_PTN_JCVISYN3A_0689_c'),(glugln_enz),0.01)
-                #sim.addReaction((glugln_enz,'M_atp_c'),(glugln_enz_atp),0.01)
-                #sim.addReaction((glugln_enz_atp,'M_gln__L_c'),(glugln_enz_atp_aa),0.01)
-                #sim.addReaction((glugln_enz_atp_aa),('M_glntrna_c','M_glu__L_c','M_adp_c','M_pi_c','M_PTN_JCVISYN3A_0689_c'),30)
                 
                 costID = ctRNAcostMap['M_glntrna_c']
-                #print(costID)
                 
                 cost_paid = cost + '_paid'
                 
                 sim.addReaction(('M_glntrna_c',costID),('M_trnagln_c',cost_paid),100)
 
-                #sim.addParticles(species = unchargedMetID,  count = specDict[unchargedMetID]) #int(round(5800/29*0.2)))
-                #sim.addParticles(species = chargedMetID,  count = specDict[chargedMetID]) #int(round(5800/29*0.8)))
-                
-    #             print('GLN is dumb')
-                #print('Added charging reactions for '+unchargedMetID)
         
         TrscProd = [geneMetID,unchargedMetID]
             
@@ -1875,12 +1581,9 @@ for sTime in np.arange(1,runTime,1):
             newMetID = row["species"]
             jcvi3AID = row["gene"]
             
-    #         rnasequence = getRNAsequences(jcvi3AID)
             gene_str = str(genomeRnaLocDict[jcvi3AID])
             start_nt = int(gene_str.split(':')[0].replace('[',''))
-            #print(start_nt)
             end_nt = int(gene_str.split(':')[1].replace('](-)',''))
-            #print(end_nt)
             rrna_gene_locs_1.append(start_nt)
             rrna_gene_locs_1.append(end_nt)
                 
@@ -1890,19 +1593,15 @@ for sTime in np.arange(1,runTime,1):
         
         rrna_operon_1 = rrna_pos_1.reverse_complement()
                 
-        #print(rrna_operon_1)
         
         
         for index, row in rrnaMetDF_2.iterrows():
             newMetID = row["species"]
             jcvi3AID = row["gene"]
             
-    #         rnasequence = getRNAsequences(jcvi3AID)
             gene_str = str(genomeRnaLocDict[jcvi3AID])
             start_nt = int(gene_str.split(':')[0].replace('[',''))
-            #print(start_nt)
             end_nt = int(gene_str.split(':')[1].replace('](-)',''))
-            #print(end_nt)
             rrna_gene_locs_2.append(start_nt)
             rrna_gene_locs_2.append(end_nt)
             
@@ -1910,16 +1609,10 @@ for sTime in np.arange(1,runTime,1):
         
         rrna_operon_2 = rrna_pos_2.reverse_complement()
                 
-        #print(rrna_operon_2)
-        
-        #print(rRNA_species)
-        
-        #sim.defineSpecies(rRNA_species)
         
         
         for rRNA in rRNA_species:
             
-            #sim.addParticles(species = rRNA,  count = specDict[rRNA])
                 
             ModelSpecies.append(rRNA)
         
@@ -1932,10 +1625,6 @@ for sTime in np.arange(1,runTime,1):
             ModelSpecies.append(geneMetID)
             
             gene = [geneMetID]
-            #print(gene)
-            #sim.defineSpecies(gene)
-
-            #sim.addParticles(species = geneMetID, count = specDict[geneMetID])
 
             print(jcvi3AID)
 
@@ -1984,12 +1673,6 @@ for sTime in np.arange(1,runTime,1):
             ModelSpecies.append(geneMetID)
             
             gene = [geneMetID]
-            #print(gene)
-            #sim.defineSpecies(gene)
-
-            #sim.addParticles(species = geneMetID, count = specDict[geneMetID])
-
-            #print(jcvi3AID)
 
         rnasequence = rrna_operon_2.transcribe()
             
@@ -2028,17 +1711,9 @@ for sTime in np.arange(1,runTime,1):
         
 
 
-    # In[ ]:
 
 
-    # REPLICATION INITIATION WRITTEN BY COLE CROTTY AND MODIFIED BY ZANE THORNBURG
     NA = 6.022*(10**(23))
-
-    #import setICs_two as setICs
-    #setICs.__main__(sim)
-
-
-    # In[ ]:
 
 
     # Populate the model with particles and reactions.
@@ -2054,13 +1729,11 @@ for sTime in np.arange(1,runTime,1):
                 'ATP_rRNA','UTP_rRNA','CTP_rRNA','GTP_rRNA',
                 'dATP_DNArep','dTTP_DNArep','dCTP_DNArep','dGTP_DNArep']
 
-    #sim.defineSpecies(Nuc_counters)
 
     AA_counters = ["ALA_cost","ARG_cost","ASN_cost","ASP_cost","CYS_cost","GLU_cost","GLN_cost","GLY_cost",
                 "HIS_cost","ILE_cost","LEU_cost","LYS_cost","MET_cost","PHE_cost","PRO_cost","SER_cost",
                 "THR_cost","TRP_cost","TYR_cost","VAL_cost","FMET_cost"]
 
-    #sim.defineSpecies(AA_counters)
 
     AA_paid = []
 
@@ -2069,7 +1742,6 @@ for sTime in np.arange(1,runTime,1):
         cost_paid = cost + '_paid'
         AA_paid.append(cost_paid)
         
-    #sim.defineSpecies(AA_paid)
 
     for index, row in PtnMetDF.iterrows():
         addNamedPtn(row["species"], row["gene"], row["transcribe"], row["proteomics_fraction"])
@@ -2079,76 +1751,20 @@ for sTime in np.arange(1,runTime,1):
 
     for index, row in riboPtnMetDF.iterrows():
         addRiboPtn(row["species"], row["gene"])
-    #     result = addPtns(row["species"], row["gene"])
-    #     if result:
-    #         addedPtns.append( result )
-
-    # for gene in MetPtnGenes:
-    #     addMetPtn(gene)
-
-    # for index, row in RNApolPtnMetDF.iterrows():
-    #     addPtn(row["species"], row["gene"])    
         
     for gene in genomePtnLocDict:
         if gene not in genes_in_model:
             addPtn(gene)
             
-    #addPtn('JCVISYN3A_0227')
         
     for index, row in trnaMetDF.iterrows():
-    #     addtRNA(row["uncharged"], row["charged"], row["gene"])
         addtRNA(row["uncharged"], row["charged"], row["gene"], row["AA"], row["synthase"])
-    #     addtRNA(row["species"], row["gene"])
         
     addrRNA()
 
     addRepInitTwo(sim,specDict)
     addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies)
 
-
-    # ### Print out all particles and reactions in the simulation
-
-    # In[ ]:
-
-
-    # sim
-
-
-    # In[ ]:
-
-
-    # sim.reactions
-
-
-    # In[ ]:
-
-
-    # break
-
-
-    # ## Now we have to add and Incorporate the Previously Defined Lipid Model
-    # 
-    # *apo-ACP not included as this should be passed from CME and already-defined*
-
-    # In[ ]:
-
-
-
-
-
-    # In[ ]:
-
-
-
-
-
-    # In[ ]:
-
-
-
-
-
-    # In[ ]:
 
 
     NA = 6.022e23 # Avogadro's
@@ -2163,99 +1779,10 @@ for sTime in np.arange(1,runTime,1):
         return partDict
 
 
-    # In[ ]:
-
-
-    # sim.addParticles?
-
-
-    # ## Particle Conversion Works Now :)
-
-    # In[ ]:
-
-
-    # partDict=mMtoPart(metDict)
-
-    # for key, val in metDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-
-    # for key, val in partDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-
-
-    # In[ ]:
-
-
-    # partDict=mMtoPart(finalMetDict)
-
-    # centPartDict = mMtoPart(centralMetDict)
-    # nucPartDict = mMtoPart(nuclMetDict)
-    # transportPartDict = mMtoPart(transportMetDict)
-    # lipPartDict = mMtoPart(lipMetDict)
-    # aaPartDict = mMtoPart(aaMetDict)
-
-    # for key, val in centralMetDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-
-    # for key, val in centPartDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-        
-    # for key,val in aaMetDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-        
-    # for key,val in aaPartDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-        
-    # for key, val in lipMetDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-
-    # for key, val in lipPartDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-        
-    # for key, val in nuclMetDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-
-    # for key, val in nucPartDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-        
-        
-    # for key, val in transportMetDict.items():
-    #     print(key)
-    #     sim.defineSpecies([str(key)])
-
-    # for key, val in transportPartDict.items():
-    #     print(key)
-    #     print(val)
-    #     sim.addParticles(str(key),count=int(val))
-
-
-    # In[ ]:
-
-
-    # sim
-
-
-    # In[ ]:
 
 
     fn = 'sims/scan125-zan/out-' + str(procid) + 'rs' + str(iteration) + '.lm'
     my_log_file = 'sims/scan125-zan/log-' + str(procid) +'rs' + str(iteration) + '.log'
-    #oldfnDel = 'sims/scan125-zan/out-' + str(procid) + 'rs' + str(int(iteration)-1) + '.lm'
 
     try:
         os.remove(fn)
@@ -2266,15 +1793,12 @@ for sTime in np.arange(1,runTime,1):
 
 
     try:
-        #os.mkdir('fluxes/scan125-zan/'+ 'rep-' + str(procid))#+'fluxes')
-        #os.mkdir('sims/scan125-zan/'+ 'rep-' + str(procid))
         print('Made fluxes folder')
         
     except:
         print('Fluxes folder exists')
 
 
-    # In[ ]:
 
 
     # break
@@ -2282,18 +1806,14 @@ for sTime in np.arange(1,runTime,1):
     start = time.time()
 
 
-    # In[ ]:
 
 
     ### Constants
-    #odestep = 0.01#0.1 # s
     delt = 1.0 # s
     odestep = delt/10.0#100.0 # s
     write = 60.0 # s
-    #simTime = 20*60.0 # s
     st=int(args.restartTime) #in minutes
     simTime = st*60.0 #s
-    #reps = 1
 
     sim.setWriteInterval(write)
     sim.setHookInterval(delt)
@@ -2306,61 +1826,15 @@ for sTime in np.arange(1,runTime,1):
     except:
         print("Did not save properly: ",fn)
 
-
-    # In[ ]:
-
-
-    #"""
-    #File to run the hybrid simulation
-
-    #Author: David Bianchi
-    #"""
-    #import numpy as np
-    #import hook_two_restart as hook
-    #import sys
-    #import lm as lm
-    #import species_counts as species_counts
-    #from pyLM import *
-
-    #import logging
-    #LMLogger.setLMLoggerLevel(logging.INFO)
-    #LMLogger.setLMLogConsole(level=10)
-
-    ### Constants
-    #odestep = 0.01 # s
-    #delt = 1.0 # s
-    #write = 1.0 # s
-
     # Compile with Cython or NO?
     cythonBool = False #True #False # For smaller system no cython (scipy.ode)
-
-    #my_lm_file = "test_lipGE_atp_1_04.lm"
-
-    # Load in the simulation and particle map
-    # sim = lm.Load(fn)
 
     # TODO: Probably not really necessary!!!
     IC = np.zeros(25)
 
     mySpecies = species_counts.SpeciesCounts(sim)
-
-    #for r in sim.reactions:
-        #for i in r:
-            #if ('leutrna' in i):
-                #print(i)
-
+    
     totalTime = simTime
-
-    #sim.setWriteInterval(delt)
-    #sim.setHookInterval(delt)
-
-    #sim.setSimulationTime(1000.0)
-
-    ### Make sure IC are input correctly, use constructor to input params
-    ### Something weird with derived classes?
-    #odeHookSolver = hook.MyOwnSolver()
-    #odeHookSolver = hook.MyOwnSolver(IC, delt, odestep, mySpecies, cythonBool, totalTime)
-    #odeHookSolver.initializeSolver(IC,delt,odestep,mySpecies)
 
 
     with open(my_log_file, 'w') as f, redirect_stdout(f):
@@ -2373,12 +1847,6 @@ for sTime in np.arange(1,runTime,1):
         total_time = (finish - start)/60
         print('Simulation time:',total_time,'minutes')
 
-
-        #try:
-            #os.remove(fn)
-
-        #except:
-            #print('Nothing to delete')
 
         f.close()
     
