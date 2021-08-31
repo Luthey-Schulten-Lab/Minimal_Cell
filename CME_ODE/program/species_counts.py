@@ -16,9 +16,11 @@ class SpeciesCounts():
         
         """
         Constructor
-        
-        @param self The object pointer
-        @param sim The simulation object
+       
+        Parameters:
+
+               self - The object pointer
+               sim - The simulation object
         """
         def __init__(self, sim):
                 
@@ -32,8 +34,10 @@ class SpeciesCounts():
         """
         Updates the pointer to speciesCounts to the current system particle vales
 
-        @param self The object pointer
-        @param solver The solver being used by LM-CME (Gillespie Direct etc.)
+        Parameters:
+        
+               self - The object pointer
+               solver - The solver being used by LM-CME (Gillespie Direct etc.)
         """
         def update(self, solver):
             
@@ -43,9 +47,11 @@ class SpeciesCounts():
         """
         A getter for the specie count of a give specie.
         Overloading of rhs indexing.
-        
-        @param self The object pointer
-        @param key The name/identifier of a specie
+       
+        Parameters:
+
+               self - The object pointer
+               key - The name/identifier of a specie
         """
         def __getitem__(self,key):
                 
@@ -59,8 +65,10 @@ class SpeciesCounts():
         A setter for the specie count of a given specie.
         Overloading lhs indexing.
         
-        @param key The name of specie
-        @param val The amount of the new count
+        Parameters:
+
+               key - The name of specie
+               val - The amount of the new count
         """
         def __setitem__(self,key,val):
 
