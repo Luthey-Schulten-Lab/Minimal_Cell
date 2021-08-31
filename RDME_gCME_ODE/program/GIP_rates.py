@@ -1,3 +1,7 @@
+"""
+Author: Zane Thornburg
+"""
+
 ### Rate Constant Calculations #####
 
 import csv
@@ -32,12 +36,7 @@ def TranscriptRate(rnaMetID, ptnMetID, rnasequence, jcvi2ID):
     kcat_mod = min(rnaPolKcat*(ptnCount/(180)),85)
 
     kcat_mod = max(10,kcat_mod)
-    
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
+     
     
     # Add total number of monomers to parameter dict
     
@@ -87,11 +86,6 @@ def TranscriptRateCME(ptnMetID, rnasequence, jcvi2ID, pmap):
 
     kcat_mod = max(10,kcat_mod)
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
     
@@ -171,11 +165,6 @@ def riboTranscriptRate(rnaMetID, ptnMetID, rnasequence, jcvi2ID):
     
     kcat_mod = rnaPolKcat*(500/(180))
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 
@@ -227,11 +216,6 @@ def riboTranscriptRateCME(ptnMetID, rnasequence, jcvi2ID, pmap):
     
     kcat_mod = rnaPolKcat*(500/(180))
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 
@@ -283,11 +267,6 @@ def trnaTranscriptRate(rnasequence):
     for base in set(rnasequence):
         baseCount[base] = rnasequence.count(base)
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 
@@ -333,11 +312,6 @@ def trnaTranscriptRateCME(rnasequence, pmap):
     for base in set(rnasequence):
         baseCount[base] = rnasequence.count(base)
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 
@@ -388,11 +362,6 @@ def rrnaTranscriptRate(rnasequence):
     for base in set(rnasequence):
         baseCount[base] = rnasequence.count(base)
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 #     paramDict["n"] = sum(list(baseCount.values()))
@@ -438,11 +407,6 @@ def rrnaTranscriptRateCME(rnasequence, pmap):
     for base in set(rnasequence):
         baseCount[base] = rnasequence.count(base)
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
     
     # Add total number of monomers to parameter dict
 #     paramDict["n"] = sum(list(baseCount.values()))
@@ -569,43 +533,15 @@ def DegradationRate(rnaMetID, rnasequence):
     for base in set(rnasequence):
         baseCount[base] = rnasequence.count(base)
     
-
-#     ptnCount, ptnName = getPtnCount(ptnMetID, jcvi2ID)
     
     kcat = 88 #1/s
     
-    # The rate form needs specific sequence data for the first two monomers:
-#     paramDict["CMonoA"] = baseMap[ rnasequence[0] ]
-#     paramDict["CMonoB"] = baseMap[ rnasequence[1] ]
-#     paramDict["KDA"] = rnaPolKd # Since we are current;y using the same Kd for all nucleotides
-#     paramDict["KDB"] = rnaPolKd 
-    
-    # Add total number of monomers to parameter dict
-    
-#     CMono1 = baseMap[ rnasequence[0] ]
-    
-#     CMono2 = baseMap[ rnasequence[1] ]
 
     n_tot = sum(list(baseCount.values()))
 
-#     NMono_A = baseCount["A"]
-    
-#     NMono_U = baseCount["U"]
-    
-#     NMono_C = baseCount["C"]
-    
-#     NMono_G = baseCount["G"]
-    
-#     NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_U]
-#     print(NMonoDict)
-    
-    
-#     NMonoSum = NMono_A*rnaPolKd/ATPconc + NMono_C*rnaPolKd/CTPconc + NMono_U*rnaPolKd/UTPconc + NMono_G*rnaPolKd/GTPconc
-    
 
     k_deg = kcat / n_tot 
     
-#     k_transcription = k_transcription * NaV
     
     return k_deg
 ##################

@@ -1,11 +1,10 @@
 """
-Sets the initial conditions for metabolite values in the Lattice Microbes CME particle map.
+Sets the initial conditions for metabolite values in the particle map.
 
 Reads all initial concentration conditions from the !Quantity table of metabolic module .tsv files and 
 supplements with additional values
 
-Author: David Bianchi
-Date: 8/24/20
+Author: David Bianchi, Zane Thornburg
 """
 
 import numpy as np
