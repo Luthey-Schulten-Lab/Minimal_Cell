@@ -1632,8 +1632,8 @@ def mMtoPart(concDict):
     return partDict
 
 
-fn = 'sims/scan125-zan/out-' + str(procid) + '.lm'
-my_log_file = 'sims/scan125-zan/log-' + str(procid) + '.log'
+fn = 'simulations/batch1/out-' + str(procid) + '.lm'
+my_log_file = 'simulations/batch1/log-' + str(procid) + '.log'
 
 try:
     os.remove(fn)
@@ -1644,8 +1644,8 @@ except:
 
 
 try:
-    os.mkdir('fluxes/scan125-zan/'+ 'rep-' + str(procid))#+'fluxes')
-    os.mkdir('sims/scan125-zan/'+'rep-'+str(procid))
+    os.mkdir('fluxes/batch1/'+ 'rep-' + str(procid))#+'fluxes')
+    os.mkdir('simulations/batch1/'+'rep-'+str(procid))
     print('Made fluxes folder')
     
 except:
