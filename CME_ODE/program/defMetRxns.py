@@ -1349,7 +1349,6 @@ def addSpcToODE(spcID, concDF, model, pmap, constantVals, explicitParsDict):
         else:
             spcConc = Rxns.partTomM(pmap[spcID],pmap)
             model.addMetabolite(spcID, spcName, spcConc)
-            #print(spcID,spcConc)
             
     else:
         # For escher maps
@@ -1359,11 +1358,6 @@ def addSpcToODE(spcID, concDF, model, pmap, constantVals, explicitParsDict):
     
     return 0
 
-
-
-# Add metabolites to ODE model.
-
-# constMetList = []
 
 def addExtSpcToODE(spcID, ComDF, concDF, model, pmap, constantVals, explicitParsDict):
     
@@ -1408,7 +1402,6 @@ reconstRxnIDList = list(reconstPD["Reaction ID"])
 # for indx,row in reconstPD.iterrows():
 def createGeneExpression(rxnID, pmap):
     
-    ##FIX GPR TO CME###
     
     # Creates protein species and auxiliary functions for effective protein levels.
     # Creates necessary trnscription and translation reactions, when info is available.
@@ -1444,49 +1437,15 @@ def createGeneExpression(rxnID, pmap):
                 jcvi2ID = annotatPD.loc[ annotatPD.iloc[:,5] == mmcode ].iloc[0, 13].strip()
         except:
             print('gpr sadness', mmcode, rxnID)
-            #If not, check for a manual AOE connection:
-            #if mmcode in manGPRPD.MM.values:
-                #jcvi2ID = "JCVIman_" + mmcode
-            #else:
-            # If not, set an "unknown" code
-                #jcvi2ID = "JCVIunk_" + mmcode + "_" + str(unkIter)
-                #unkIter += 1 
         
         locusNum = mmcode.split('SYN1_')[1]
         jcvi3AID = 'JCVISYN3A_' + locusNum
         
-#         print(mmcode, jcvi2ID, jcvi3AID)
         
         newMetID = "M_PTN_" + jcvi3AID + "_c"
         
         # Keep list of protein species associated with the current Rxn.
         rxnPtns.append(newMetID)
-        
-        # If the protein is not in the ODE model, add it:
-#         if newMetID not in [ met.getID() for met in model.getMetList()]:
-            
-#             ptnConcentration, ptnName = getPtnConc(newMetID, jcvi2ID)
-                
-#             print(newMetID, ptnConcentration)
-            
-#             # Add protein to model.
-#             model.addMetabolite(newMetID, ptnName, initVal=max([ptnConcentration,minPtnConc]))
-                        
-#             # Get nucleotide and amino acid sequences, if available
-# #             rnasequence, aasequence = getSequences(jcvi2ID)
-# #             print(rnasequence)
-# #             print(aasequence)
-            
-# #             if (rnasequence != 0) and (aasequence != 0):
-                
-# #                 rnaMetID = "M_RNA_" + mmcode + "_c"
-# #                 rnaName = "(mRNA) " + ptnName
-                
-# #                 # Add rna to model.
-# #                 model.addMetabolite(rnaMetID, rnaName, initVal=rnaConcentration)
-                
-# #                 addTranscrp(model, rnaMetID, newMetID, rnasequence)
-# #                 addTranslat(model, rnaMetID, newMetID, rnasequence, aasequence)
                 
     
     enzLvlVar = "---"
@@ -1495,7 +1454,6 @@ def createGeneExpression(rxnID, pmap):
         # If there is just one protein, this is used directly in the reaction's rate law
         enzLvlVar = rxnPtns[0]
         enzConc = Rxns.partTomM(pmap[rxnPtns[0]],pmap)
-#         enzLvl = Rxns.partTomM(pmap[rxnPtns[0]])
         
     else:
         # IF there are multiple proteins and a logical rule, we need an extra variable
@@ -1505,23 +1463,13 @@ def createGeneExpression(rxnID, pmap):
         #   of multiple protein concentrations.
         enzLvlVar = rxnID+"_effecEnz"
         
-#         rxnPtnVals = []
-        
-#         for ptn in rxnPtns:
-#             cnt = Rxns.partTomM(pmap[ptn])
-#             rxnPtnVals.append(cnt)
         
         if " or " in gprStr.lower():
             enzCnts = 0
-#             print("Enzymes: ",rxnPtns)
             for i in range(len(rxnPtns)):
                 cnt = pmap[rxnPtns[i]]
                 enzCnts = enzCnts + cnt
-#             print("Enz Counts: ",enzCnts)
             enzConc = Rxns.partTomM(enzCnts,pmap)
-#             auxRF = "sumRF" + str(len(rxnPtns))
-#             orRule = True
-#             enzLvl = min(rxnPtnVals)
         else:
             enzCnts = []
             for i in range(len(rxnPtns)):
@@ -1529,35 +1477,6 @@ def createGeneExpression(rxnID, pmap):
                 enzCnts.append(cnt)
             enzCnt = min(enzCnts)
             enzConc = Rxns.partTomM(enzCnt,pmap)
-#             auxRF = "minRF" + str(len(rxnPtns))
-#             orRule = False
-#             enzLvl = sum(rxnPtnVals)
-        
-#         Check if auxiliary rate form is available:
-#         if auxRF not in list( model.getAvailableForms() ):
-            
-#             # If the rate form does not exist, create it:
-#             if orRule:
-#                 rfstring = " + ".join( [ "$ptn"+str(i) for i in range(len(rxnPtns))] )
-#             else:
-#                 rfstring = "np.amin(np.array([" + \
-#                     ", ".join( [ "$ptn"+str(i) for i in range(len(rxnPtns))] ) + \
-#                             "]), None, None)"
-            
-#             # And add the new rate form to the model.
-#             model.addRateForm(auxRF, odecell.modelbuilder.RateForm( rfstring ))
-        
-#         # Add reaction to model, using the rate form defined above
-#         rxnIndx = model.addReaction(rxnID + "_enzAux", auxRF, rxnName=rxnID + "_enzAux calculation")
-        
-#         # Set custom result
-#         model.getReaction(rxnIndx).setResult(enzLvlVar)
-# #         ptn
-#         # Set dependent proteins
-#         for i in range(len(rxnPtns)):
-#             model.addParameter(rxnIndx, "ptn"+str(i), Rxns.partTomM(pmap[rxnPtns[i]]), unit="mM", 
-#                                parName="Effective enzyme concentration ({0}:{1})".format(rxnID,i) )
-#     print(enzLvlVar, enzConc)
     return enzLvlVar, enzConc
 
 
@@ -1571,13 +1490,9 @@ def addGlobalParams(model):
     # They may contain metabolites with constant concentration, from the external media
     explicitParsDict = {}
     for name,par in explPar.items():
-#         print("{:<35} ; Form key: {:15} ; Value: {:15}".format(name, par.formKey, par.val))
         explicitParsDict[par.formKey] = par.val
 
     constantVals = list(explicitParsDict.keys())
-#     print()
-#     print(constantVals, len(constantVals))
-#     print()
     
     return constantVals, explicitParsDict
 
@@ -1598,23 +1513,13 @@ def addReactionsToModel(model, pmap):
     
     for items in RxnDF.itertuples():
 
-    #     if (items.Name in cntrMetRxn):
 
         if (items.Name in nuclMetRxn) or (items.Name in cntrMetRxn) or (items.Name in lipMetRxn) or (items.Name in aaMetRxn) or (items.Name in cofactMetRxn):
 
-#             print("[{}/{}]".format(rxnCounter,len(RxnDF)), items.Name, "(", items.Reaction, ") ; "
-#                   ,items.ReactionFormula)
-#             print()
-#         #     print(items.KineticLaw)
-
-#         #     kl = re.sub('\s{2,}', ' ', items.KineticLaw)
-
-#             print()
 
             # For clarity
             rxnID = items.Name
 
-#             print(rxnID)
 
             EnzymeParam, EnzymeConc = createGeneExpression(rxnID, pmap)
 
@@ -1626,22 +1531,6 @@ def addReactionsToModel(model, pmap):
             substratesList = []
             substrates = 0
             spcCounter = 1
-#             for i in range(len(specLists[0][1])):
-
-#                 spc = specLists[0][1][i]
-#                 spcStoich = specLists[0][2][i]
-
-#                 subsStr = "Sub" + str(spcCounter)
-#                 print( "Setting {:<6} to ({}) {}".format(subsStr, spcStoich, spc) )
-
-#                 substratesList.append( (spc, subsStr, spcStoich) )
-
-#                 # we create this lookup dict to standardize parameter names later on
-#                 reactantsDict[spc] = subsStr
-
-#                 spcCounter +=1
-
-#                 substrates = substrates + 1
                 
             for i in range(len(specLists[0][1])):
 
@@ -1653,7 +1542,6 @@ def addReactionsToModel(model, pmap):
                     substratesList.append( (spc, subsStr, spcStoich) )
                     spcCounter +=1
 
-#                 print( "Setting {:<6} to ({}) {}".format(subsStr, spcStoich, spc) )
 
                 # we create this lookup dict to standardize parameter names later on
                 reactantsDict[spc] = subsStr
@@ -1667,22 +1555,6 @@ def addReactionsToModel(model, pmap):
             spcCounter = 1
             products = 0
 
-#             for i in range(len(specLists[1][1])):
-
-#                 spc = specLists[1][1][i]
-#                 spcStoich = specLists[1][2][i]
-
-#                 prodStr = "Prod" + str(spcCounter)
-#                 print( "Setting {:<6} to ({}) {}".format(prodStr, spcStoich, spc) )
-
-#                 productsList.append( (spc, prodStr, spcStoich) )
-#                 reactantsDict[spc] = prodStr
-
-#         #         kl = re.sub( r'\b' + str(spc) + r'\b', "$"+prodStr, kl)
-
-#                 spcCounter +=1
-
-#                 products = products + 1
                 
             for i in range(len(specLists[1][1])):
 
@@ -1695,23 +1567,19 @@ def addReactionsToModel(model, pmap):
                     spcCounter +=1
 
 
-#                 print( "Setting {:<6} to ({}) {}".format(prodStr, spcStoich, spc) )
 
                 reactantsDict[spc] = prodStr
 
-        #         kl = re.sub( r'\b' + str(spc) + r'\b', "$"+prodStr, kl)
 
                 for j in range(int(abs(spcStoich))):
                     products = products + 1
 
 
-        #     if not in transport:
 
             rxnName = 'R_' + rxnID
 
             rateLaw = Rxns.Enzymatic(substrates,products)
 
-#             print(rateLaw)
 
             RateName = rxnID + '_Rate'
 
@@ -1738,18 +1606,9 @@ def addReactionsToModel(model, pmap):
                         break
 
 
-            # Add substrate species
-#             for (modelID, stdID, spcStoich) in substratesList:
-#                 print(modelID, stdID, spcStoich)
-#                 if modelID in constantVals:
-#                     model.addParameter(rxnIndx, stdID, modelID )
-#                 else:
-#                     model.addSubstrate(rxnIndx, stdID, modelID, stoich=spcStoich)
-
             rxnMetsAdded = []
                     
             for (modelID, stdID, spcStoich) in substratesList:
-#                 print(modelID, stdID, spcStoich)
                 if modelID in constantVals:
                     model.addParameter(rxnIndx, stdID, modelID )
                 elif modelID in rxnMetsAdded:
@@ -1758,42 +1617,17 @@ def addReactionsToModel(model, pmap):
                     model.addSubstrate(rxnIndx, stdID, modelID, stoich=spcStoich)
                     rxnMetsAdded.append(modelID)
 
-    #             for qnt in AvailQnts:
                 km_ID = 'kmc_R_' + rxnID + '_' + modelID + '_R_' + rxnID
-#                 print(km_ID)
 
                 km_Value = KmDF.loc[ KmDF["Parameter"] == km_ID, "Value" ].values[0]
-#                 print(km_Value)
 
                 KM_rxnID = "Km" + stdID.replace('$','')
-#                 print(KM_rxnID)
 
                 model.addParameter(rxnID, KM_rxnID, km_Value)
-    #                 if km_ID == qnt:
-
-    # #                 if (("km" in qnt) and (modelID in qnt) and (rxnID in qnt)):
-
-    #                     print(qnt)
-
-    #                     KMID = "Km" + stdID.replace('$','')
-    #                     print(KMID)
-
-    #                     KM = QntDFDict[qnt]
-    #                     print(KM)
-
-    #                     model.addParameter(rxnIndx, KMID, KM)
 
 
-            # Add product species
-#             for (modelID, stdID, spcStoich) in productsList:
-#                 print(modelID, stdID, spcStoich)
-#                 if modelID in constantVals:
-#                     model.addParameter(rxnIndx, stdID, modelID )
-#                 else:
-#                     model.addProduct(rxnIndx, stdID, modelID, stoich=spcStoich)
                     
             for (modelID, stdID, spcStoich) in productsList:
-#                 print(modelID, stdID, spcStoich)
                 if modelID in constantVals:
                     model.addParameter(rxnIndx, stdID, modelID )
                 elif modelID in rxnMetsAdded:
@@ -1803,41 +1637,21 @@ def addReactionsToModel(model, pmap):
                     rxnMetsAdded.append(modelID)
 
                 km_ID = 'kmc_R_' + rxnID + '_' + modelID + '_R_' + rxnID
-#                 print(km_ID)
 
                 km_Value = KmDF.loc[ KmDF["Parameter"] == km_ID, "Value" ].values[0]
-#                 print(km_Value)
 
                 KM_rxnID = "Km" + stdID.replace('$','')
-#                 print(KM_rxnID)
 
                 model.addParameter(rxnID, KM_rxnID, km_Value)
 
-    #             for qnt in AvailQnts:
-    # #                 kmc_R_GAPDP_M_g3p_c_R_GAPDP
-    #                 km_ID = 'kmc_R_' + rxnID + '_' + modelID #+ '_R_' + rxnID
-    #                 if km_ID in qnt:
-    # #                 if (("km" in qnt) and (modelID in qnt) and (rxnID in qnt)):
-
-    #                     print(qnt)
-
-    #                     KMID = "Km" + stdID.replace('$','')
-    #                     print(KMID)
-
-    #                     KM = QntDFDict[qnt]
-    #                     print(KM)
-
-    #                     model.addParameter(rxnIndx, KMID, KM)
 
             kcatFID = "kcatF_" + rxnName
             kcatF = KcatDF.loc[ KcatDF["Parameter"] == kcatFID, "Value" ].values[0]
-#             print('kcatF ',kcatF)
 
             model.addParameter(rxnIndx, 'kcatF', kcatF)
 
             kcatRID = "kcatR_" + rxnName
             kcatR = KcatDF.loc[ KcatDF["Parameter"] == kcatRID, "Value" ].values[0]
-#             print('kcatR ',kcatR)
 
             model.addParameter(rxnIndx, 'kcatR', kcatR)
 
@@ -1860,13 +1674,8 @@ def addReactionsToModel(model, pmap):
         elif items.Name in transportRxns:
             
 
-#             print("[{}/{}]".format(rxnCounter,len(RxnDF)), items.Name, "(", items.Reaction, ") ; ",items.ReactionFormula)
-#             print()
-#             print(items.KineticLaw)
-
             kl = re.sub('\s{2,}', ' ', items.KineticLaw)
 
-#             print()
 
             # For clarity
             rxnID = items.Name
@@ -1917,7 +1726,6 @@ def addReactionsToModel(model, pmap):
 
                 spcCounter +=1
 
-#             print() ; print(kl) ; print()
 
             # Break main loop
             metError = False
@@ -2001,8 +1809,6 @@ def addReactionsToModel(model, pmap):
                     else:
                         paramsDict[qnt] = ("$km_" + "_".join( [ reactantsDict[x] for x in relatedSpcs] ) , 
                                            "species constant" )
-#                         print(  '{:<32} - {:10} - {:25} - {}'.format(
-#                             "Found species constant", paramsDict[qnt][0], qnt, QntDFDict[qnt])  )
 
                 else:
                     paramType = "OTHER"
@@ -2010,8 +1816,6 @@ def addReactionsToModel(model, pmap):
                     paramCount["OTHER"] += 1
 
                     paramsDict[qnt] = ("$Const"+str(paramCount["OTHER"]), "rate law-specific constant" )
-#                     print(  '{:<32} - {:10} - {:25} - {}'.format(
-#                         "Found rate law-specific constant", paramsDict[qnt][0], qnt, QntDFDict[qnt])  )
 
 
                 # Sanity check:
@@ -2020,7 +1824,6 @@ def addReactionsToModel(model, pmap):
 #                     print("\n\tWARNING!! Parameter {} has value {}!".format(qnt, QntDFDict[qnt]) )
                     if 'keq' in qnt:
                         QntDFDict[qnt] = 10**-7
-#                         print("\tChanging to {}!\n".format(QntDFDict[qnt]) )
 
 
                 # Use regular expression to extract *only* the parameter ID and substitute it
@@ -2050,19 +1853,15 @@ def addReactionsToModel(model, pmap):
             kl = "$onoff * (" + kl + " )"
 
 
-#             print() ; print(kl)
 
             if kl not in knownForms:
                 # If we found a new rate form, report on it and store it for easy search.
                 rateFormsDict[kl] = ("RateForm" + str(len(rateFormsDict)), 
                                      "{}s_{}p".format(len(substratesList), len(productsList)) )
                 knownForms.add(kl)
-#                 print("\nAdded rate form ({}).".format( rateFormsDict[kl] ))
 
                 # Now add the rate form to the model.
                 model.addRateForm(rateFormsDict[kl][0], odecell.modelbuilder.RateForm(kl))
-#             else:
-#                 print("\nKnown rate form ({}).".format( rateFormsDict[kl] ))
 
             if enzLevlPar:
                 # In case we are explicitly tracking enzyme levels:
@@ -2091,7 +1890,6 @@ def addReactionsToModel(model, pmap):
             # Add reaction-specific parameter values
             for modelID,val in paramsDict.items():
                 stdID = val[0][1:]
-#                 print(stdID)
                 model.addParameter(rxnIndx, stdID, QntDFDict[modelID], unit="", parName=val[1] )
 
             # Add enzyme level parameter.
@@ -2102,44 +1900,7 @@ def addReactionsToModel(model, pmap):
             if "onoff" in model.getReaction(rxnID).getKeys():
                 model.addParameter(rxnIndx, "onoff", 1, lb=0, ub=1, unit="mM", parName="Debug On/Off switch" )
 
-#             print("\n---------------------------\n")
             rxnCounter += 1
-
-#         else:
-#             print('NOT in metabolism or transport modules ',items.Name)   
-            
-
-   
-    ### TODO: THis needs to be fixed to add concentrations from Pmap 
-#   charged_trna = ["M_alatrna_c", "M_argtrna_c", 
-##        "M_asntrna_c", "M_asptrna_c", "M_cystrna_c", "M_glutrna_c", "M_glntrna_c", "M_glytrna_c", 
-#        "M_histrna_c", "M_iletrna_c", "M_leutrna_c", "M_lystrna_c", "M_mettrna_c", "M_phetrna_c", 
-#        "M_protrna_c", "M_sertrna_c", "M_thrtrna_c", "M_trptrna_c", "M_tyrtrna_c", "M_valtrna_c"]
-#
-#    uncharged_trna = ["M_trnaala_c", "M_trnaarg_c", 
-#        "M_trnaasn_c", "M_trnaasp_c", "M_trnacys_c", "M_trnaglu_c", "M_trnagln_c", "M_trnagly_c", 
-#        "M_trnahis_c", "M_trnaile_c", "M_trnaleu_c", "M_trnalys_c", "M_trnamet_c", "M_trnaphe_c", 
-#        "M_trnapro_c", "M_trnaser_c", "M_trnathr_c", "M_trnatrp_c", "M_trnatyr_c", "M_trnaval_c"]
-#
-#    for met in charged_trna:
-#        model.addMetabolite(met,met,Rxns.partTomM(pmap[met]))
-#        #m=model.getMetabolite(met)
-#        #m.setInitVal(3750/20*0.8*countToMiliMol)
-#        #metIndx = list(model.getMetDict().keys()).index(met)
-#        #initVals[metIndx] = 3750/20*0.8*countToMiliMol
-#        
-#    for met in uncharged_trna:
-#        model.addMetabolite(met,met,Rxns.partTomM(pmap[met]))
-#        ##m=model.getMetabolite(met)
-        #m.setInitVal(3750/20*0.2*countToMiliMol)
-        #metIndx = list(model.getMetDict().keys()).index(met)
-        #initVals[metIndx] = 3750/20*0.2*countToMiliMol
-    
-    # Add fmetTRNA
-    #model.addMetabolite('M_fmettrna_c','fmet-tRNA',Rxns.partTomM(pmap['M_fmettrna_c']))
-    #model.addMetabolite('M_glutrnagln_c','glu-tRNA-gln',Rxns.partTomM(pmap['M_glutrnagln_c']))
-    #model.addMetabolite('M_10fthfglu3_c','M_10fthfglu3_c',Rxns.partTomM(pmap['M_10fthfglu3_c']))
-    #model.addMetabolite('M_thfglu3_c','M_thfglu3_c',Rxns.partTomM(pmap['M_thfglu3_c']))
 
         #### PUNP5  --- Explicit Addition
 
@@ -2464,15 +2225,12 @@ def addReactionsToModel(model, pmap):
     model.addParameter('SPRMabc','Sub1',sprm_e_conc)
     model.addParameter('SPRMabc','KmSub1',2)
     model.addSubstrate('SPRMabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
     
     model.addMetabolite('M_sprm_c','sprm',Rxns.partTomM(pmap['M_sprm_c'],pmap))
     model.addProduct('SPRMabc','Prod1','M_sprm_c')
     model.addParameter('SPRMabc','KmProd1',2)
     model.addProduct('SPRMabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('SPRMabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('SPRMabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2497,14 +2255,11 @@ def addReactionsToModel(model, pmap):
     model.addParameter('NACabc','Sub1',nac_e_conc)
     model.addParameter('NACabc','KmSub1',0.0019)
     model.addSubstrate('NACabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
 
     model.addProduct('NACabc','Prod1','M_nac_c')
     model.addParameter('NACabc','KmProd1',0.0019)
     model.addProduct('NACabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('NACabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('NACabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2529,14 +2284,11 @@ def addReactionsToModel(model, pmap):
     model.addParameter('RIBFLVabc','Sub1',ribflv_e_conc)
     model.addParameter('RIBFLVabc','KmSub1',0.0019)
     model.addSubstrate('RIBFLVabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
 
     model.addProduct('RIBFLVabc','Prod1','M_ribflv_c')
     model.addParameter('RIBFLVabc','KmProd1',0.0019)
     model.addProduct('RIBFLVabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('RIBFLVabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('RIBFLVabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2561,14 +2313,11 @@ def addReactionsToModel(model, pmap):
     model.addParameter('5FTHFabc','Sub1',fthf_e_conc)
     model.addParameter('5FTHFabc','KmSub1',0.0019)
     model.addSubstrate('5FTHFabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
 
     model.addProduct('5FTHFabc','Prod1','M_5fthf_c')
     model.addParameter('5FTHFabc','KmProd1',0.0019)
     model.addProduct('5FTHFabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('5FTHFabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('5FTHFabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2593,15 +2342,12 @@ def addReactionsToModel(model, pmap):
     model.addParameter('THMPPabc','Sub1',thmpp_e_conc)
     model.addParameter('THMPPabc','KmSub1',0.0019)
     model.addSubstrate('THMPPabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
 
     model.addMetabolite('M_thmpp_c','thmpp',Rxns.partTomM(pmap['M_thmpp_c'],pmap))
     model.addProduct('THMPPabc','Prod1','M_thmpp_c')
     model.addParameter('THMPPabc','KmProd1',0.0019)
     model.addProduct('THMPPabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('THMPPabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('THMPPabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2626,15 +2372,12 @@ def addReactionsToModel(model, pmap):
     model.addParameter('P5Pabc','Sub1',p5p_e_conc)
     model.addParameter('P5Pabc','KmSub1',0.0019)
     model.addSubstrate('P5Pabc','Sub2','M_atp_c')
-#     model.addParameter('SPRMabc','KmSub2',0.6)
 
     model.addMetabolite('M_pydx5p_c','pydx5p',Rxns.partTomM(pmap['M_pydx5p_c'],pmap))
     model.addProduct('P5Pabc','Prod1','M_pydx5p_c')
     model.addParameter('P5Pabc','KmProd1',0.0019)
     model.addProduct('P5Pabc','Prod2','M_pi_c')
-#     model.addParameter('THMDabc','KmProd2',10)
     model.addProduct('P5Pabc','Prod3','M_adp_c')
-#     model.addParameter('THMDabc','KmProd3',2.8)
     
     model.addParameter('P5Pabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
     
@@ -2778,7 +2521,6 @@ def addReactionsToModel(model, pmap):
         ['R_GLNt2r', 'R_GLN4abc', 'M_gln__L_c', 0.03, 7.1, kcat_aa_abc, 2]] 
     
     for rxn in aaTransport:
-            #print(rxn[0])
         rxnIDsymp = rxn[0] #+ "_zero"
         rxnIDabc = rxn[1]
         metID = rxn[2]
@@ -2885,7 +2627,6 @@ def addReactionsToModel(model, pmap):
 
 
     spcConc = Rxns.partTomM(pmap['M_glc__D_c'],pmap)
-#             print(spcID)
     model.addMetabolite('M_glc__D_c', 'M_glc__D_c', spcConc)
 
     GLCKRateLaw = Rxns.Enzymatic(2,3)
@@ -2939,39 +2680,7 @@ def addReactionsToModel(model, pmap):
 
     model.addParameter(rxnIndx, 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
 
- 
     
-#   print(rPUNP5)
     print("Defined reactions")
 
     return
-#         return model
-    
-#             break
-
-    
-
-# def getMetabConcs(model,pmap):
-#     """
-#     A function to get the metabolite concentrations in the CME model, or from the previous step and then run again
-
-#     Store in a map?
-
-#     Does it make sense to keep writing back and forth from CME->ODE->CME in this case?
-#     """ 
-
-#     ### TODO: These should have jcviSyn3A naming if protein
-#     metList = ['M_fa_c','M_ap_c','M_glyc_c','M_glyc3p_c','M_coa_c','M_atp_c','M_adp_c','M_pi_c','M_atpUsed_c','M_pa_c', 
-#     'M_amp_c','M_cmp_c','M_ctp_c','M_1ag3p_c','M_ACP_c','M_ACP_R_c','M_pap_c','M_cdpdag_c','M_pg3p_c','M_pg_c','M_clpn_c','M_apoACP_c']
-#     #'M_12dgr','M_udpgalfur_c','M_galfur12dgr_c','M_udpgltn_c','M_lgltn_c','M_udpg_c','M_udpgal_c','M_ppi_c'] #apoACP is prop. name
-
-#     #print("Here!!")
-#     sys.__stdout__.flush()
-
-#     # Add the metabolites to the model given their concentrations from the last timestep
-#     for met in metList:
-#         # Remove output for now - can make this verbosity controlled
-#         #print("Adding metabolite", met)
-#         model.addMetabolite(met,met,lipRxns.partTomM(pmap[str(met)]))
-
-
