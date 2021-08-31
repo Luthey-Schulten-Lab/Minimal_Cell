@@ -1,5 +1,5 @@
 """
-Author: David Bianchi
+Author: David Bianchi, Zane Thornburg
 
 A file to define all of the reactions
 """
@@ -10,10 +10,10 @@ from collections import defaultdict, OrderedDict
 
 import odecell
 
-import defLipCentNucTransMetRxns_polysomes as defLipCentNucTransMetRxns #_polysomes
+import defMetRxns
 # Import the lipid patch
-import lipid_patch_Zane_polysomes as lipid_patch #_polysomes
-import PPP_patch_Zane as ppp_patch
+import lipid_patch
+import PPP_patch
 
 ### Constants
 NA = 6.022e23 # Avogadro's
@@ -134,67 +134,11 @@ def defineRxns(model,pmap):
     """
 
     ### ADD AN ADDITIONAL FILE TO DEFINE METABOLIC RXNS, as well as a patch for some literature values for lipid metabolism
-    defLipCentNucTransMetRxns.addReactionsToModel(model,pmap)
+    defMetRxns.addReactionsToModel(model,pmap)
     lipid_patch.main(model,pmap)
-    ppp_patch.main(model,pmap)
+    PPP_patch.main(model,pmap)
     print("Reactions defined")
 
-    ### ADD ATPasetable of the associated paper (Thornburg et al., 2021))
-    #RateForm
-#     ATPaseRateLaw = Enzymatic(2,1)
-
-#     RateName = 'ATPase_Rate'
-
-#     model.addRateForm(RateName, odecell.modelbuilder.RateForm(ATPaseRateLaw))
-#     model.updateAvailableForms()
-
-#     rxnIndx = model.addReaction('ATPase','ATPase_Rate','ATP synthase')
-#     model.addParameter('ATPase','Enzyme',100*countToMiliMol)
-#     model.addParameter('ATPase','kcatF',20)
-
-#     model.addParameter('ATPase','kcatR',285)
-
-#     model.addSubstrate('ATPase','Sub1','M_adp_c')
-#     model.addParameter('ATPase','KmSub1',0.1)
-#     model.addSubstrate('ATPase','Sub2','M_pi_c')
-#     model.addParameter('ATPase','KmSub2',4.2)
-
-#     model.addProduct('ATPase','Prod1','M_atp_c')
-#     model.addParameter('ATPase','KmProd1',0.6)
-
-#     model.addParameter('ATPase', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch") 
-    
-    
-#     PitRateLaw = Enzymatic(2,3)
-
-#     RateName = 'Piabc_Rate'
-
-#     model.addRateForm(RateName, odecell.modelbuilder.RateForm(PitRateLaw))
-#     model.updateAvailableForms()
-
-#     rxnIndx = model.addReaction('PIabc','Piabc_Rate','Pi transport')
-#     model.addParameter(rxnIndx,'Enzyme',56*countToMiliMol)
-
-#     model.addParameter('PIabc','kcatF', 50)
-#     model.addParameter('PIabc','kcatR',0)
-
-#     pi_e_conc = 140
-
-#     model.addParameter('PIabc','Sub1',pi_e_conc)
-#     model.addParameter('PIabc','KmSub1',0.0031)
-#     model.addSubstrate('PIabc','Sub2','M_atp_c')
-#     model.addParameter('PIabc','KmSub2',0.023)
-
-#     model.addProduct('PIabc','Prod1','M_pi_c',stoich=2)
-#     model.addParameter('PIabc','KmProd1',0.02)
-#     model.addParameter('PIabc','Prod2','M_pi_c')
-#     model.addParameter('PIabc','KmProd2',0.385)
-#     model.addProduct('PIabc','Prod3','M_adp_c')
-#     model.addParameter('PIabc','KmProd3',0.654)
-
-#     model.addParameter('PIabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
-
-    ### REPORT ON THE MODEL HERE OR SEPARATE FUNCTION???
     reptModel(model)
 
     return model

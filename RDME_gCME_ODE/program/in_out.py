@@ -1,7 +1,5 @@
 """
-A file to deal with writing from the ODE Simulation back to the CME Simulation
-
-Author: David Bianchi
+Author: Zane Thornburg
 """
 
 import csv
@@ -424,12 +422,6 @@ def checkParticle(particles, x, y, z, pid):
         return True
     else:
         return False
-    
-# def checkParticle(particles, x, y, z, pid):
-#     ps = np.array([p for p_ in particles[:,z,y,x,:] for p in p_ if p == pid])
-#     if ps:
-#         return True
-# #         print(ps)
 
 
 def updatePolysomes(pmap,rdme_sim,lattice,PartIdxMap,ordered_poly_ribo):

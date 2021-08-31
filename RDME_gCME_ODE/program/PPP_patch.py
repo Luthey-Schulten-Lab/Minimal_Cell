@@ -1,5 +1,5 @@
 """
-Author: David Bianchi
+Author: Zane Thornburg, David Bianchi
 
 A file to add patch changes to the JCVI-Syn3A lipid metabolism constructed from the input .tsv file
 """

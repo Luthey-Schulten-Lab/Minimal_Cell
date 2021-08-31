@@ -1,7 +1,7 @@
 """
 A file defining Lipid, Central, Nucleotide and Transport Module Metabolic Reactions for JCVI Syn3A
 
-Author: David Bianchi
+Author: Zane Thornburg, David Bianchi
 """
 
 import Rxns_ODE as Rxns
@@ -48,11 +48,6 @@ V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
 countToMiliMol = 1000/(NA*V)
 
-# M_pi_c = 23.82 # mM, Phosphate concentration
-# M_ppi_c = 0.1 # mM, Diphosphate concentration
-# M_atp_c = 4.6715 # balanced #9.63 # mM (Rabinowitz)
-# M_adp_c = 0.2178 # balanced #0.55 # mM (Rabinowitz
-
 
 # The reconstruction matches reactions with gene-protein-reactions (GPR) that use MMSYN1* IDs.
 reconstPD = pd.read_excel("../model_data/reconstruction.xlsx", sheet_name='Reactions') # _DB or no
@@ -65,8 +60,6 @@ annotatPD = pd.read_excel("../model_data/FBA/Syn3A_annotation_compilation.xlsx",
 # It provides both the gene sequence, needed for transcription reactions in the ODE model,
 # and the protein sequence, needed for translation reactions in the model.
 # This is the NCBI Gene Bank-formated file Locus "CP016816" (https://www.ncbi.nlm.nih.gov/nuccore/CP016816.1)
-# genomeFile3A = '../model_data/syn3A.gb'
-# genome3A = next(SeqIO.parse(genomeFile3A, "gb"))
 
 # The proteomics matches AOE IDs with quantitative proteomics data.
 proteomPD = pd.read_excel("../model_data/proteomics.xlsx", sheet_name="Proteomics", skiprows=[0] )
@@ -86,11 +79,6 @@ speciesNamesLower = [x.lower() for x in speciesNames]
 speciesIDs = [spc.id for spc in modelSBML.getListOfSpecies()]
 
 rxnNamesSBML = [ x.name for x in modelSBML.getListOfReactions()]
-
-
-# # Read global parameters CSV file
-# globalParsDF = pd.read_csv("../model_data/GlobalParameters.csv")
-# globalParsDF
 
 
 # Default metabolite concentration (mM)

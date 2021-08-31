@@ -1,3 +1,7 @@
+"""
+Author: Zane Thornburg
+"""
+
 #### Diffusion ####
 
 import csv

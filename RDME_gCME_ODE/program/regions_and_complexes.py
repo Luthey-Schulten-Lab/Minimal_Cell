@@ -1,3 +1,7 @@
+"""
+Author: Zane Thornburg
+"""
+
 #### Cell Geometry ####
 
 from jLM.RegionBuilder import RegionBuilder
@@ -23,14 +27,7 @@ def buildRegions(sim, N_edges, N_2, sim_center, ptn_ratio, dna_monomers, cyto_ra
     cyto_dilation = build.dilate(cyto_dilation, se = build.se26)
     membrane = cyto_dilation & ~cyto_shell & ~cytoplasm
     extracellular = ~cyto_dilation
-    
-#     dnaFile = '../model_data/syn3A_DNA_4nm_lattice_FGtoCG/08262020/s1c8_free_origin_rep00004_CG_coords.dat' #CG file
-    # dnaFile = '../model_data/syn3A_DNA_4nm_lattice_FGtoCG/10062020/s1c8_free_origin_reps00051_00080_CG/s1c8_free_origin_rep00052_CG_coords.dat'
-    # dnaFile = '../model_data/s1c15/s1c15_base_rep00001_CG_coords.dat'
-#     dnaFile = '../model_data/s1c15/s1c15_base_CG_reps00001_00090/s1c15_base/CG/s1c15_base_rep00070_CG_coords.dat'
-    
-#     dnaFile = configs[rep][0]
-#     print(dnaFile)
+
     
     dnaDF = pd.read_csv(dnaFile, header = None)
 #     dnaDF
@@ -39,7 +36,6 @@ def buildRegions(sim, N_edges, N_2, sim_center, ptn_ratio, dna_monomers, cyto_ra
     genePoints = []
     genome_placement = []
 
-    # 7348
 
     for index, row in dnaDF.iterrows():
         x = row[0] + N_2
@@ -48,11 +44,9 @@ def buildRegions(sim, N_edges, N_2, sim_center, ptn_ratio, dna_monomers, cyto_ra
 
         genome_placement.append([x,y,z])
 
-    # genePoints.append(genome_placement[-1])
 
     for i in range(len(genome_placement)):
 
-    #     if i<7350:
             gene_coord = genome_placement[i]
             genePoints.append(gene_coord)
             
@@ -120,12 +114,6 @@ def buildRegions(sim, N_edges, N_2, sim_center, ptn_ratio, dna_monomers, cyto_ra
         ribo_points.append(ypoint2)
         ribo_points.append(zpoint2)
 
-    #     ribosome = build.ellipsoid(radius = ribosome_radius, center = center_point)
-
-    #     ribosome_spheres.append(ribosome)
-    #     ribo_points_x.append(x_int)
-    #     ribo_points_y.append(y_int)
-    #     ribo_points_z.append(z_int)
 
     ribo_center_points = np.array(ribo_center_points,dtype=np.int)
     
@@ -153,7 +141,6 @@ def buildRegions(sim, N_edges, N_2, sim_center, ptn_ratio, dna_monomers, cyto_ra
     
     partIdx = addsecY(sim, occupied_mem_spaces, membrane_spaces, ptn_ratio, PartIdxMap, partIdx)
     
-#     sim.showRegionStack(scl=8)
     
     print('Geometry constructed')
     
@@ -206,25 +193,12 @@ def addDegParticles(sim, pmap, N_edges, ptn_ratio, cyto_shell, ribo_points, gene
 
 def addsecY(sim, occupied_mem_spaces, membrane_spaces, ptn_ratio, PartIdxMap, partIdx):
     secy_coords = []
-    # occupied_mem_spaces = []
+
     secy_num = 0
-
-    # for point in ribo_points:
-    #     occupied_mem_spaces.append(point)
-
-    # for point in genePoints:
-    #     occupied_mem_spaces.append(point)
 
     secy = sim.species('secY')
     PartIdxMap['secY'] = partIdx
     partIdx = partIdx + 1
-
-#     secy.diffusionRate(mem,sim.diffusionZero)
-#     secy.diffusionRate(ext,sim.diffusionZero)
-#     secy.diffusionRate(ribo,sim.diffusionZero)
-#     secy.diffusionRate(dna,sim.diffusionZero)
-#     secy.diffusionRate(cyt,sim.diffusionZero)
-#     secy.diffusionRate(she,sim.diffusionZero)
 
     while secy_num < 66*ptn_ratio:
         position = random.choice(membrane_spaces)
@@ -247,15 +221,9 @@ def addsecY(sim, occupied_mem_spaces, membrane_spaces, ptn_ratio, PartIdxMap, pa
         
     return partIdx
 
-    # print(len(occupied_mem_spaces))
-
 
 def readDNAoccupancies(dnaPartFile):
-#     dnaPartFile = configs[rep][1]
-#     dnaPartFile = '../model_data/syn3A_DNA_4nm_lattice_FGtoCG/08262020/s1c8_free_origin_rep00004_FG_nodes.dat' #CG occupancies
-    # dnaPartFile = '../model_data/syn3A_DNA_4nm_lattice_FGtoCG/10062020/s1c8_free_origin_reps00051_00080_CG/s1c8_free_origin_rep00052_FG_nodes.dat'
-    # dnaPartFile = '../model_data/s1c15/s1c15_base_rep00001_FG_nodes.dat'
-#     dnaPartFile = '../model_data/s1c15/s1c15_base_CG_reps00001_00090/s1c15_base/CG/s1c15_base_rep00070_FG_nodes.dat'
+
     print(dnaPartFile)
 
     dnaPartDF = pd.read_csv(dnaPartFile, header = None)

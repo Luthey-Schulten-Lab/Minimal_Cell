@@ -1,3 +1,7 @@
+"""
+Author: Zane Thornburg
+"""
+
 ###### Genetic Information Processes Reactions RDME  #######
 
 ##################
@@ -5,7 +9,7 @@
 
 # mrna_diff_list = []
 
-from regions_and_complexes_polysomes import *
+from regions_and_complexes import *
 from diffusion import *
 from GIP_rates import *
 

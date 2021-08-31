@@ -1,3 +1,7 @@
+"""
+Author: Zane Thornburg
+"""
+
 import lm
 from lm import GillespieDSolver
 import sys
