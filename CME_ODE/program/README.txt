@@ -45,6 +45,7 @@ Hook File(s):
 ------------------------------
 hook_(re)start.py - Communicates/hooks the CME Simulation of Genetic Information Process to the ODE Simulation of Metabolic Reactions.
 
+
 Define Reactions:
 -----------------------------
 
@@ -70,7 +71,14 @@ rep_start.py: Defines the initial setup and conditions for reactions for multipl
 
 rep_restart.py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
 
+
 Integration:
 -------------------------
 
 integrate.py: Defines the ODE Integration Model with fixed timestepping.
+
+Patches:
+------------------------
+PPP_patch.py - "Patch" that updates certain Pentose Phosphate Pathway parameters from those obtained through the conventional kinetic parameter gathering pipeline.
+
+lipid_patch.py - "Patch" that updates certain Lipid Metabolism parameters from those obtained through the conventional kinetic parameter gathering pipeline.
