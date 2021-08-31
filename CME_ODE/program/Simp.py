@@ -20,22 +20,12 @@ import libsbml
 import csv
 import pandas as pd
 import numpy as np
-#import plotnine as p9
-#import re
 from collections import defaultdict, OrderedDict
 from scipy import integrate
 
 # To access gene and protein data
 from Bio import SeqIO
 from Bio.Seq import Seq
-
-# For interactive plotting
-# import chart_studio.plotly as py
-# import chart_studio.plotly
-# import plotly.offline as po
-# import plotly.graph_objs as go
-# import plotly.io as pio
-#pio.init_notebook_mode(connected=True)
 
 import importlib
 
@@ -69,23 +59,6 @@ defaultPtnConcentration = defaultMetConcentration/100
 rnaConcentration = round(10*countToMiliMol, 5)  # 10 molecules per cell
 
 minPtnConc = round(10*countToMiliMol, 5)  # 10 molecules per cell
-
-# Initialize the ODECell model
-#model = odecell.modelbuilder.MetabolicModel()
-
-def upIC(pmap):
-    """
-    Update Enzyme Count values for dubious proteomics values
-    """
-
-    #fn = './model_data/updated-enzymes.csv'
-    #ptnsUp = pd.read_csv(fn,header=0)
-    #for ind,row in ptnsUp.iterrows():
-        #print(row[0])
-        #pmap[str(row[0])] = row[1]
-
-    return
-
 
 def initModel(pmap):
     """
