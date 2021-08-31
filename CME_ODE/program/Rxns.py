@@ -11,10 +11,7 @@ from collections import defaultdict, OrderedDict
 import odecell
 
 from in_out import calcCellVolume
-#import defSrcSinkRxns
-#import defLipCentNucTransMetRxns as defLipCentNucTransMetRxns
 import defMetRxns as defLipCentNucTransMetRxns
-# Import the lipid patch
 import lipid_patch as lipid_patch
 import PPP_patch as ppp_patch
 
@@ -24,17 +21,6 @@ r_cell = 200e-9 # 200 nm radius, 400 nm diameter
 V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
 countToMiliMol = 1000/(NA*V)
-
-#def calcCellVolume(pmap):
-    
-#    SurfaceArea = pmap['CellSA']
-    
-#    cellRadius = ((SurfaceArea/4/np.pi)**(1/2))*1e-9
-    
-#    cellVolume = ((4/3)*np.pi*(cellRadius)**3)*(1000)
-#     print('Volume',cellVolume)
-    
-#    return cellVolume
 
 def partTomM(particles,pmap):
     """
@@ -135,76 +121,13 @@ def defineRxns(model,pmap):
 
     """
 
-    ### ADD AN ADDITIONAL FILE TO DEFINE METABOLIC RXNS, as well as a patch for some literature values for lipid metabolism
+    ### Add Metabolic Reactions and specific parameter patches
     defLipCentNucTransMetRxns.addReactionsToModel(model,pmap)
     lipid_patch.main(model,pmap)
     ppp_patch.main(model,pmap)
     print("Reactions defined")
 
-    ### ADD ATPase
-    #RateForm
-#     ATPaseRateLaw = Enzymatic(2,1)
-
-#     RateName = 'ATPase_Rate'
-
-#     model.addRateForm(RateName, odecell.modelbuilder.RateForm(ATPaseRateLaw))
-#     model.updateAvailableForms()
-
-#     rxnIndx = model.addReaction('ATPase','ATPase_Rate','ATP synthase')
-#     model.addParameter('ATPase','Enzyme',100*countToMiliMol)
-#     model.addParameter('ATPase','kcatF',20)
-
-#     model.addParameter('ATPase','kcatR',285)
-
-#     model.addSubstrate('ATPase','Sub1','M_adp_c')
-#     model.addParameter('ATPase','KmSub1',0.1)
-#     model.addSubstrate('ATPase','Sub2','M_pi_c')
-#     model.addParameter('ATPase','KmSub2',4.2)
-
-#     model.addProduct('ATPase','Prod1','M_atp_c')
-#     model.addParameter('ATPase','KmProd1',0.6)
-
-#     model.addParameter('ATPase', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch") 
-    
-    
-#     PitRateLaw = Enzymatic(2,3)
-
-#     RateName = 'Piabc_Rate'
-
-#     model.addRateForm(RateName, odecell.modelbuilder.RateForm(PitRateLaw))
-#     model.updateAvailableForms()
-
-#     rxnIndx = model.addReaction('PIabc','Piabc_Rate','Pi transport')
-#     model.addParameter(rxnIndx,'Enzyme',56*countToMiliMol)
-
-#     model.addParameter('PIabc','kcatF', 50)
-#     model.addParameter('PIabc','kcatR',0)
-
-#     pi_e_conc = 140
-
-#     model.addParameter('PIabc','Sub1',pi_e_conc)
-#     model.addParameter('PIabc','KmSub1',0.0031)
-#     model.addSubstrate('PIabc','Sub2','M_atp_c')
-#     model.addParameter('PIabc','KmSub2',0.023)
-
-#     model.addProduct('PIabc','Prod1','M_pi_c',stoich=2)
-#     model.addParameter('PIabc','KmProd1',0.02)
-#     model.addParameter('PIabc','Prod2','M_pi_c')
-#     model.addParameter('PIabc','KmProd2',0.385)
-#     model.addProduct('PIabc','Prod3','M_adp_c')
-#     model.addParameter('PIabc','KmProd3',0.654)
-
-#     model.addParameter('PIabc', 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
-
-
-#   Add the Source and Sink Reactions to the model object
-
-    #defSrcSinkRxns.addSrcSinkRxns(model,pmap)
-
-    #print("source sink defined")
-
-
-    ### REPORT ON THE MODEL HERE OR SEPARATE FUNCTION???
+    ### Report on the model reactions added
     reptModel(model)
 
     return model
