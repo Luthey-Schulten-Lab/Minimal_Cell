@@ -7,9 +7,6 @@ Author: David Bianchi
 import Simp as Simp
 import Rxns as Rxns
 import integrate as integrate
-#import integrate_rk as integrate
-#import integrate_ode as integrate
-#import integrate_pycvodes as integrate
 import copy as copy
 import in_out as in_out
 import sys
@@ -100,8 +97,6 @@ class MyOwnSolver(lm.GillespieDSolver):
 
             # Update need enzyme Counts in the particle map
             self.species.update(self)
-            #Simp.upIC(self.species)
-            #Simp.upIC(self.species)
 
             print("Done with restart")
 
@@ -142,11 +137,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     print("New Replicate", flush=True)
                     self.restart()
                     minute = 0
-                    #in_out.outMetCsvs(self.species,minute,self.procID)
-                    # Update need enzyme Counts in the particle map
-                    #self.species.update(self)
-                    #Simp.upIC(self.species)
-                    #Simp.upIC(self.species)
                     return 0
 
                 # We are at a CME-ODE communication timestep
@@ -159,7 +149,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                         Simp.upIC(self.species)
 
                     # Update to current solver species counts
-                    #import time as timer
                     start = timer.time()
                     print("Updating species: ", start)
                     self.species.update(self)
@@ -168,7 +157,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     print("Time is: ",time)
 
                     # Initialize and define the reaction model
-                    #model = lipSimp.initModel(passpMap)
                     model = Simp.initModel(self.species)
 
 
@@ -185,7 +173,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                         solver=integrate.noCythonSetSolver(model)
 
                     ### Run the integrator: But instead of passing self.delt pass self.oldtime
-                    #res,info = integrate.runODE(initVals,time,self.oldtime,self.odestep,solver,model)
                     res = integrate.runODE(initVals,time,self.oldtime,self.odestep,solver,model)
 
                     resFinal = res[-1,:]
@@ -198,7 +185,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     if (int(time)/60).is_integer():
                         minute = int(int(time)/60)
                         currentFluxes = solver.calcFlux(0, resStart )
-    #                         print("Is INF:", np.where( np.isinf(finalFluxes) ) )
 
                         # Create list of reactions and fluxes
                         fluxList = []
@@ -213,7 +199,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                         
                         minute = int(int(time)/60)
                         currentFluxes = solver.calcFlux(0, resFinal )
-    #                         print("Is INF:", np.where( np.isinf(finalFluxes) ) )
 
                         # Create list of reactions and fluxes
                         fluxList = []
@@ -226,7 +211,6 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                        
-                        #print("up to here, iter is: ", self.iter)
  
                         fluxFileName = './fluxes/scan125-zan/' + 'rep-' + self.procID + '-fluxDF.csv' #'/fluxDF_'+str(self.iter)+'min.csv'
 
@@ -234,11 +218,6 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         print('Saved fluxes at ' + str(minute) + ' minutes.')
                     
-			# Create a list of metabolite
-                        #in_out.outMetCsvs(self.species,self.iter,self.procID)                        
-
-			#metDF.to_csv(fnMetStr)
-                        # TODO: Still pass to in-out but remove the .lm file ...
                         print('Saved final fluxes.')
 
 
@@ -246,7 +225,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                         print(time)
                         minute = int(int(time)/60)
                         finalFluxes = solver.calcFlux(0, resFinal )
-#                         print("Is INF:", np.where( np.isinf(finalFluxes) ) )
 
                         # Create list of reactions and fluxes
                         fluxList = []
@@ -254,34 +232,9 @@ class MyOwnSolver(lm.GillespieDSolver):
                             fluxList.append( (rxn.getID(), finalFluxes[indx]) )
 
                         fluxDF = pd.DataFrame(fluxList)
-                        #fluxDF = pd.DataFrame()
-                        #rxnIDs=fluxList[0]
-                        #fluxDF['Time']=rxnIDs
-                        #fluxDF[np.rint(int(self.iter))] = finalFluxes[1]
                         fnStr='./fluxes/scan125-zan/'+ 'rep-' + self.procID + '-fluxDF_final.csv' #'/' + str(self.iter) + 'fluxDF_final.csv'
                         print("Writing Final Fluxes and Csvs for Restart")
                         fluxDF.to_csv(fnStr,index=False,header=False,mode='a')
-                        ### NOTE: DB Editted and moved to file bottom 6/23
-                        #in_out.writeResults(self.species,model,resFinal,time,self.procID)
-                        #in_out.outMetCsvs(self.species,self.iter,self.procID)
-			# Create a list of metabolite
-                        #metsList = []
-                        #for indx,metab in enumerate(model.getMetList()):
-                            #metsList.append( (metab.getID(), resFinal[indx]) )
-                        #metDF = pd.DataFrame(metsList)
-                        #fnMetStr = './sims/scan125-zan/'+ 'rep-' + self.procID + '/simDF_parts_end.csv'
-                        #metDF.to_csv(fnMetStr)
-			# TODO: Still pass to in-out but remove the .lm file ...
-                        #print('Saved final fluxes.')
-                    
-
-                    # Sort list by fluxes
-#                     fluxList.sort(key=lambda x: abs(x[1]), reverse=True)
-
-#                     # Converts list into ordered dictionary
-#                     fluxDict = OrderedDict()
-#                     for rxn, flux in fluxList:
-#                         fluxDict[rxn] = flux
 
 
                     # Get the previous time in minutes
@@ -289,11 +242,9 @@ class MyOwnSolver(lm.GillespieDSolver):
                     # Set the previous time to the current time
                     self.oldtime = time
 
-                    #print("Time isL ",time)               
 
                     # Write the results
                     in_out.writeResults(self.species,model,resFinal,time,self.procID)
-                    #in_out.outMetCsvs(self.species,self.iter,self.procID)
 
 
                     # Update the system with changes

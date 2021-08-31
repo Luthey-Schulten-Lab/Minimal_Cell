@@ -15,18 +15,6 @@ V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
 countToMiliMol = 1000/(NA*V)
 
-#def calcCellVolume(pmap):
-    
-    #SurfaceArea = pmap['CellSA']
-    
-    #cellRadius = ((SurfaceArea/4/np.pi)**(1/2))*1e-9
-#     print('Radius',cellRadius)
-    
-    #cellVolume = ((4/3)*np.pi*(cellRadius)**3)*(1000)
-#     print('Volume',cellVolume)
-    
-    #return cellVolume
-
 def partTomM(particles,pmap):
     """
     Convert particle counts to mM concentrations for the ODE Solver

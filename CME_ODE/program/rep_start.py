@@ -349,9 +349,6 @@ def addReplication(sim,genome3A_DNA,ModelSpecies):
                 NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
                 #print(NMonoDict)
 
-    #             CMono1 = baseMap[ rnasequence[0] ]
-
-    #             CMono2 = baseMap[ rnasequence[1] ]
 
                 NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 
@@ -444,9 +441,6 @@ def addReplication(sim,genome3A_DNA,ModelSpecies):
 
             NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
 
-    #             CMono1 = baseMap[ rnasequence[0] ]
-
-    #             CMono2 = baseMap[ rnasequence[1] ]
 
             NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 

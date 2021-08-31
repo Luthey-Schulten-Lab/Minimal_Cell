@@ -2,7 +2,6 @@ import numpy as np
 from Bio import SeqIO
 from Bio.Seq import Seq
 from collections import defaultdict, OrderedDict
-#from MCrestartLoop_twoRep import getConc as getConc
 
 NA = 6.022*(10**(23))
 r_cell = 2.0*(10**-7) # m
@@ -25,8 +24,6 @@ def getConc(particles,specDict):
 
     ### Constants
     NA = 6.022e23 # Avogadro's
-    #r_cell = 200e-9 # 200 nm radius, 400 nm diameter
-    #V = ((4/3)*np.pi*(r_cell)**3)*(1000) # for a spherical cell
 
     cellVolume = specDict['CellV']
     cellVolume = cellVolume * 1e-19
@@ -49,14 +46,7 @@ def addRepInitTwo(sim,specDict):
                    'High_Affinity_Bound_oriC','Low_Affinity_Site_1','Low_Affinity_Site_2',
                    'Low_Affinity_Bound_1','Low_Affinity_Bound_2']
     
-    #sim.defineSpecies(nonOricSpec)
-    #sim.addParticles(species = 'High_Affinity_Site', count = specDict['High_Affinity_Site'])
-    #sim.addParticles(species = 'High_Affinity_Bound', count = specDict['High_Affinity_Bound'])
     sim.addReaction(('High_Affinity_Site', 'M_DnaA_c'),'High_Affinity_Bound',k_high)
-    
-    #sim.addParticles(species = 'High_Affinity_Site_oriC', count = specDict['High_Affinity_Site_oriC'])
-    #sim.addParticles(species = 'Low_Affinity_Site_1', count = specDict['Low_Affinity_Site_1'])
-    #sim.addParticles(species = 'Low_Affinity_Site_2', count = specDict['Low_Affinity_Site_2'])
     
     sim.addReaction(('High_Affinity_Site_oriC', 'M_DnaA_c'),('High_Affinity_Bound_oriC','Low_Affinity_Site_1'),k_high)
     sim.addReaction(('Low_Affinity_Site_1', 'M_DnaA_c'),('Low_Affinity_Bound_1','Low_Affinity_Site_2'),k_low)
@@ -79,13 +69,6 @@ def addRepInitTwo(sim,specDict):
 
     species.append('Initiator_C')
     species.append('Initiator_CC')
-
-    #sim.defineSpecies(species)
-    
-    #for specy in species:
-        #sim.addParticles(species = specy, count = specDict[specy]) #gives all particles count of 0 
-
-    #sim.addParticles(species = 'ssDNAunboundSite_1', count = specDict['ssDNAunboundSite_1']) #starts at 1(only site existing @ start
     
     for i in range (1,30):
         sim.addReaction(('ssDNAunboundSite_' + str(i),'M_DnaA_c'), ('ssDNAunboundSite_' + str(i+1),'ssDNABoundSite_' + str(i)),k_on)
@@ -99,14 +82,8 @@ def addRepInitTwo(sim,specDict):
     nonOricSpec = ['High_Affinity_Site2','High_Affinity_Bound2','High_Affinity_Site_oriC2',
                    'High_Affinity_Bound_oriC2','Low_Affinity_Site2_1','Low_Affinity_Site2_2',
                    'Low_Affinity_Bound2_1','Low_Affinity_Bound2_2']
-    #sim.defineSpecies(nonOricSpec)
-    #sim.addParticles(species = 'High_Affinity_Site2', count = specDict['High_Affinity_Site2'])
-    #sim.addParticles(species = 'High_Affinity_Bound2', count = specDict['High_Affinity_Bound2'])
+   
     sim.addReaction(('High_Affinity_Site2', 'M_DnaA_c'),'High_Affinity_Bound2',k_high)
-    
-    #sim.addParticles(species = 'High_Affinity_Site_oriC2', count = specDict['High_Affinity_Site_oriC2'])
-    #sim.addParticles(species = 'Low_Affinity_Site2_1', count = specDict['Low_Affinity_Site2_1'])
-    #sim.addParticles(species = 'Low_Affinity_Site2_2', count = specDict['Low_Affinity_Site2_2'])
     
     sim.addReaction(('High_Affinity_Site_oriC2', 'M_DnaA_c'),('High_Affinity_Bound_oriC2','Low_Affinity_Site2_1'),k_high)
     sim.addReaction(('Low_Affinity_Site2_1', 'M_DnaA_c'),('Low_Affinity_Bound2_1','Low_Affinity_Site2_2'),k_low)
@@ -130,14 +107,7 @@ def addRepInitTwo(sim,specDict):
     species.append('Initiator_C2')
     species.append('Initiator_CC2')
 
-    #sim.defineSpecies(species)
-
-    #for specy in species:
-        #sim.addParticles(species = specy, count = specDict[specy]) #gives all particles count of 0 
-    
-    #sim.addParticles(species = 'ssDNAunboundSite2_1', count = specDict['ssDNAunboundSite2_1']) #starts at 1(only site existing @ start
-    
-    # Bidning and unbinding reactions are constructed so that DnaA in the middle of the filament cannot unbind and
+    # Binding and unbinding reactions are constructed so that DnaA in the middle of the filament cannot unbind and
     # DnaA only bind next to the last DnaA in the filament.
 
     # Add the binding reactions for each of the 30 binding events in filament formation.
@@ -154,14 +124,8 @@ def addRepInitTwo(sim,specDict):
     nonOricSpec = ['High_Affinity_Site3','High_Affinity_Bound3','High_Affinity_Site_oriC3',
                    'High_Affinity_Bound_oriC3','Low_Affinity_Site3_1','Low_Affinity_Site3_2',
                    'Low_Affinity_Bound3_1','Low_Affinity_Bound3_2']
-    #sim.defineSpecies(nonOricSpec)
-    #sim.addParticles(species = 'High_Affinity_Site3', count = specDict['High_Affinity_Site3'])
-    #sim.addParticles(species = 'High_Affinity_Bound3', count = specDict['High_Affinity_Bound3'])
-    sim.addReaction(('High_Affinity_Site3', 'M_DnaA_c'),'High_Affinity_Bound3',k_high)
     
-    #sim.addParticles(species = 'High_Affinity_Site_oriC3', count = specDict['High_Affinity_Site_oriC3'])
-    #sim.addParticles(species = 'Low_Affinity_Site3_1', count = specDict['Low_Affinity_Site3_1'])
-    #sim.addParticles(species = 'Low_Affinity_Site3_2', count = specDict['Low_Affinity_Site3_2'])
+    sim.addReaction(('High_Affinity_Site3', 'M_DnaA_c'),'High_Affinity_Bound3',k_high)
     
     sim.addReaction(('High_Affinity_Site_oriC3', 'M_DnaA_c'),('High_Affinity_Bound_oriC3','Low_Affinity_Site3_1'),k_high)
     sim.addReaction(('Low_Affinity_Site3_1', 'M_DnaA_c'),('Low_Affinity_Bound3_1','Low_Affinity_Site3_2'),k_low)
@@ -184,15 +148,8 @@ def addRepInitTwo(sim,specDict):
 
     species.append('Initiator_C3')
     species.append('Initiator_CC3')
-
-    #sim.defineSpecies(species)
-
-    #for specy in species:
-        #sim.addParticles(species = specy, count = specDict[specy]) #gives all particles count of 0 
-
-    #sim.addParticles(species = 'ssDNAunboundSite3_1', count = specDict['ssDNAunboundSite3_1']) #starts at 1(only site existing @ start
     
-    # Bidning and unbinding reactions are constructed so that DnaA in the middle of the filament cannot unbind and
+    # Binding and unbinding reactions are constructed so that DnaA in the middle of the filament cannot unbind and
     # DnaA only bind next to the last DnaA in the filament.
 
     # Add the binding reactions for each of the 30 binding events in filament formation.
@@ -203,9 +160,6 @@ def addRepInitTwo(sim,specDict):
     repInitProds = ['ssDNABoundSite3_30','ssDNA_Unbinding3_30','Initiator_C','Initiator_CC']
     
     sim.addReaction(('ssDNAunboundSite3_30', 'M_DnaA_c'),tuple(repInitProds),k_on_2)
-    
-#     sim.addReaction(('ssDNAunboundSite3_30', 'M_DnaA_c'),('ssDNABoundSite3_30','ssDNA_Unbinding3_30','Initiator_C','Initiator_CC'),k_on)
-    
     
     
     # Add the unbinding reactions for each of the 30 possible unbinding events in filament formation.
@@ -228,15 +182,11 @@ def addRepInitTwo(sim,specDict):
 
 def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):    
     dna = genome3A_DNA[0]
-    # Seq(str(dna.seq[position:end_nt+200]), generic_dna)
 
     K0rep = 0.26e-3
     KDrep = 0.001
     kcatrep = 100
-    #datp = 0.009*2 # mM
-    #dttp = 0.011*2 # mM
-    #dctp = 0.006*2 # mM
-    #dgtp = 0.0035*2 # mM
+    
     datp = getConc(max(1,specDict['M_datp_c']),specDict)#0.009*2 # mM
     dttp = getConc(max(1,specDict['M_dttp_c']),specDict)#0.011*2 # mM
     dctp = getConc(max(1,specDict['M_dctp_c']),specDict)#0.006*2 # mM
@@ -244,23 +194,15 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
     DNApol3 = 35*countToMiliMol # mM
     
     chromosome_C = ['chromosome_C']
-    #sim.defineSpecies(chromosome_C)
-    #sim.addParticles(species = 'chromosome_C', count = specDict['chromosome_C'])
     
     chromosome_CC = ['chromosome_CC']
-    #sim.defineSpecies(chromosome_CC)
-    #sim.addParticles(species = 'chromosome_CC', count = specDict['chromosome_CC'])
 
     gene_list = []
     for i in range(len(dna.features)):
         if ('product' in dna.features[i].qualifiers.keys()):
-            #print(i) # This first statement works
-            #print(dna.features[i].qualifiers['product'])
             if dna.features[i].qualifiers['product'][0]:# Figure out how to sort out for ribosomal operons?
-                #print(dna.features[i].qualifiers['product'])
                 gene_list.append(i)
 
-    # print(gene_list)
     
     intergenic_list = []
     
@@ -278,10 +220,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
 
         if start < len(dna.seq)/2:
             geneSeq = Seq(str(dna.seq[position:end]))#, generic_dna)
-    #         print(locusTag)
 
             if start == 0:
-                #print(locusTag)
 
                 baseCount = defaultdict(int)
                 for base in set(geneSeq):
@@ -301,11 +241,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
                 NMono_T = baseCount["T"]
 
                 NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
-                #print(NMonoDict)
-
-    #             CMono1 = baseMap[ rnasequence[0] ]
-
-    #             CMono2 = baseMap[ rnasequence[1] ]
 
                 NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 
@@ -318,12 +253,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
                 if geneID not in ModelSpecies:
                     ModelSpecies.append(geneID)
                     spec = [geneID]
-                    #sim.defineSpecies(spec)
-                    #sim.addParticles(species = geneID, count = specDict[geneID])
 
                 intergenic = [intergenic_region]
-                #sim.defineSpecies(intergenic)
-                #sim.addParticles(species = intergenic_region, count = specDict[intergenic_region])
 
                 RepProd = [intergenic_region,geneID]
 
@@ -353,9 +284,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
 
             else:
 
-                #print(locusTag)
-                #print(position,end)
-
                 baseCount = defaultdict(int)
                 for base in set(geneSeq):
                     baseCount[base] = geneSeq.count(base)
@@ -373,11 +301,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
 
                 NMono_T = baseCount["T"]
                 NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
-                #print(NMonoDict)
-
-    #             CMono1 = baseMap[ rnasequence[0] ]
-
-    #             CMono2 = baseMap[ rnasequence[1] ]
 
                 NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 
@@ -390,12 +313,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
                 if geneID not in ModelSpecies:
                     ModelSpecies.append(geneID)
                     spec = [geneID]
-                    #sim.defineSpecies(spec)
-                    #sim.addParticles(species = geneID, count = specDict[geneID])
 
                 intergenic = [intergenic_region]
-                #sim.defineSpecies(intergenic)
-                #sim.addParticles(species = intergenic_region, count = specDict[intergenic_region])
 
                 RepProd = [intergenic_region,geneID]
 
@@ -435,9 +354,7 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
     
             CC_genes.append(gene)
 
-#     print(CC_genes)
     CC_genes.reverse()
-#     print(CC_genes)
 
     for gene in CC_genes:
 
@@ -446,10 +363,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
         end  = dna.features[gene].location.end.real
 
         geneSeq = Seq(str(dna.seq[start:position]))#, generic_dna)
-    #         print(locusTag)
 
         if end == 543086:
-            #print(locusTag)
 
             baseCount = defaultdict(int)
             for base in set(geneSeq):
@@ -470,10 +385,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
 
             NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
 
-    #             CMono1 = baseMap[ rnasequence[0] ]
-
-    #             CMono2 = baseMap[ rnasequence[1] ]
-
             NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 
             k_gene_dup = kcatrep/((1+K0rep/DNApol3)*(KDrep**2/datp/dttp) + NMonoSum + n_tot - 1)
@@ -485,11 +396,7 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
             if geneID not in ModelSpecies:
                 ModelSpecies.append(geneID)
                 spec = [geneID]
-                #sim.defineSpecies(spec)
-                #sim.addParticles(species = geneID, count = specDict[geneID])
             intergenic = [intergenic_region]
-            #sim.defineSpecies(intergenic)
-            #sim.addParticles(species = intergenic_region, count = specDict[intergenic_region])
 
             RepProd = [intergenic_region,geneID]
 
@@ -547,11 +454,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
             if geneID not in ModelSpecies:
                 ModelSpecies.append(geneID)
                 spec = [geneID]
-                #sim.defineSpecies(spec)
-                #sim.addParticles(species = geneID, count = specDict[geneID])
 
             intergenic = [intergenic_region]
-            #sim.defineSpecies(intergenic)
 
             gene_rep_end_products = ['High_Affinity_Site_oriC2','High_Affinity_Site_oriC3',
                                      'chromosome_C','chromosome_CC','chromosome_C','chromosome_CC',
@@ -579,7 +483,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
                 gene_rep_end_products.append('dCTP_DNArep')
                 gene_rep_end_products.append('dGTP_DNArep')
 
-            #sim.addParticles(species = intergenic_region, count = specDict[intergenic_region])
             sim.addReaction(intergenic_list[-1], tuple(gene_rep_end_products), k_gene_dup)
 
             intergenic_list.append(intergenic_region)
@@ -589,8 +492,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
 
         else:
 
-            #print(locusTag)
-            #print(position,end)
 
             baseCount = defaultdict(int)
             for base in set(geneSeq):
@@ -610,7 +511,6 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
             NMono_T = baseCount["T"]
 
             NMonoDict = [NMono_A,NMono_C,NMono_G,NMono_T]
-            #print(NMonoDict)
             NMonoSum = NMono_A*KDrep/datp + NMono_C*KDrep/dctp + NMono_T*KDrep/dttp + NMono_G*KDrep/dgtp
 
             k_gene_dup = kcatrep/ (NMonoSum + n_tot - 1)
@@ -622,12 +522,8 @@ def addReplicationTwo(sim,specDict,genome3A_DNA,ModelSpecies):
             if geneID not in ModelSpecies:
                 ModelSpecies.append(geneID)
                 spec = [geneID]
-                #sim.defineSpecies(spec)
-                #sim.addParticles(species = geneID, count = specDict[geneID])
 
             intergenic = [intergenic_region]
-            #sim.defineSpecies(intergenic)
-            #sim.addParticles(species = intergenic_region, count = specDict[intergenic_region])
             RepProd = [intergenic_region,geneID]
 
             for i in range(len(geneSeq)):
