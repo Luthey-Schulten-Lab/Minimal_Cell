@@ -41,6 +41,10 @@ MCrestartLoop.py: Iteratively restarts the simulation at an interval of 1 minute
 Reactions are updated by ODE MEtabolism output.
 
 
+Hook File(s):
+------------------------------
+hook_(re)start.py - Communicates/hooks the CME Simulation of Genetic Information Process to the ODE Simulation of Metabolic Reactions.
+
 Define Reactions:
 -----------------------------
 

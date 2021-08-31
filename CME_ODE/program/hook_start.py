@@ -140,8 +140,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     # At the first timestep update the needed protein counts
                     if ((time > self.delt) and (time < (self.delt*2.0))):
                         self.species.update(self)
-                        #Simp.upIC(self.species)
-                        #Simp.upIC(self.species)
 
                     # Update to current solver species counts
                     start = timer.time()
