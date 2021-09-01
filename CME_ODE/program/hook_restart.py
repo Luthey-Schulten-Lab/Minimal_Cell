@@ -193,7 +193,7 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         fluxDF = pd.DataFrame(fluxList)
 
-                        fluxFileName = './fluxes/batch1/' + 'rep-' + self.procID + '-fluxDF.csv' #'/fluxDF_'+str(self.iter)+'min_start.csv'
+                        fluxFileName = './simulations/fluxes/' + 'rep-' + self.procID + '-fluxDF.csv' #'/fluxDF_'+str(self.iter)+'min_start.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                         
@@ -207,12 +207,12 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         fluxDF = pd.DataFrame(fluxList)
 
-                        fluxFileName = './fluxes/batch1/' + 'rep-' + self.procID + '-fluxDF-end.csv' #'/fluxDF_'+str(self.iter)+'min_end.csv'
+                        fluxFileName = './simulations/fluxes/' + 'rep-' + self.procID + '-fluxDF-end.csv' #'/fluxDF_'+str(self.iter)+'min_end.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                        
  
-                        fluxFileName = './fluxes/batch1/' + 'rep-' + self.procID + '-fluxDF.csv' #'/fluxDF_'+str(self.iter)+'min.csv'
+                        fluxFileName = './simulations/fluxes/' + 'rep-' + self.procID + '-fluxDF.csv' #'/fluxDF_'+str(self.iter)+'min.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
 
@@ -232,7 +232,7 @@ class MyOwnSolver(lm.GillespieDSolver):
                             fluxList.append( (rxn.getID(), finalFluxes[indx]) )
 
                         fluxDF = pd.DataFrame(fluxList)
-                        fnStr='./fluxes/batch1/'+ 'rep-' + self.procID + '-fluxDF_final.csv' #'/' + str(self.iter) + 'fluxDF_final.csv'
+                        fnStr='./simulations/fluxes/'+ 'rep-' + self.procID + '-fluxDF_final.csv' #'/' + str(self.iter) + 'fluxDF_final.csv'
                         print("Writing Final Fluxes and Csvs for Restart")
                         fluxDF.to_csv(fnStr,index=False,header=False,mode='a')
 
