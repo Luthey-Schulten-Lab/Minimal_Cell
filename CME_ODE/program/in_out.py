@@ -374,7 +374,7 @@ def outMetCsvs(pmap,minute,procID):
     print("DF size on time: ",minute, " is: ", metsDF.size)
     print(metsDF)
 
-    metFileName = './simulations/batch1/rep-'+str(procID)+'.csv'#+'/'+str(minute)+'min-simDF_parts_end.csv'
+    metFileName = './simulations/rep-'+str(procID)+'.csv'#+'/'+str(minute)+'min-simDF_parts_end.csv'
     if (int(minute) == 0):
         metsDF.to_csv(metFileName,index=False,mode='w+')
     else:
