@@ -25,17 +25,22 @@ Installation instructions (Linux/Unix)
 
 1. Create a Python virtual environment.
 
-If you are not already working in a python or conda environment, to create an environment, one can use:
+If you are not already working in a python or conda environment, to create an environment, one can use Anaconda.
 
-    python3 -m venv --clear /path/to/minCellEnv
+Install Anaconda 3 if not already installed on your computer, download and follow the instructions at
+https://www.anaconda.com/
 
-Make sure you activate the environment if you created a new one.
+To create a new environment named "envname", use
 
-    source /path/to/minCellEnv/bin/activate
+    conda create -n envname -c conda-forge python=3.7.3
+    
+Activate the environment
 
-And that you have the latest  `pip`.
+    conda activate envname
+    
+Change the pip version in the environment
 
-    python3 -m pip install --upgrade pip
+    conda install pip==20.3.1
 
 2. Install SUNDIALS in your system so that both headers and libraries are available, as well as its dependencies ( usually provided by development packages for `blas` and `lapack`).
 
@@ -46,30 +51,26 @@ Under Fedora 26 or newer, one can use the example below (as root):
 For Ubuntu 18.04.1 LTS, one can use (also as root):
 
     apt-get install libsundials-dev
+    
+Install SbTab and PyCVODES
 
-3. Clone the git repository. 
+    pip install sbtab==0.9.71
+    
+    conda install -c conda-forge pycvodes=0.14.0
 
-Login to kallithea with your user, and copy the link for the repo. Then use git to clone the repository. 
-
-    git clone https://crdsdsr2@code.scs.illinois.edu/Luthey-Schulten-Lab/odecell
-
-4. Install ODECell.
+3. Install ODECell.
 
 Move into the repository.
 
     cd odecell
 
-Checkout the **release** branch. 
-
-    git checkout release
-
 Use `pip` to install the package in your virtual environment.
     
-    python3 -m pip install .
+    python -m pip install .
     
 This will install all required python packages, and the install ODECell in your activated python virtual environment.
 
-5. Finalize the installation.
+4. Finalize the installation.
 
 Since jupyter extensions are installed as one of the requirements, run the following command to activate the extensions:
     
