@@ -8,7 +8,7 @@ A file to add patch changes to the JCVI-Syn3A lipid metabolism constructed from 
 import odecell
 
 # Import the Reactions module
-import Rxns_two as Rxns
+import Rxns as Rxns
 
 # Constant
 volToSA = 1.5874 # Ratio of volume change to surface area change for 200nm radius cell
