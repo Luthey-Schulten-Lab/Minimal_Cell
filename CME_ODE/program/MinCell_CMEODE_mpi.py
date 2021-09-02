@@ -1555,9 +1555,6 @@ def addrRNA():
 
 NA = 6.022*(10**(23))
 
-from rep_start import addRepInit as addRepInit
-from rep_start import addReplication as addReplication
-
 import setICs as setICs
 setICs.__main__(sim)
 
@@ -1612,8 +1609,8 @@ for index, row in trnaMetDF.iterrows():
     
 addrRNA()
 
-from rep_start.py import addRepInit
-from rep_start.py import addReplication
+from rep_start import addRepInit
+from rep_start import addReplication
 
 addRepInit(sim)
 addReplication(sim,genome3A_DNA,ModelSpecies)
