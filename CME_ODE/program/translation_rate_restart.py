@@ -1,7 +1,7 @@
 from collections import defaultdict, OrderedDict
 import numpy as np
 
-from Rxns_two import partTomM
+from Rxns import partTomM
 
 # Cell radius (meters):
 r_cell = 2.0*(10**-7) # m

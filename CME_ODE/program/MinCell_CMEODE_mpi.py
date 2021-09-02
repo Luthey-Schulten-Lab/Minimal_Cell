@@ -1641,8 +1641,8 @@ except:
 
 
 try:
-    os.mkdir('../simulations/fluxes/'+ 'rep-' + str(procid))#+'fluxes')
-    os.mkdir('../simulations/'+'rep-'+str(procid))
+    os.mkdir('../simulations/fluxes/')#+ 'rep-' + str(procid))#+'fluxes')
+    os.mkdir('../simulations/')#+'rep-'+str(procid))
     print('Made fluxes folder')
     
 except:
