@@ -1629,8 +1629,8 @@ def mMtoPart(concDict):
     return partDict
 
 
-fn = 'simulations/out-' + str(procid) + '.lm'
-my_log_file = 'simulations/log-' + str(procid) + '.log'
+fn = '../simulations/out-' + str(procid) + '.lm'
+my_log_file = '../simulations/log-' + str(procid) + '.log'
 
 try:
     os.remove(fn)
@@ -1641,8 +1641,8 @@ except:
 
 
 try:
-    os.mkdir('simulations/fluxes/'+ 'rep-' + str(procid))#+'fluxes')
-    os.mkdir('simulations/'+'rep-'+str(procid))
+    os.mkdir('../simulations/fluxes/'+ 'rep-' + str(procid))#+'fluxes')
+    os.mkdir('../simulations/'+'rep-'+str(procid))
     print('Made fluxes folder')
     
 except:

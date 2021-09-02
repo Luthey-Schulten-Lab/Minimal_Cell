@@ -76,11 +76,11 @@ for sTime in np.arange(1,runTime,1):
 
     def getFn(iteration):
         if (int(iteration) <= 1):
-            oldFile = './simulations/out-' + str(procid) + '.lm'
+            oldFile = '../simulations/out-' + str(procid) + '.lm'
         else:
             print(iteration)
             itVal = int(iteration)-1
-            oldFile = './simulations/out-' + str(procid) + 'rs' + str(itVal) + '.lm' #'./simulations/batch1/rep-' + str(procid) + '.csv' #+ '/'+ str(int(iteration)-1) +'min-simDF_parts_end.csv'
+            oldFile = '../simulations/out-' + str(procid) + 'rs' + str(itVal) + '.lm' #'./simulations/batch1/rep-' + str(procid) + '.csv' #+ '/'+ str(int(iteration)-1) +'min-simDF_parts_end.csv'
         return oldFile
 
     oldFn=getFn(iteration)
@@ -97,7 +97,7 @@ for sTime in np.arange(1,runTime,1):
             #print("Parts is:",parts)
             sim.defineSpecies([spec])
             #print("ADDING")
-            if (oldFile == './simulations/out-' + str(procid) + '.lm'):
+            if (oldFile == '../simulations/out-' + str(procid) + '.lm'):
                 sim.addParticles(spec,count=int(parts[0]))
                 specDict[spec]=int(parts[0])
             else:
@@ -1781,8 +1781,8 @@ for sTime in np.arange(1,runTime,1):
 
 
 
-    fn = 'simulations/out-' + str(procid) + 'rs' + str(iteration) + '.lm'
-    my_log_file = 'simulations/log-' + str(procid) +'rs' + str(iteration) + '.log'
+    fn = '../simulations/out-' + str(procid) + 'rs' + str(iteration) + '.lm'
+    my_log_file = '../simulations/log-' + str(procid) +'rs' + str(iteration) + '.log'
 
     try:
         os.remove(fn)
