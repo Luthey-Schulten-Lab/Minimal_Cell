@@ -52,7 +52,6 @@ ap = argparse.ArgumentParser()
 # The process ID
 ap.add_argument('-procid','--processid',required=True)
 ap.add_argument('-t','--time',required=True)
-ap.add_argument('-iter','--iteration',required=False)
 ap.add_argument('-rs','--restartTime',required=False)
 
 args = ap.parse_args()
