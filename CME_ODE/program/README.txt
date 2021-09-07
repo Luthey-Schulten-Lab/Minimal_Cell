@@ -28,6 +28,11 @@ Command to run simulations:
 nohup: "nohup ./mpi_runs > nohup.log &"
 
 
+Sample Jupyter Notebook to run and analyze a simulation
+========================================================
+serialReplicate-ExampleNotebook.ipynb - runs and performs an example analysis of a single simulated in silico JCVI-syn3A cell.
+
+
 Program Structure:
 ==============================
 
