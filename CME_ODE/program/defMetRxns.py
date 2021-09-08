@@ -79,7 +79,6 @@ rxnNamesSBML = [ x.name for x in modelSBML.getListOfReactions()]
 
 # # Read global parameters CSV file
 # globalParsDF = pd.read_csv("../model_data/GlobalParameters.csv")
-# globalParsDF
 
 
 # Default metabolite concentration (mM)
@@ -96,9 +95,6 @@ defaultPtnConcentration = defaultMetConcentration/100
 #######################################
 
 
-# file_name = "../model_data/Central_Zane_Balanced.tsv"
-# file_name = "../model_data/Central_Zane_Balanced_06mMpsGLC.tsv"
-# file_name = "../../../model_data/Central_Zane_Balanced_direction_06mMpsGLCpts.tsv"
 file_name = "../model_data/Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv"
 
 # open a file and read it
@@ -178,11 +174,9 @@ metIDcheck = []
 
 for met in centralMets:
     metID = "M_" + met
-    #print(metID)
     conc = ComDF.loc[ ComDF["Compound"] == metID, "InitialConcentration" ].values[0]
     concentrationList.append([metID,conc])
     metIDcheck.append(metID)
-#     print(metID,conc)
 
 
 # Read through the parameter dataframe and pull out forward and reverse kcat values.
@@ -210,7 +204,6 @@ for rxnID in cntrMetRxnID:
     Cent_kcats.append(kR)
     
 CentKcatDF = pd.DataFrame( Cent_kcats, columns = ['Parameter','Value','Units'])
-# CentKcatDF
 
 
 Cent_Kms = []
@@ -218,12 +211,10 @@ Cent_Kms = []
 for rxnID in cntrMetRxnID:
     
     reaction = RxnDF.loc[ RxnDF["Reaction"] == rxnID, "ReactionFormula" ].values[0]
-#     print(reaction)
 
     reaction = reaction.replace(' ','')
 
     substrates = reaction.split("<=>")[0]
-#     print(substrates)
 
     if '2.0' in substrates:
         substrates = substrates.replace('2.0','')
@@ -240,28 +231,22 @@ for rxnID in cntrMetRxnID:
             
             substrate = substrates.split('+')[i]
 
-#             print(substrate)
 
             kmID = 'kmc_' + rxnID + '_' + substrate + '_' + rxnID
-#             print(kmID)
     
             km_value = CentQntDF.loc[ CentQntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
         
             Cent_Kms.append([kmID,km_value,"mM"])
         
     elif '+' not in substrates:
         
         kmID = 'kmc_' + rxnID + '_' + substrates + '_' + rxnID
-#         print(kmID)
     
         km_value = CentQntDF.loc[ CentQntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
         Cent_Kms.append([kmID,km_value,"mM"])
     
     products = reaction.split("<=>")[1]
-#     print(products)
 
     if '2.0' in products:
         products = products.replace('2.0','')
@@ -287,15 +272,12 @@ for rxnID in cntrMetRxnID:
     elif '+' not in products:
         
         kmID = 'kmc_' + rxnID + '_' + products + '_' + rxnID
-#         print(kmID)
     
         km_value = CentQntDF.loc[ CentQntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
         Cent_Kms.append([kmID,km_value,"mM"])
             
 CentKmDF = pd.DataFrame(Cent_Kms, columns = ["Parameter","Value","Units"])
-# CentKmDF
 
 ############################################
 
@@ -378,12 +360,10 @@ Aa_Kms = []
 for rxnID in aaMetRxnID:
 
     reaction = RxnDF.loc[ RxnDF["Reaction"] == rxnID, "ReactionFormula" ].values[0]
-#     print(reaction)
 
     reaction = reaction.replace(' ','')
 
     substrates = reaction.split("<=>")[0]
-#     print(substrates)
 
     if '2.0' in substrates:
         substrates = substrates.replace('2.0','')
@@ -400,28 +380,22 @@ for rxnID in aaMetRxnID:
 
             substrate = substrates.split('+')[i]
 
-#             print(substrate)
 
             kmID = 'kmc_' + rxnID + '_' + substrate + '_' + rxnID
-#             print(kmID)
 
             km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
             Aa_Kms.append([kmID,km_value,"mM"])
 
     elif '+' not in substrates:
 
         kmID = 'kmc_' + rxnID + '_' + substrates + '_' + rxnID
-#         print(kmID)
 
         km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
         Aa_Kms.append([kmID,km_value,"mM"])
 
     products = reaction.split("<=>")[1]
-#     print(products)
 
     if '2.0' in products:
         products = products.replace('2.0','')
@@ -447,16 +421,13 @@ for rxnID in aaMetRxnID:
     elif '+' not in products:
 
         kmID = 'kmc_' + rxnID + '_' + products + '_' + rxnID
-#         print(kmID)
 
         km_value = QntDF.loc[ QntDF["Quantity"] == kmID, "Value" ].values[0]
-#             print(km_value)
 
         Aa_Kms.append([kmID,km_value,"mM"])
 
 AaKmDF = pd.DataFrame(Aa_Kms, columns = ["Parameter","Value","Units"])
 
-# metIDcheck = []
 
 aaMetIDs = ["M_ala__L_c", "M_arg__L_c",
     "M_asn__L_c", "M_asp__L_c", "M_cys__L_c", "M_glu__L_c", "M_gln__L_c", "M_gly_c",
@@ -491,9 +462,6 @@ print(aaMetDict)
 
 ##########################################
 
-# file_name = "../model_data/NucleoMet_iMB155_balanced_model.tsv"
-# file_name = "../model_data/TB_nuc/NucleoMet_iMB155_NoH2O_balanced_model_03232020.tsv"
-# file_name = "../../../model_data/Nucleotide_Kinetic_Parameters.tsv"
 file_name = "../model_data/Nucleotide_Kinetic_Parameters.tsv"
 
 # open a file and read it
@@ -523,8 +491,6 @@ ParDF_nuc = SBtabPar.to_data_frame()
 QntDF_nuc = SBtabQnt.to_data_frame()
 ComDF_nuc = SBtabCom.to_data_frame()
 
-# Initialize dictionary for "quantity" values
-# QntDFDict = dict()
 
 SBtabRxn = Sd.get_sbtab_by_name("Reaction")
 SBtabCom = Sd.get_sbtab_by_name("Compound")
@@ -539,7 +505,6 @@ ComDF.loc[ ComDF["Compound"] == 'ptsg' ]
 
 
 nuclMetRxn = list(pd.read_csv("../model_data/nucleo_rxns_list.txt", header=None).loc[:,0].values)
-# print(nuclMetRxn)
 nuclMetRxnID = [ "R_" + x for x in nuclMetRxn]
 
 nuclTurnOff = ['NTD9','DCDPMP','DCTPMP','DCTPDP','CTPDP'] # NTD1, NTD5, NTD6, NTD8
@@ -547,27 +512,22 @@ for rxn in nuclTurnOff:
     rxnID = 'R_' + rxn
     nuclMetRxnID.remove(rxnID)
 
-#print(nuclMetRxnID)
 
 indx = 0
 for rxnID in nuclMetRxnID:
     if (rxnID == 'R_PYK'):
         del nuclMetRxnID[indx]
-#         print('pyk')
     else:
         indx = indx + 1
 indx = 0        
 for rxnID in nuclMetRxnID:
     if (rxnID == 'R_PGK'):
         del nuclMetRxnID[indx]
-#         print('pgk')
     else:
         indx = indx + 1
-#print(nuclMetRxnID)
 
 
 RxnDF_Nuclt = RxnDF_Nuclt.loc[ RxnDF_Nuclt.Reaction.isin(nuclMetRxnID) ]
-# RxnDF_Nuclt.head()
 
 
 RxnDF = pd.concat( [RxnDF_CentralMet, RxnDF_aaMet, RxnDF_Nuclt] )
@@ -634,11 +594,10 @@ for rxnID in nuclMetRxnID:
     Nuc_kcats.append(kR)
     
 NucKcatDF = pd.DataFrame( Nuc_kcats, columns = ['Parameter','Value','Units'])
-# NucKcatDF
 
-pykRate = 3204 #Zanes Rate ksub 1/s
+pykRate = 3204 # Rate kcat 1/s
 
-pgkRate = 220 #Zanes Rate ksub 1/s
+pgkRate = 220 # Rate kcat 1/s
 editRxnsDict = {'R_PYK':pykRate*1,'R_PYK2':pykRate*.11,'R_PYK3':pykRate*.21,
                 'R_PYK4':pykRate*0.17,'R_PYK5':pykRate*.18,'R_PYK6':pykRate*0.26,
                 'R_PYK7':pykRate*0.13,'R_PYK8':pykRate*.05,'R_PYK9':pykRate*.01,
@@ -652,7 +611,6 @@ for rxn in tmpRxns:
 NucKcatDF['Value'] = tmp
 
 KcatDF = pd.concat( [CentKcatDF, NucKcatDF], sort = False )
-# KcatDF
 
 Nuc_Kms = []
 
@@ -806,7 +764,6 @@ for rxnID in lipMetRxnID:
 
     else:
         indx = indx + 1
-#print(lipMetRxnID)
 
 RxnDF_Lipid = RxnDF_Lipid.loc[ RxnDF_Lipid.Reaction.isin(lipMetRxnID) ]
 
@@ -1658,7 +1615,6 @@ def addReactionsToModel(model, pmap):
                 # Add enzyme level parameter.
             if "Enzyme" in model.getReaction(rxnID).getKeys():
 
-#                 print('EnzymeConc',EnzymeParam,EnzymeConc)
                 model.addParameter(rxnIndx, "Enzyme", EnzymeConc, unit="mM", parName="Enzyme concentration" )
 
             if "onoff" in model.getReaction(rxnID).getKeys():
@@ -1670,7 +1626,6 @@ def addReactionsToModel(model, pmap):
 
 
 
-#         elif items.Name in transportRxns:
         elif items.Name in transportRxns:
             
 
@@ -1910,7 +1865,6 @@ def addReactionsToModel(model, pmap):
 
     model.addMetabolite('M_uri_c','uridine',Rxns.partTomM(pmap['M_uri_c'],pmap)) # mM - from pb file  
     
-#     print('Adding PUNP5')
 
     rxnIndx = model.addReaction('PUNP5','explicitTwoSubTwoProd','Nucleotide Metabolism Reactions R_PUNP5')
   
