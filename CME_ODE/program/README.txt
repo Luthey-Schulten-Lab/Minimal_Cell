@@ -5,6 +5,14 @@ Luthey-Schulten Lab (University of Illinois Urbana-Champaign)
 README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replication initiation events - restart simulations (dynamic gene expression rates)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+To Run Simulations in Parallel
+-----------------------------------
+Install Required Packages (to your conda environment)
+======================================================
+conda install -c conda-forge mpi4py (Necessary to install dependencies required for parallelization routine)
+
 Bash run file: mpi_runs.sh
 ============================
 mpirun -np 65 python3 ~/projects/minCell_CMEODE/restart_poly/mpi_wrapper.py -st cme-ode -t 125 -rs 1
@@ -28,13 +36,19 @@ Command to run simulations:
 nohup: "nohup ./mpi_runs > nohup.log &"
 
 
-Sample Jupyter Notebook to run and analyze a simulation
-========================================================
+
+
+Single Cell Notebook: Sample Jupyter Notebook to run and analyze a simulation of a single cell
+===================================================================================================
 serialReplicate-ExampleNotebook.ipynb - runs and performs an example analysis of a single simulated in silico JCVI-syn3A cell.
+
+
+
 
 
 Program Structure:
 ==============================
+
 
 
 Main Simulation Input File(s):
@@ -46,15 +60,18 @@ MCrestartLoop.py: Iteratively restarts the simulation at an interval of 1 minute
 Reactions are updated by ODE MEtabolism output.
 
 
+
 Hook File(s):
 ------------------------------
 hook_(re)start.py - Communicates/hooks the CME Simulation of Genetic Information Process to the ODE Simulation of Metabolic Reactions.
+
 
 
 Define Reactions:
 -----------------------------
 
 defLipCentNuc_two.py: defines the metabolic reactions to be integrated as ODEs, which are input via the odecell module.
+
 
 
 I/O handling:
@@ -69,12 +86,14 @@ PPP_patch.py: Modifies .tsv original reaction parameters for the Pentose Phospha
 lipid_patch.py: Modifies .tsv original reaction parameters for lipid metabolism/cell growth reactions.
 
 
+
 Replication Initiation:
 --------------------------
 
 rep_start.py: Defines the initial setup and conditions for reactions for multiple replication initiation events.
 
 rep_restart.py : Defines the gene replication reactions for multiple replication initiation events (with cell volume aware dnaA filament formation for replication initiation).
+
 
 
 Integration:
