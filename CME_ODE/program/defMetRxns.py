@@ -1973,10 +1973,10 @@ def addReactionsToModel(model, pmap):
     rxnIndx = model.addReaction('PIabc','Piabc_Rate','Pi transport')
     model.addParameter(rxnIndx,'Enzyme',enzConc_PIabc)
 
-    model.addParameter('PIabc','kcatF',25) # Originally 25, Change to 10 as a test
+    model.addParameter('PIabc','kcatF',25) 
     model.addParameter('PIabc','kcatR',0)
 
-    pi_e_conc = 134.0 #80.0# mM - Kim C5Mod-CMRL update 2/5, also try 5 because 10 and 5 should have diff by FBA medium analysis 0.5 # mM C5Mod-CMRL #140
+    pi_e_conc = 134.0 # mM, Growth Medium Buffers
 
     model.addParameter('PIabc','Sub1',pi_e_conc)
     model.addParameter('PIabc','KmSub1',0.0031)
