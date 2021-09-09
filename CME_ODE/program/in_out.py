@@ -14,15 +14,15 @@ r_cell = 200e-9 # 200 nm radius, 400 nm diameter
 V = ((4/3)*3.14159*(r_cell)**3)*(1000) # for a spherical cell
 
 # Lipid Groups and headgroup surface area compositions (values surface areas in nm^2)
-# From various literature sources including: Jo et al Biophys. J. (2009), Bjorkborn et al Biophys J. (2010) ...
+# From various literature sources including: Jo et al Biophys. J. (2009), Bjorkborn et al Biophys J. (2010), Saenz et al PNAS (2012)
 saDict = {
     'M_clpn_c':0.4,
-    'M_chsterol_c':0.35, # 0.35, test for Chol. value smaller
+    'M_chsterol_c':0.35, 
     'M_sm_c':0.45,
     'M_pc_c':0.55,
     'M_pg_c':0.6,
     'M_galfur12dgr_c':0.6,
-    'M_12dgr_c':0.5, # Scale down, should cdp-dag be added???
+    'M_12dgr_c':0.5, 
     'M_pa_c':0.5,
     'M_cdpdag_c':0.5,
 }
@@ -350,35 +350,35 @@ def outMetCsvs(pmap,minute,procID):
         for met in pmap.particleMap.keys():
             if (pmap[met] == 'CellSA') or (pmap[met] == 'CellSA_Prot') or (pmap[met] == 'CellSA_Lip') or (pmap[met] == 'CellV'):
                 specIDs.append(met)
-                newCounts.append(pmap[met])#metDict[met]=pmap[met]#metsList.append( {met: pmap[met]} )
+                newCounts.append(pmap[met])
             else:
-                specIDs.append(met)#metDict[met]=pmap[met]#metsList.append( {met: pmap[met]} )
+                specIDs.append(met)
                 newCounts.append(pmap[met])    
 
     else:
         for met in pmap.keys():
             if (pmap[met] == 'CellSA') or (pmap[met] == 'CellSA_Prot') or (pmap[met] == 'CellSA_Lip') or (pmap[met] == 'CellV'):
                 specIDs.append(met)
-                newCounts.append(pmap[met])#metDict[met]=pmap[met]#metsList.append( {met: pmap[met]} )
+                newCounts.append(pmap[met])
             else:
-                specIDs.append(met)#metDict[met]=pmap[met]#metsList.append( {met: pmap[met]} )
+                specIDs.append(met)
                 newCounts.append(pmap[met])
 
     if int(minute) == -1:
         minute = 1
 
-    metsDF = pd.DataFrame()#metsList
+    metsDF = pd.DataFrame()
     metsDF['Time'] = specIDs
     print("Species IDs len is: ",len(specIDs))
     metsDF[np.rint(int(minute))] = newCounts
     print("DF size on time: ",minute, " is: ", metsDF.size)
     print(metsDF)
 
-    metFileName = '../simulations/rep-'+str(procID)+'.csv'#+'/'+str(minute)+'min-simDF_parts_end.csv'
+    metFileName = '../simulations/rep-'+str(procID)+'.csv'
     if (int(minute) == 0):
         metsDF.to_csv(metFileName,index=False,mode='w+')
     else:
         print("writing df")
-        metsDF.to_csv(metFileName,index=False,mode='a') #columns=specIDs
+        metsDF.to_csv(metFileName,index=False,mode='a')
 
     return
