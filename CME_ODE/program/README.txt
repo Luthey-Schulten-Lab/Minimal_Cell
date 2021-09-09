@@ -13,9 +13,13 @@ Install Required Packages (to your conda environment)
 ======================================================
 conda install -c conda-forge mpi4py (Necessary to install dependencies required for parallelization routine)
 
-Bash run file: mpi_runs.sh
-============================
-mpirun -np 65 python3 ~/projects/minCell_CMEODE/restart_poly/mpi_wrapper.py -st cme-ode -t 125 -rs 1
+Bash run file: mpi_runs.sh (to run 5 cell replicates)
+======================================================
+To run give the command: ./mpi_runs.sh
+
+Which will run the following:
+
+mpirun -np 5 python3 ~/projects/minCell_CMEODE/restart_poly/mpi_wrapper.py -st cme-ode -t 125 -rs 1
 
 where:
 
