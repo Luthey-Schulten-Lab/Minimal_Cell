@@ -33,10 +33,10 @@ sys.path.append(os.getcwd())
 def runCMEODE(rank, simTime, restartTime):
 
         # Launch the process: The initial simulation setup
-        run = subprocess.run(['python3',"MinCell_CMEODE_mpi_two_TwoRep.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format("1")],shell=False)
+        run = subprocess.run(['python3',"MinCell_CMEODE.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format("1")],shell=False)
 
         # Launch the process: The simulation with multiple replication initiation forks allowed
-        runTwo = subprocess.run(['python3',"MCrestartLoop_twoRep.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format(simTime),"-iter","1","-rs",("{0}").format(restartTime)],shell=False)
+        runTwo = subprocess.run(['python3',"MinCell_restart.py","-procid",("{0}").format(int(rank)+1),"-t",("{0}").format(simTime),"-rs",("{0}").format(restartTime)],shell=False)
 
         return
 

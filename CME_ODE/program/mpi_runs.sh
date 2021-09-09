@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Try 5 CME-ODE replicates for 4 minutes
-mpirun -np 30 python3 ~/projects/minCell_CMEODE/restart_poly_dbl/mpi_wrapper.py -st cme-ode -t 122 -rs 1
+## Try 5 CME-ODE replicates for 5 minutes with a restart time of 1 minute
+mpirun -np 5 python3 mpi_wrapper.py -st cme-ode -t 3 -rs 1
 
 #wait
