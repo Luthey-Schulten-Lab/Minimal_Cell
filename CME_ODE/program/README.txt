@@ -6,6 +6,11 @@ README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replica
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+Single Cell Notebook: Sample Jupyter Notebook to run and analyze a simulation of a single cell
+===================================================================================================
+serialReplicate-ExampleNotebook.ipynb - runs and performs an example analysis of a single simulated in silico JCVI-syn3A cell.
+
+
 
 To Run Simulations in Parallel
 -----------------------------------
@@ -38,13 +43,6 @@ Command to run simulations:
 "./mpi_runs > log.log" 
 
 nohup: "nohup ./mpi_runs > nohup.log &"
-
-
-
-
-Single Cell Notebook: Sample Jupyter Notebook to run and analyze a simulation of a single cell
-===================================================================================================
-serialReplicate-ExampleNotebook.ipynb - runs and performs an example analysis of a single simulated in silico JCVI-syn3A cell.
 
 
 
