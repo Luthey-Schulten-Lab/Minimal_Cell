@@ -26,7 +26,6 @@ class MyOwnSolver(lm.GillespieDSolver):
         @param odestep The maximum stepsize given to the Adaptive Timestepping ODE solver
         @param speciesCount The instance of SpeciesCount Class used to pass species counts 
         """
-        #def initializeSolver(self, f, delt, ode_step, speciesCount):
         def __init__(self, f, delt, ode_step, speciesCount,cythonBool,totalTime,procID):
 
             """
@@ -57,8 +56,6 @@ class MyOwnSolver(lm.GillespieDSolver):
 
             # The process ID for creating flux log files etc.
             self.procID = str(procID)
-
-            #self.iteration = iteration
 
             print("initializing solver")
 
@@ -140,8 +137,6 @@ class MyOwnSolver(lm.GillespieDSolver):
                     # At the first timestep update the needed protein counts
                     if ((time > self.delt) and (time < (self.delt*2.0))):
                         self.species.update(self)
-                        #Simp.upIC(self.species)
-                        #Simp.upIC(self.species)
 
                     # Update to current solver species counts
                     start = timer.time()
@@ -187,7 +182,7 @@ class MyOwnSolver(lm.GillespieDSolver):
                             fluxList.append( (rxn.getID(), currentFluxes[indx]) )
 
                         fluxDF = pd.DataFrame(fluxList)
-                        fluxFileName = './fluxes/scan125-zan/' + 'rep-' + self.procID  + '-fluxDF-start.csv'#'/fluxDF_'+str(minute)+'min_start.csv'
+                        fluxFileName = '../simulations/fluxes/' + 'rep-' + self.procID  + '-fluxDF-start.csv'#'/fluxDF_'+str(minute)+'min_start.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                         
@@ -201,11 +196,11 @@ class MyOwnSolver(lm.GillespieDSolver):
 
                         fluxDF = pd.DataFrame(fluxList)
 
-                        fluxFileName = './fluxes/scan125-zan/' + 'rep-' + self.procID  + '-fluxDF_'+'min_end.csv'
+                        fluxFileName = '../simulations/fluxes/' + 'rep-' + self.procID  + '-fluxDF_'+'min_end.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
                         
-                        fluxFileName = './fluxes/scan125-zan/' + 'rep-' + self.procID  + '-fluxDF.csv'#+str(minute)+'min.csv'
+                        fluxFileName = '../simulations/fluxes/' + 'rep-' + self.procID  + '-fluxDF.csv'#+str(minute)+'min.csv'
 
                         fluxDF.to_csv(fluxFileName,header=False,mode='a')
 
@@ -221,7 +216,7 @@ class MyOwnSolver(lm.GillespieDSolver):
                             fluxList.append( (rxn.getID(), finalFluxes[indx]) )
 
                         fluxDF = pd.DataFrame(fluxList)
-                        fnStr='./fluxes/scan125-zan/' + 'rep-'+ self.procID + '-fluxDF_final.csv'
+                        fnStr='../simulations/fluxes/' + 'rep-'+ self.procID + '-fluxDF_final.csv'
                         fluxDF.to_csv(fnStr,header=False,mode='a')
                         minute = -1
                         in_out.outMetCsvs(self.species,minute,self.procID)
