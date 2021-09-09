@@ -356,8 +356,8 @@ def __main__(sim):
     sim.defineSpecies(['M_mg2_c'])
     sim.addParticles('M_mg2_c',int(mMtoPart(2.36)))
     
-    sim.defineSpecies(['M_glc__D_c'])
-    sim.addParticles('M_glc__D_c',int(mMtoPart(1.0)))
+    #sim.defineSpecies(['M_glc__D_c'])
+    #sim.addParticles('M_glc__D_c',int(mMtoPart(1.0)))
     
     sim.defineSpecies(['CellSA_Lip'])
     #sim.addParticles('CellSA_Lip',int(round(304311))) # Case where fa surface area accounted for (40% prot.)

@@ -2580,60 +2580,8 @@ def addReactionsToModel(model, pmap):
     model.addParameter(rxnIndx, 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
 
 
-    spcConc = Rxns.partTomM(pmap['M_glc__D_c'],pmap)
-    model.addMetabolite('M_glc__D_c', 'M_glc__D_c', spcConc)
-
-    GLCKRateLaw = Rxns.Enzymatic(2,3)
-
-    RateName = 'GLCK_Rate'
-
-    model.addRateForm(RateName, odecell.modelbuilder.RateForm(GLCKRateLaw))
-    model.updateAvailableForms()
-
-    rxnIndx = model.addReaction('GLCK','GLCK_Rate','glucokinase')
-    enzConc_glck = Rxns.partTomM(pmap['M_PTN_JCVISYN3A_0250_c'],pmap)
-    
-    model.addParameter(rxnIndx,'Enzyme',enzConc_glck)
-
-    model.addParameter(rxnIndx,'kcatF',6.3)
-    model.addParameter(rxnIndx,'kcatR',0)
-
-    model.addSubstrate(rxnIndx,'Sub1','M_glc__D_c')
-    model.addParameter(rxnIndx,'KmSub1',0.78)
-    model.addSubstrate(rxnIndx,'Sub2','M_atp_c')
-    model.addParameter(rxnIndx,'KmSub2',0.5)
-
-    model.addProduct(rxnIndx,'Prod1','M_g6p_c')
-    model.addParameter(rxnIndx,'KmProd1',0.1)
-    model.addProduct(rxnIndx,'Prod2','M_adp_c')
-    model.addParameter(rxnIndx,'KmProd2',1.0)
-    model.addProduct(rxnIndx,'Prod3','M_pi_c')
-    model.addParameter(rxnIndx,'KmProd3',10)
-
-    model.addParameter(rxnIndx, 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
-
-
-    GLCtRateLaw = '$onoff * $Enzyme * ( ( $kcatF * $Sub1 ) - ( $kcatR * $Prod1 ) )'
-
-    RateName = 'GLCt_Rate'
-
-    model.addRateForm(RateName, odecell.modelbuilder.RateForm(GLCtRateLaw))
-    model.updateAvailableForms()
-
-    rxnIndx = model.addReaction('GLCt','GLCt_Rate','glucose uptake')
-    enzConc_glct = Rxns.partTomM(pmap['ptsg'],pmap)
-    
-    model.addParameter(rxnIndx,'Enzyme',enzConc_glct)
-
-    model.addParameter(rxnIndx,'kcatF',4,000)
-    model.addParameter(rxnIndx,'kcatR',4,000*40)
-
-    model.addParameter(rxnIndx,'Sub1','M_glc__D_e')
-
-    model.addProduct(rxnIndx,'Prod1','M_glc__D_c')
-
-    model.addParameter(rxnIndx, 'onoff',1,lb=0, ub=1, unit="mM", parName="Debug On/Off switch")
-
+    #spcConc = Rxns.partTomM(pmap['M_glc__D_c'],pmap)
+    #model.addMetabolite('M_glc__D_c', 'M_glc__D_c', spcConc)
     
     print("Defined reactions")
 
