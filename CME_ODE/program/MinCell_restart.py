@@ -66,7 +66,7 @@ np.random.seed(proc_id*429496)
 
 runTime=int(args.time)
 
-for sTime in np.arange(1,runTime,1):
+for sTime in np.arange(1,runTime+1,1):
     iteration = sTime
     print("ITERATION IS MINUTE: ",iteration)
 
@@ -1833,11 +1833,11 @@ for sTime in np.arange(1,runTime,1):
 
     mySpecies = species_counts.SpeciesCounts(sim)
     
-    totalTime = simTime
+    resTime = simTime
 
 
     with open(my_log_file, 'w') as f, redirect_stdout(f):
-        odeHookSolver = hook.MyOwnSolver(IC, delt, odestep, mySpecies, cythonBool, totalTime,str(procid),iteration)
+        odeHookSolver = hook.MyOwnSolver(IC, delt, odestep, mySpecies, cythonBool, resTime,str(procid))#,iteration)
 
         sim.runSolver(filename=fn,solver=odeHookSolver,replicates=1, cudaDevices=None)
 
