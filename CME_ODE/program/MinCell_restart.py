@@ -152,7 +152,6 @@ for sTime in np.arange(1,runTime+1,1):
     else:
         specDict, sL = setInitVals(oldFn,sim)
         in_out.outMetCsvs(specDict,str(int(iteration-1)),str(procid))
-        #specDict = setSpecVals(oldFn,sim,iteration,sL)
     #print(specDict)
     print("GOT UDPG:",specDict['M_udpg_c'])
 
@@ -1828,16 +1827,13 @@ for sTime in np.arange(1,runTime+1,1):
     # Compile with Cython or NO?
     cythonBool = False #True #False # For smaller system no cython (scipy.ode)
 
-    # TODO: Probably not really necessary!!!
-    IC = np.zeros(25)
-
     mySpecies = species_counts.SpeciesCounts(sim)
     
     resTime = simTime
 
 
     with open(my_log_file, 'w') as f, redirect_stdout(f):
-        odeHookSolver = hook.MyOwnSolver(IC, delt, odestep, mySpecies, cythonBool, resTime,str(procid))#,iteration)
+        odeHookSolver = hook.MyOwnSolver(delt, odestep, mySpecies, cythonBool, resTime,str(procid))#,iteration)
 
         sim.runSolver(filename=fn,solver=odeHookSolver,replicates=1, cudaDevices=None)
 
@@ -1846,6 +1842,10 @@ for sTime in np.arange(1,runTime+1,1):
         total_time = (finish - start)/60
         print('Simulation time:',total_time,'minutes')
 
+        # If we're at the last total simulation timestep, then record the simulation ending values
+        if (iteration == (runTime)):
+            specDictFinal,sLFinal = setInitVals(fn,sim)
+            in_out.outMetCsvs(specDictFinal,str(int(iteration)),str(procid))
 
         f.close()
     

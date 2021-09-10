@@ -1691,17 +1691,13 @@ from pyLM import *
 # Compile with Cython or NO?
 cythonBool = False # For smaller system no cython (scipy.ode)
 
-
-# TODO: Probably not really necessary!!!
-IC = np.zeros(25)
-
 mySpecies = species_counts.SpeciesCounts(sim)
 
 totalTime = simTime
 
 
 with open(my_log_file, 'w') as f, redirect_stdout(f):
-    odeHookSolver = hook.MyOwnSolver(IC, delt, odestep, mySpecies, cythonBool, totalTime,str(procid))
+    odeHookSolver = hook.MyOwnSolver(delt, odestep, mySpecies, cythonBool, totalTime,str(procid))
 
     sim.runSolver(filename=fn,solver=odeHookSolver,replicates=1, cudaDevices=None)
 
