@@ -50,7 +50,7 @@ def main():
 
         ap.add_argument('-st', '--simType', required = True) # Simulation Type: CME-ODE e.g.
         ap.add_argument('-t', '--simTime', required= True) # Simulation Time: 120 minutes e.g.
-        ap.add_argument('-rs', '--restartTime', required= True) # Restart Time: How often to updated Genetic Information Process Reactions: 1 min e.g.
+        ap.add_argument('-rs', '--restartTime', required= True) # Restart Time: How often to update Genetic Information Process Reactions with metabolism results: 1 min e.g.
         args = ap.parse_args()
 
         # Get the MPI rank
