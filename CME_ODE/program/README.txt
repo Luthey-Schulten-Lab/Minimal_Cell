@@ -16,7 +16,7 @@ To Run Simulations in Parallel
 -----------------------------------
 Install Required Packages (to your conda environment)
 ======================================================
-conda install -c conda-forge mpi4py (Necessary to install dependencies required for parallelization routine)
+conda install -c anaconda mpi4py (Necessary to install dependencies required for parallelization routine)
 
 Bash run file: mpi_runs.sh (to run 5 cell replicates)
 ======================================================
