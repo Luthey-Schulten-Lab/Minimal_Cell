@@ -5,6 +5,8 @@ Luthey-Schulten Lab (University of Illinois Urbana-Champaign)
 README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replication initiation events - restart simulations (dynamic gene expression rates)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+NOTE: First ensure that you have the odecell module, used to write the ODE equations for metabolism, installed via ../odecell (one level up).
+
 
 Single Cell Notebook: Sample Jupyter Notebook to run and analyze a simulation of a single cell
 ===================================================================================================
