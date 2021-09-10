@@ -347,13 +347,14 @@ def outMetCsvs(pmap,minute,procID):
     newCounts = []
     
     if int(minute) == -1:
+        print("The -1 LOOP WAS ENTERED!!")
         for met in pmap.particleMap.keys():
-            if (pmap[met] == 'CellSA') or (pmap[met] == 'CellSA_Prot') or (pmap[met] == 'CellSA_Lip') or (pmap[met] == 'CellV'):
+            if (pmap.particleMap[met] == 'CellSA') or (pmap.particleMap[met] == 'CellSA_Prot') or (pmap.particleMap[met] == 'CellSA_Lip') or (pmap.particleMap[met] == 'CellV'):
                 specIDs.append(met)
-                newCounts.append(pmap[met])
+                newCounts.append(pmap.particleMap[met])
             else:
                 specIDs.append(met)
-                newCounts.append(pmap[met])    
+                newCounts.append(pmap.particleMap[met])    
 
     else:
         for met in pmap.keys():

@@ -19,14 +19,13 @@ import lm as lm
 class MyOwnSolver(lm.GillespieDSolver):
 
 
-    def __init__(self, f, delt, ode_step, speciesCount,cythonBool,resTime,procID):
+    def __init__(self, delt, ode_step, speciesCount,cythonBool,resTime,procID):
 
         """
         Initialize the ODE hook solver
 
         Parameters:
         self, the object pointer
-        f (numpy array), contains the species counts of the ODE species
         delt (float), communication timestep between hook simulation and main LM simulation
         ode_step (float), the maximum stepsize given an Adaptive Timestepping ODE solver
         speciesCount (species Count), instance of SpeciesCount Class used to pass species count data
@@ -44,7 +43,7 @@ class MyOwnSolver(lm.GillespieDSolver):
         lm.GillespieDSolver.__init__(self)
 
         # Save the initial conditions, for restarting the solver upon a new replicate
-        self.ic = (f,delt,ode_step,speciesCount,cythonBool,resTime)
+        self.ic = (delt,ode_step,speciesCount,cythonBool,resTime)
 
         # The time a which hook solver has been stepped into, initial value = 0
         self.oldtime = 0.0
@@ -73,12 +72,11 @@ class MyOwnSolver(lm.GillespieDSolver):
         self.oldtime = 0.0
 
         # Deep Copy of all of the initial conditions
-        self.f = copy.deepcopy(self.ic[0])
-        self.delt = copy.deepcopy(self.ic[1])
-        self.odestep = copy.deepcopy(self.ic[2])
-        self.species = copy.deepcopy(self.ic[3])
-        self.cythonBool = copy.deepcopy(self.ic[4])
-        self.resTime = copy.deepcopy(self.ic[5])
+        self.delt = copy.deepcopy(self.ic[0])
+        self.odestep = copy.deepcopy(self.ic[1])
+        self.species = copy.deepcopy(self.ic[2])
+        self.cythonBool = copy.deepcopy(self.ic[3])
+        self.resTime = copy.deepcopy(self.ic[4])
 
         # Update need enzyme Counts in the particle map
         self.species.update(self)

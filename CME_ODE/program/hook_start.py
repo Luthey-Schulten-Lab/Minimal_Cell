@@ -16,25 +16,13 @@ import lm as lm
 ### Define our own hybrid CME-ODE solver class derived from the LM Gillespie Direct Solver:
 class MyOwnSolver(lm.GillespieDSolver):
 
-
-        """
-        Initialize the ODE hook solver
-
-        @param self The object pointer
-        @param f Array containing the species counts of the ODE species
-        @param delt The communication timestep between the hook and main LM simulation
-        @param odestep The maximum stepsize given to the Adaptive Timestepping ODE solver
-        @param speciesCount The instance of SpeciesCount Class used to pass species counts 
-        """
-        #def initializeSolver(self, f, delt, ode_step, speciesCount):
-        def __init__(self, f, delt, ode_step, speciesCount,cythonBool,totalTime,procID):
+        def __init__(self, delt, ode_step, speciesCount,cythonBool,totalTime,procID):
 
             """
             Initialize the ODE hook solver
 
             Parameters:
             self, the object pointer
-            f (numpy array), contains the species counts of the ODE species
             delt (float), communication timestep between hook simulation and main LM simulation
             odestep (float), the maximum stepsize given an Adaptive Timestepping ODE solver
             speciesCount (species Count), instance of SpeciesCount Class used to pass species count data
@@ -50,7 +38,7 @@ class MyOwnSolver(lm.GillespieDSolver):
             lm.GillespieDSolver.__init__(self)
 
             # Save the initial conditions, for restarting the solver upon a new replicate
-            self.ic = (f,delt,ode_step,speciesCount,cythonBool,totalTime)
+            self.ic = (delt,ode_step,speciesCount,cythonBool,totalTime)
 
             # The time a which hook solver has been stepped into, initial value = 0
             self.oldtime = 0.0
@@ -65,11 +53,6 @@ class MyOwnSolver(lm.GillespieDSolver):
             # Set the initial conditions
             self.restart()
 
-        """
-        Get the same initial conditions for a new replicate
-
-        @param self The object pointer
-        """
         def restart(self):
 
             """
@@ -86,27 +69,16 @@ class MyOwnSolver(lm.GillespieDSolver):
             self.oldtime = 0.0
 
             # Deep Copy of all of the initial conditions
-            self.f = copy.deepcopy(self.ic[0])
-            self.delt = copy.deepcopy(self.ic[1])
-            self.odestep = copy.deepcopy(self.ic[2])
-            self.species = copy.deepcopy(self.ic[3])
-            self.cythonBool = copy.deepcopy(self.ic[4])
-            self.totalTime = copy.deepcopy(self.ic[5])
+            self.delt = copy.deepcopy(self.ic[0])
+            self.odestep = copy.deepcopy(self.ic[1])
+            self.species = copy.deepcopy(self.ic[2])
+            self.cythonBool = copy.deepcopy(self.ic[3])
+            self.totalTime = copy.deepcopy(self.ic[4])
 
             print("Done with restart")
 
         
         
-        """
-        The hookSimulation method defined here will be called at every frame write
-        time.  The return value is either 0 or 1, which will indicate if we
-        changed the state or not and need the lattice to be copied back to the GPU
-        (In the case of the RDME) before continuing.  If you do not return 1, 
-        your changes will not be reflected.
-
-        @param self The object pointer
-        @param time The current simulation time
-        """
         def hookSimulation(self, time):
 
                 """
@@ -222,6 +194,7 @@ class MyOwnSolver(lm.GillespieDSolver):
                         fluxDF = pd.DataFrame(fluxList)
                         fnStr='../simulations/fluxes/' + 'rep-'+ self.procID + '-fluxDF_final.csv'
                         fluxDF.to_csv(fnStr,header=False,mode='a')
+                        print("CALLING WITH MINUTE at -1 to get minute 1")
                         minute = -1
                         in_out.outMetCsvs(self.species,minute,self.procID)
                         
