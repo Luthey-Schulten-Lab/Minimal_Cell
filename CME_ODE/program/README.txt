@@ -7,6 +7,8 @@ README for running hybrid CME-ODE JCVI-syn3A simulations - with multiple replica
 
 NOTE: First ensure that you have the odecell module, used to write the ODE equations for metabolism, installed via ../odecell (one level up).
 
+REMINDER: Useful Lattice Microbes Software Suite Documentation and Installation Guide is Available at - https://github.com/zanert2/Lattice_Microbes
+
 
 Single Cell Notebook: Sample Jupyter Notebook to run and analyze a simulation of a single cell
 ===================================================================================================
@@ -47,6 +49,17 @@ Command to run simulations:
 nohup: "nohup ./mpi_runs > nohup.log &"
 
 
+Output of simulations:
+=============================
+Upon running a simulation, the following files will be generated in the /simulations directory:
+
+1) a .lm file (HDF5) : this file contains the simulation data (chemical species time traces in HDF5 format), these files can be opened and analyzed via PYSTDLM OpenLMFile functionality (Documentation available at: https://github.com/zanert2/Lattice_Microbes)
+
+2) a .csv file (viewable in Excel): this file contains for each timestep a comma separated list of all of the species and their particle values (at each time, i.e. 1 min., 2 min., ...)
+
+3) a .log file (text file): this file contains the simulation log data for the first timestep of simulation time. This can be useful in debugging if issues occur. The verbosity of the details written to this file can be adjusted via changing the LM.LoggerLevel() command (Explained in the Lattice Microbes Documentation available at: https://github.com/zanert2/Lattice_Microbes).
+
+4) a flux file (located in simulations/fluxes/): this file contains the simulation reaction flux data for all metabolic reactions at each timestep. ***This file can be analyzed*** - TODO: Add an example of flux analysis.
 
 
 
