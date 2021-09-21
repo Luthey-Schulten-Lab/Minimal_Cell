@@ -6,7 +6,7 @@ To run these simulations, when installing Lattice Microbes (https://github.com/z
 
 cmake path/Lattice-Microbes/src/ -D MPD_GLOBAL_T_MATRIX=True -D MPD_GLOBAL_R_MATRIX=True
 
-Once Lattice Microbes has been installed, install odecell in the same environment
+Once Lattice Microbes has been installed, install odecell (the package included in the main directory Minimal_Cell) in the same environment
 
 Folders:
 model_data: Contains all of the kinetic parameters and initial condition files to initialize spatial Minimal Cell simulations
