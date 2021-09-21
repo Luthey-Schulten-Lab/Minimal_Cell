@@ -57,7 +57,14 @@ Install SbTab and PyCVODES
     pip install sbtab==0.9.71
     
     conda install -c conda-forge pycvodes=0.14.0
+    
+Install other dependencies
 
+    conda install -c conda-forge pydantic=1.8.2
+    conda install -c conda-forge cobra
+    conda install -c anaconda xlrd==1.2.0
+    conda install -c anaconda mpi4py
+    
 3. Install ODECell.
 
 Move into the repository.
