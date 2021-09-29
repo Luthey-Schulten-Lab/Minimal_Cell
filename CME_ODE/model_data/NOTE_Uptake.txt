@@ -1,4 +1,0 @@
-Calcium uptake value (increased 0.1 mM -> 0.6 mM) and Na2HPO4 (140 mM -> 0.5 mM)
-in defLipCentNuc ... and NOT  Deoxyuridine, Deoxycytosine (Troy Brier Comment)?
-
-Also interesting choline in medium and possible choline kinase (_0907).
