@@ -53,9 +53,9 @@ nucleo_rxns_list.txt - List of non-uptake (*e.g.* nucleoside uptake) nucleotide 
 Metabolic Model and Genome Files
 =============================================
 
-syn2.gb - The JCVI-syn2.0 genome file, used to connect IDs reported for proteomics in (Breuer et al eLife 2019) to the JCVI-syn3A gene locus tag IDs used in these simulations.
+syn2.gb - The JCVI-syn2.0 NCBI GenBank genome file, used to connect IDs reported for proteomics in (Breuer et al eLife 2019) which contains JCVI-syn2.0 locus tag IDs to the JCVI-syn3A gene locus tag IDs used in these simulations.
 
-syn3A.gb - The JCVI-syn3A genome file, used in simulation species (genes, RNA, *etc.) definition in JCVI-syn3A simulations.
+syn3A.gb - The JCVI-syn3A NCBI GenBank genome file, used in simulation species (genes, RNA, *etc.) definition in JCVI-syn3A simulations.
 
 manual_GPR_conversion.csv - A file used for outlier genes (*.i.e* those without reported Reaction to Gene Locus tag definitions in the metabolic module presented in Breuer et al eLife 2019), to connect IDs reported for proteomics in (Breuer et al eLife 2019) to the JCVI-syn3A gene locus tag IDs used in these simulations.
 
