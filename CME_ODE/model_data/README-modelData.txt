@@ -51,20 +51,20 @@ nucleo_rxns_list.txt - List of non-uptake (*e.g.* nucleoside uptake) nucleotide 
 Metabolic Model and Genome Files
 =============================================
 
-syn2.gb -
+syn2.gb - The JCVI-syn2.0 genome file, used to connect IDs reported for proteomics in (Breuer et al eLife 2019) to the JCVI-syn3A gene locus tag IDs used in these simulations.
 
 syn3A.gb - The JCVI-syn3A genome file, used in simulation species (genes, RNA, *etc.) definition in JCVI-syn3A simulations.
 
-manual_GPR_conversion.csv -
+manual_GPR_conversion.csv - A file used for outlier genes (*.i.e* those without reported Reaction to Gene Locus tag definitions in the metabolic module presented in Breuer et al eLife 2019), to connect IDs reported for proteomics in (Breuer et al eLife 2019) to the JCVI-syn3A gene locus tag IDs used in these simulations.
 
 
 ./FBA
 ==================================================
 
 
-Syn3A_annotation_compilation.xlsx  -
+Syn3A_annotation_compilation.xlsx  - File containing annotations and protein product descriptions for all genes in JCVI-syn3A (modified from the version given in Breuer et al eLife 2019). 
 
-iMB155.json -
+iMB155.json - The json metabolic model file for the JCVI-syn3A model presented in Breuer et al eLife 2019.
 
 
 
@@ -72,4 +72,4 @@ iMB155.json -
 Miscellaneous Files
 ==================================================
 
-membrane_protein_metabolites.csv -
+membrane_protein_metabolites.csv - A list of all proteins in JCVI-syn3A predicted to have transmembrane helix components and that will contribute to growing the cell membrane surface in the *in silico* growth model. Initial conditions for genes with different states (*i.e.* the phosphorylation states of PtsG) are given. 
