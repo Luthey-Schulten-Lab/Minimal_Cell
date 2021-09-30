@@ -6,15 +6,15 @@ A Description of the model data input files for multi-scale CME-ODE Simulations 
 Metabolic Module Parameter Files
 =============================================
 
-Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv -
+Central_AA_Zane_Balanced_direction_fixed_nounqATP.tsv - Parameter File for Central and Amino Acid Metabolism Modules, with parameters resulting from parameter balancing and literature parameter value collation process.
 
-lipid_NoH2O_balanced_model.tsv -
+lipid_NoH2O_balanced_model.tsv - Parameter File for Lipid Metabolism Module, with parameters resulting from parameter balancing and literature parameter value collation process.
 
-Nucleotide_Kinetic_Parameters.tsv -
+Nucleotide_Kinetic_Parameters.tsv - Parameter File for Nucleotide Metabolism Module, with parameters resulting from parameter balancing and literature parameter value collation process.
 
-GlobalParameters_Zane-TB-DB.csv -
+GlobalParameters_Zane-TB-DB.csv - Global Simulation Parameters including external growth medium metabolite concentrations *etc.*
 
-transport_NoH2O_Zane-TB-DB.tsv -
+transport_NoH2O_Zane-TB-DB.tsv - Parameter File for Cellular Transport Reactions which are handled via different rate laws that intracellular metabolic reactions and result in a signficant energy expense in JCVI-syn3A relative to other bacterial cells.
 
 
 
