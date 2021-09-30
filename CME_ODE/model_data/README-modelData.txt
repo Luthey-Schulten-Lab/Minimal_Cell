@@ -33,9 +33,11 @@ rrna_metabolites_2.csv - List of the second rRNA operon present in JCVI-syn3A, u
 
 trna_metabolites.csv - List of the tRNA gene loci present in JCVI-syn3A, used in the stochastic gene expression (transcription/translation) modules of JCVI-syn3A simulations.
 
-trna_metabolites_synthase.csv -List of the tRNA synthase gene loci present in JCVI-syn3A, used in the stochastic gene expression (transcription/translation) modules of JCVI-syn3A simulations.
+trna_metabolites_synthase.csv - List of the tRNA synthase gene loci present in JCVI-syn3A, used in the stochastic gene expression (transcription/translation) modules of JCVI-syn3A simulations.
 
+protein_metabolites.csv - List of JCVI-syn3A genes expressing proteins that are also metabolites in the metabolic (*i.e* thioredoxin) that require special treatment in the multi-scale CME-ODE scheme.
 
+protein_metabolits_frac.csv - File used to assign the "state" of proteins that appear as metabolites in the metabolic model immeadiately after they are translated in the gene expression module (*e.g.* what percentage of thioredoxin should be available in the oxidized versus the reduced state as an initial condition). The fractions sum to 1.0 for each gene.
 
 
 Reaction IDs Files
@@ -66,7 +68,7 @@ Syn3A_annotation_compilation.xlsx  - File containing annotations and protein pro
 
 iMB155.json - The json metabolic model file for the JCVI-syn3A model presented in Breuer et al eLife 2019.
 
-
+iMB155_NoH2O.xml - The SBML metabolic model file for the JCVI-syn3A model (with hydrogen ion accounting removed) modified from Breuer et al eLife 2019.
 
 
 Miscellaneous Files
