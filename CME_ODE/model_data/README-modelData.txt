@@ -21,21 +21,19 @@ transport_NoH2O_Zane-TB-DB.tsv - Parameter File for Cellular Transport Reactions
 Gene Expression Condition Files
 =============================================
 
-RNApol_proteins.csv -
+RNApol_proteins.csv - List of the RNA polymerase gene loci present in JCVI-syn3A. The protein counts of these genes are used for the molecular machine that "catalyzes" transcription reactions in the gene expression module.
 
-mRNA_counts.csv -
+mRNA_counts.csv - Average values of mRNA counts for each gene in JCVI-syn3A resulting from stochastic simulations. These averages are used to generate Poisson Distributions of mRNA counts for each, from which initial mRNA counts for each gene are sample in multi-scale CME-ODE/RDME-gCME-ODE simulations of JCVI-syn3A cells. 
 
-proteomics.xlsx -
+proteomics.xlsx - The proteomics values for JCVI-syn3A genes reported in *Breuer et al eLife (2019)*. These values are used as initial conditions for simulations.
 
-riboPtnInfo.csv -
+rrna_metabolites_1.csv - List of the first rRNA operon present in JCVI-syn3A, used in the transcription module of JCVI-syn3A stochastic gene expression simulations.
 
-rrna_metabolites_1.csv -
+rrna_metabolites_2.csv - List of the second rRNA operon present in JCVI-syn3A, used in the transcription module of JCVI-syn3A stochastic gene expression simulations.
 
-rrna_metabolites_2.csv -
+trna_metabolites.csv - List of the tRNA gene loci present in JCVI-syn3A, used in the stochastic gene expression (transcription/translation) modules of JCVI-syn3A simulations.
 
-trna_metabolites.csv -
-
-trna_metabolites_synthase.csv -
+trna_metabolites_synthase.csv -List of the tRNA synthase gene loci present in JCVI-syn3A, used in the stochastic gene expression (transcription/translation) modules of JCVI-syn3A simulations.
 
 
 
@@ -43,9 +41,9 @@ trna_metabolites_synthase.csv -
 Reaction IDs Files
 =============================================
 
-lipid_rxns_list.txt -
+lipid_rxns_list.txt - List of non-uptake (*e.g.* sphingomyelin) lipid metabolic module reaction IDs used in JCVI-syn3A simulations.
 
-nucleo_rxns_list.txt -
+nucleo_rxns_list.txt - List of non-uptake (*e.g.* nucleoside uptake) nucleotide metabolic module reaction IDs used in JCVI-syn3A simulations.
 
 
 
@@ -55,7 +53,7 @@ Metabolic Model and Genome Files
 
 syn2.gb -
 
-syn3A.gb -
+syn3A.gb - The JCVI-syn3A genome file, used in simulation species (genes, RNA, *etc.) definition in JCVI-syn3A simulations.
 
 manual_GPR_conversion.csv -
 
