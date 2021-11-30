@@ -72,13 +72,59 @@ def addPppParams(model):
     model.addParameter('PUNP2',rxnFormKey='kcatF',value=13.3)
 
     #### Speed up FBA rxn ####
-    model.addParameter('FBA',rxnFormKey='kcatF',value=64.5)
+    # model.addParameter('FBA',rxnFormKey='kcatF',value=64.5)
 
     model.addParameter('RNDR2',rxnFormKey='KmSub1',value=0.24)
     
 #     #### RPI Parameters ####
     model.addParameter('RPI',rxnFormKey='kcatF',value=10.0)
     model.addParameter('RPI',rxnFormKey='kcatR',value=1.0)
+    
+    
+    model.addParameter('FBA',rxnFormKey='KmSub1',value=0.12)
+    model.addParameter('FBA',rxnFormKey='KmProd2',value=0.05)
+    
+    
+    model.addParameter('GAPD',rxnFormKey='kcatF',value=442.0) 
+    model.addParameter('GAPD',rxnFormKey='kcatR',value=73.6) 
+    
+
+    model.addParameter('FBA',rxnFormKey='kcatR',value=12.6)
+    
+
+    model.addParameter('TPI',rxnFormKey='kcatR',value=67)
+    
+    model.addParameter('TPI',rxnFormKey='KmSub1',value=0.077)
+    model.addParameter('TPI',rxnFormKey='KmProd1',value=0.084) 
+    
+
+    model.addParameter('FBA',rxnFormKey='kcatF',value=21.0)
+    
+    
+    model.addParameter('PGK',rxnFormKey='kcatR',value=3.4)
+    
+    model.addParameter('PGM',rxnFormKey='KmSub1',value=3.6)
+    model.addParameter('PGM',rxnFormKey='KmProd1',value=0.2)
+    
+    
+    model.addParameter('PGK',rxnFormKey='KmSub1',value=0.01)
+    model.addParameter('PGK',rxnFormKey='KmProd1',value=0.1)
+    
+    
+    model.addParameter('GAPD',rxnFormKey='KmProd1',value=0.47)
+    model.addParameter('GAPD',rxnFormKey='KmProd2',value=0.061)
+    
+    
+    model.addParameter('DRPA',rxnFormKey='kcatR',value=34.0)
+    
+    model.addParameter('DRPA',rxnFormKey='KmProd1',value=0.267)
+    model.addParameter('DRPA',rxnFormKey='KmProd2',value=0.2)
+
+    
+    model.addParameter('PPM2',rxnFormKey='kcatF',value=173)
+    
+    model.addParameter('PPM2',rxnFormKey='KmSub1',value=0.013)
+    model.addParameter('PPM2',rxnFormKey='KmProd1',value=1.2)
 
     return
 
